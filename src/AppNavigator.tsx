@@ -1,88 +1,148 @@
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomePage from './pages/HomePage';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+  BottomTabBar,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import NowPlaying from './pages/NowPlaying';
+import HomePage from './pages/HomePage';
 import SettingsPage from './pages/SettingsPage';
 import DonatePage from './pages/DonatePage';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import PlaylistsPage from './pages/PlaylistsPage';
+import AppHeader from './headers/AppHeader';
 import Searchpage from './pages/Searchpage';
-import AppHeader from './components/AppHeader';
+import SearchHeader from './headers/SearchHeader';
+import { View } from 'react-native';
+import BottomBar from './components/Bottombar';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-const TabRoot = () => {
-  return (
+const HomeTabs = () => (
+  <View style={{ flex: 1 }}>
     <Tab.Navigator>
       <Tab.Screen
-        name="Home"
+        name="Playlists"
+        component={HomePage}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <MaterialCommunityIcons
+              color={focused ? '#2f95dc' : '#000'}
+              name="playlist-music"
+              size={23}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Starred"
         component={HomePage}
         options={{
           tabBarIcon: ({ focused }) => (
             <MaterialIcons
               color={focused ? '#2f95dc' : '#000'}
-              name="home"
+              name="star-outline"
               size={23}
             />
           ),
         }}
       />
       <Tab.Screen
-        name="Search"
-        component={Searchpage}
+        name="Downloaded"
+        component={HomePage}
         options={{
           tabBarIcon: ({ focused }) => (
             <MaterialIcons
               color={focused ? '#2f95dc' : '#000'}
-              name="search"
+              name="file-download"
+              size={23}
+            />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+    <BottomBar />
+  </View>
+);
+const LibraryTabs = () => (
+  <View style={{ flex: 1 }}>
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Artists"
+        component={HomePage}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <MaterialCommunityIcons
+              color={focused ? '#2f95dc' : '#000'}
+              name="account-music"
               size={23}
             />
           ),
         }}
       />
       <Tab.Screen
-        name="Playlists"
-        component={PlaylistsPage}
-        options={
-          {
-            // tabBarIcon: ({ focused }) => (
-            //   <MaterialIcons
-            //     color={focused ? '#2f95dc' : '#000'}
-            //     name="photo_library"
-            //     size={23}
-            //   />
-            // ),
-          }
-        }
+        name="Albums"
+        component={HomePage}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <MaterialIcons
+              color={focused ? '#2f95dc' : '#000'}
+              name="album"
+              size={23}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Songs"
+        component={HomePage}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <MaterialCommunityIcons
+              color={focused ? '#2f95dc' : '#000'}
+              name="music"
+              size={23}
+            />
+          ),
+        }}
       />
     </Tab.Navigator>
-  );
-};
+    {/* <BottomBar /> */}
+  </View>
+);
 
-function Root() {
+function RootDrawer() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={TabRoot}
-        options={{ header: () => <AppHeader /> }}
-      />
-      <Stack.Screen name="NowPlaying" component={NowPlaying} />
-    </Stack.Navigator>
+    <Drawer.Navigator>
+      <Drawer.Screen name="Home" component={HomeTabs} />
+      <Drawer.Screen name="Library" component={LibraryTabs} />
+      <Drawer.Screen name="Settings" component={SettingsPage} />
+      <Drawer.Screen name="Donate" component={DonatePage} />
+    </Drawer.Navigator>
   );
 }
 
 const AppNavigator = () => {
   return (
-    <Drawer.Navigator initialRouteName="Home">
-      <Drawer.Screen name="Home" component={Root} />
-      <Drawer.Screen name="Settings" component={SettingsPage} />
-      <Drawer.Screen name="Donate" component={DonatePage} />
-    </Drawer.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Simple Music"
+        component={RootDrawer}
+        options={{ header: () => <AppHeader /> }}
+      />
+      <Stack.Screen name="NowPlaying" component={NowPlaying} />
+      <Stack.Screen
+        name="SearchPage"
+        component={Searchpage}
+        options={{
+          header: ({ navigation }) => <SearchHeader navigation={navigation} />,
+        }}
+      />
+    </Stack.Navigator>
   );
 };
 
