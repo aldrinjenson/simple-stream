@@ -4,29 +4,25 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import TrackPlayer from 'react-native-track-player';
+import { useSelector } from 'react-redux';
 
 const BottomBar = () => {
   const navigation = useNavigation();
-  const [isPaused, setIsPaused] = useState(false);
+  const currentSong = useSelector(state => state.songReducer.currentSong);
+  const isPlaying = useSelector(state => state.songReducer.isPlaying);
   const isUrlLoading = false;
 
-  useEffect(() => {
-    TrackPlayer.getState().then(state =>
-      setIsPaused(state === TrackPlayer.STATE_PAUSED),
-    );
-  }, []);
-
   const handlePause = () => {
-    TrackPlayer.getState().then(state => {
-      if (state === TrackPlayer.STATE_PLAYING) {
-        TrackPlayer.pause();
-        setIsPaused(true);
-      } else {
-        TrackPlayer.play();
-        setIsPaused(false);
-      }
-    });
+    if (isPlaying) {
+      TrackPlayer.pause();
+    } else {
+      TrackPlayer.play();
+    }
   };
+
+  if (!currentSong?.id) {
+    return null;
+  }
 
   return (
     <View style={styles.bottomBar}>
@@ -34,15 +30,13 @@ const BottomBar = () => {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          flexGrow: 1,
           maxWidth: '80%',
         }}
         onPress={() => navigation.navigate('NowPlaying')}>
         <Image
           style={styles.tabImage}
           source={{
-            uri:
-              'https://callstack.github.io/react-native-paper/screenshots/chip-1.png',
+            uri: currentSong.artwork,
           }}
         />
         <View style={{ marginLeft: 10, width: '70%' }}>
@@ -50,15 +44,15 @@ const BottomBar = () => {
             style={{ fontSize: 18 }}
             duration={13000}
             marqueeDelay={1000}>
-            Lorem ipsum dolor sit, amet elit. Ducimus
+            {currentSong.title}
           </TextTicker>
-          <Text>Imagine Dragons</Text>
+          <Text>{currentSong.artist}</Text>
         </View>
       </TouchableOpacity>
 
       <View style={{ flexDirection: 'row' }}>
         <MaterialIcons
-          name={isPaused ? 'play-circle-fill' : 'pause-circle-filled'}
+          name={isPlaying ? 'pause-circle-filled' : 'play-circle-fill'}
           color={isUrlLoading ? 'grey' : 'green'}
           size={45}
           onPress={handlePause}
@@ -88,6 +82,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'grey',
     paddingHorizontal: 10,
+    width: '100%',
     justifyContent: 'space-between',
     position: 'absolute',
     bottom: '6%',

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const globalStyles = StyleSheet.create({
   container: {
@@ -7,10 +7,15 @@ export const globalStyles = StyleSheet.create({
     margin: 6,
   },
   title: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 18,
     marginVertical: 8,
-    color: "#333",
-    flexWrap: "wrap",
+    color: '#333',
+    flexWrap: 'wrap',
+  },
+  pageContainer: {
+    flex: 1,
+    padding: 10,
+    paddingBottom: '15%',
   },
 });
