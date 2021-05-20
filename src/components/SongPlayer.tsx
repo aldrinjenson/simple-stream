@@ -3,7 +3,6 @@ import { Text, View } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 import { setCurrentSong, setIsPlaying } from '../redux/actions/songActions';
-import { songData } from './data';
 
 const TRACK_PLAYER_CONTROLS_OPTS = {
   waitforBuffer: true,

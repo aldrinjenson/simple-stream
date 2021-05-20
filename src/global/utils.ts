@@ -1,8 +1,8 @@
 import axios from 'axios';
 import TrackPlayer from 'react-native-track-player';
 import ytdl from 'react-native-ytdl';
-import { API_URL, LYRICS_API } from '../config';
-import { Song } from '../src/components/DisplaySongs';
+import { API_URL, LYRICS_API } from '../../config';
+import { Song } from '../components/DisplaySongs';
 
 export const apiDispatch = (actionType = '', data = null) => {
   return {
@@ -11,9 +11,9 @@ export const apiDispatch = (actionType = '', data = null) => {
   };
 };
 
-export const formatSeconds = seconds => {
-  let mins = Math.floor(seconds / 60);
-  let sec = Math.floor(seconds % 60);
+export const formatSeconds = (seconds: number) => {
+  let mins: number = Math.floor(seconds / 60);
+  let sec: number | string = Math.floor(seconds % 60);
   if (sec < 10) {
     sec = `0${sec}`;
   }
@@ -31,20 +31,19 @@ export const formatSeconds = seconds => {
 //   return newSongList;
 // };
 
-export const hanleError = err => {
+export const hanleError = (err: Error) => {
   console.log('error in response');
   console.error(err);
 };
 
 const getSongUrlAndThumb = async (videoID: String) => {
-  console.log({ videoID });
   try {
     let info = await ytdl.getInfo(videoID);
     let audioFormats = ytdl.filterFormats(info.formats, 'audioonly');
     const {
       videoDetails: { thumbnails },
     } = info;
-    console.log('getting song url');
+    console.log('getting song url for videoId' + videoID);
     return {
       url: audioFormats[0]?.url,
       artwork: thumbnails[thumbnails.length - 2].url,

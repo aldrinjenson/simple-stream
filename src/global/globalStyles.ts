@@ -9,7 +9,7 @@ export const globalStyles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 18,
-    marginVertical: 8,
+    paddingBottom: 5,
     color: '#333',
     flexWrap: 'wrap',
   },
@@ -18,4 +18,7 @@ export const globalStyles = StyleSheet.create({
     padding: 10,
     paddingBottom: '15%',
   },
+  pageTitle: {
+    fontSize: 20
+  }
 });

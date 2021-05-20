@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,12 +7,13 @@ import {
   Dimensions,
   ImageBackground,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider';
 import TrackPlayer, { useTrackPlayerProgress } from 'react-native-track-player';
-import { formatSeconds } from '../../global/utils';
+import { formatSeconds } from '../global/utils';
 import { useSelector } from 'react-redux';
 import LyricsComponent from '../components/LyricsComponent';
 import { Song } from '../components/DisplaySongs';
@@ -20,7 +21,7 @@ import { Song } from '../components/DisplaySongs';
 const { width } = Dimensions.get('window');
 
 const NowPlaying = ({ navigation }) => {
-  const currentSong = useSelector<Song[]>(
+  const currentSong = useSelector<null | Song>(
     state => state.songReducer.currentSong,
   );
   const isUrlLoading = false;
@@ -42,12 +43,16 @@ const NowPlaying = ({ navigation }) => {
   };
 
   const { position, bufferedPosition, duration } = useTrackPlayerProgress(
-    500,
+    1000,
     undefined,
   );
+  const scrollRef = useRef(null);
   return (
     currentSong && (
-      <ScrollView style={{ flex: 1 }} nestedScrollEnabled={true}>
+      <ScrollView
+        ref={scrollRef}
+        style={{ flex: 1 }}
+        nestedScrollEnabled={true}>
         <ImageBackground
           source={{ uri: currentSong?.artwork }}
           blurRadius={50}
@@ -58,7 +63,7 @@ const NowPlaying = ({ navigation }) => {
           <View
             style={{
               alignItems: 'center',
-              marginTop: 60,
+              marginTop: 20,
               marginBottom: 50,
             }}>
             <Image
@@ -72,23 +77,24 @@ const NowPlaying = ({ navigation }) => {
           </View>
 
           <View>
-            <View style={{ position: 'relative', height: 40 }}>
+            <View
+              style={{ position: 'relative', height: 30, width: width * 0.85 }}>
               <Slider
-                style={{ width: width - 40, position: 'absolute' }}
+                style={{ position: 'absolute', width: '100%' }}
                 minimumValue={0}
-                maximumValue={1}
+                maximumValue={duration}
                 minimumTrackTintColor="#FFFFFF"
                 maximumTrackTintColor="#000000"
-                value={position && duration ? position / duration : 0}
+                value={position}
                 onValueChange={ratio => TrackPlayer.seekTo(duration * ratio)}
               />
               <Slider
-                style={{ width: width - 40, position: 'absolute' }}
+                style={{ position: 'absolute', width: '100%' }}
                 minimumValue={0}
-                maximumValue={1}
+                maximumValue={duration}
                 minimumTrackTintColor="#FFFFFF"
                 maximumTrackTintColor="#000000"
-                value={bufferedPosition ? bufferedPosition / duration : 0}
+                value={bufferedPosition}
                 disabled
               />
             </View>
@@ -104,7 +110,6 @@ const NowPlaying = ({ navigation }) => {
               name={'repeat' || 'repeat-off' || 'repeat-once'}
               size={30}
               color="black"
-              // onPress={() => {}}
             />
 
             <View style={{ flexDirection: 'row' }}>
@@ -113,7 +118,6 @@ const NowPlaying = ({ navigation }) => {
                 onPress={() => TrackPlayer.skipToPrevious()}
                 size={70}
                 color={isUrlLoading ? 'grey' : 'black'}
-                // borderRadius={currentPlayIndex !== 0}
               />
               <MaterialIcons
                 name={isPaused ? 'play-circle-fill' : 'pause-circle-filled'}
@@ -137,7 +141,8 @@ const NowPlaying = ({ navigation }) => {
               onPress={() => navigation.navigate('SongQueue')}
             />
           </View>
-          <View
+          <TouchableOpacity
+            onPress={() => scrollRef?.current?.scrollToEnd({ animated: true })}
             style={{
               maxHeight: 500,
               overflow: 'hidden',
@@ -146,7 +151,7 @@ const NowPlaying = ({ navigation }) => {
               paddingHorizontal: 15,
             }}>
             <LyricsComponent song={currentSong} />
-          </View>
+          </TouchableOpacity>
         </ImageBackground>
       </ScrollView>
     )
@@ -157,8 +162,8 @@ export default NowPlaying;
 
 const styles = StyleSheet.create({
   thumbnail: {
-    height: width * 0.75,
-    width: width * 0.75,
+    height: width * 0.85,
+    width: width * 0.85,
   },
   title: {
     fontWeight: '400',

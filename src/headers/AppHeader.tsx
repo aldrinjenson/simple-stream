@@ -30,16 +30,7 @@ const AppHeader = () => {
           icon="menu"
           onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         />
-        <Appbar.Content
-          style={
-            {
-              // position: 'absolute',
-              // left: '50%',
-              // transform: [{ translateX: -80 }],
-            }
-          }
-          title="Simple-Stream"
-        />
+        <Appbar.Content style={{}} title="Simple-Stream" />
         <Appbar.Action icon="magnify" onPress={handleSearch} />
       </Appbar.Header>
     </View>

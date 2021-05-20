@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
-import { globalStyles } from '../../global/globalStyles';
+import { globalStyles } from '../global/globalStyles';
 import DisplaySongs, { Song } from '../components/DisplaySongs';
 
 interface Props {}
@@ -14,7 +14,7 @@ const SongQueue = (props: Props) => {
 
   return (
     <View style={{ ...globalStyles.pageContainer }}>
-      <Text>Queue</Text>
+      <Text style={globalStyles.pageTitle}> Queue</Text>
       <DisplaySongs songs={songs} />
     </View>
   );

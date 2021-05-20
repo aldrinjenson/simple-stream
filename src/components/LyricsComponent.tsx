@@ -2,26 +2,24 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useTrackPlayerProgress } from 'react-native-track-player';
-import { Lyric, Song } from './DisplaySongs';
+import { Song } from './DisplaySongs';
 
-const TimeStampedLyrics = ({ lyrics }) => {
+type timeStampedLyrics = { seconds: number; lyrics: string }[];
+
+const TimeStampedLyrics = ({ lyrics }: { lyrics: timeStampedLyrics }) => {
   const { position } = useTrackPlayerProgress(1000, undefined);
   return (
     <View>
-      {lyrics.map((lyricElement, index) => {
-        const { seconds, lyrics: lyric } = lyricElement;
+      {lyrics.map(({ seconds, lyrics: lyric }, index) => {
         let color = position > seconds ? 'grey' : 'black';
-        if (position > seconds && position <= lyrics[index + 1]?.seconds) {
+        let fontSize = 15;
+        if (position >= seconds && position <= lyrics[index + 1]?.seconds) {
           color = 'red';
+          fontSize = 17;
         }
-        const fontSize =
-          position >= seconds && position <= lyrics[index + 1]?.seconds
-            ? 20
-            : 15;
         return (
           <Text
             style={{
-              ...styles.lyricLine,
               color,
               fontSize,
             }}
@@ -34,7 +32,7 @@ const TimeStampedLyrics = ({ lyrics }) => {
   );
 };
 
-const RegularLyrics = ({ lyrics }) => {
+const RegularLyrics = ({ lyrics }: { lyrics: string[] }) => {
   return (
     <View>
       {lyrics.map((line, index) => (
@@ -43,14 +41,8 @@ const RegularLyrics = ({ lyrics }) => {
     </View>
   );
 };
-interface Props {
-  song: Song;
-}
 
-const LyricsComponent = (props: Props) => {
-  const {
-    song: { lyrics, timeStamped },
-  } = props;
+const LyricsComponent = ({ song: { lyrics, timeStamped } }: { song: Song }) => {
   return (
     <View style={{ paddingBottom: 100, paddingTop: 10 }}>
       {lyrics ? (
@@ -68,13 +60,15 @@ const LyricsComponent = (props: Props) => {
           </ScrollView>
         </View>
       ) : (
-        <Text>No Lyrics available</Text>
+        <Text style={{ color: 'grey', textAlign: 'center' }}>
+          No Lyrics available
+        </Text>
       )}
     </View>
   );
 };
 
-export default LyricsComponent;
+export default React.memo(LyricsComponent);
 
 const styles = StyleSheet.create({
   lyricLine: {

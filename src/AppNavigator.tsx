@@ -1,10 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import {
-  BottomTabBar,
-  createBottomTabNavigator,
-} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -114,7 +111,7 @@ const LibraryTabs = () => (
         }}
       />
     </Tab.Navigator>
-    {/* <BottomBar /> */}
+    <BottomBar />
   </View>
 );
 
@@ -137,8 +134,16 @@ const AppNavigator = () => {
         component={RootDrawer}
         options={{ header: () => <AppHeader /> }}
       />
-      <Stack.Screen name="NowPlaying" component={NowPlaying} />
-      <Stack.Screen name="SongQueue" component={SongQueue} />
+      <Stack.Screen
+        name="NowPlaying"
+        component={NowPlaying}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="SongQueue"
+        component={SongQueue}
+        options={{ headerShown: true }}
+      />
       <Stack.Screen
         name="SearchPage"
         component={Searchpage}

@@ -1,7 +1,7 @@
 import React from 'react';
-import { FlatList, Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { playSong } from '../../global/utils';
+import { FlatList, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import { playSong } from '../global/utils';
 import SongItem from './SongItem';
 
 export type Lyric = string[] | { seconds: number; lyrics: string }[];
@@ -15,6 +15,7 @@ export interface Song {
   duration: number;
   lyrics?: Lyric;
   timeStamped?: boolean;
+  [x: string]: any;
 }
 
 interface Props {

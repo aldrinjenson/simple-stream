@@ -1,10 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import { globalStyles } from '../../global/globalStyles';
-import { formatSeconds } from '../../global/utils';
+import { globalStyles } from '../global/globalStyles';
+import { formatSeconds } from '../global/utils';
 import { Song } from './DisplaySongs';
 
 interface Props {
@@ -29,6 +28,7 @@ const SongItem = (props: Props) => {
         backgroundColor: shouldHighLight ? 'grey' : 'transparent',
         justifyContent: 'space-between',
       }}>
+      <MaterialIcons name="reorder" size={15} />
       <TouchableOpacity
         style={{
           flexDirection: 'row',
@@ -66,12 +66,11 @@ const styles = StyleSheet.create({
     borderColor: '#aaa',
     alignItems: 'center',
     padding: 3,
-    margin: 6,
+    marginBottom: 10,
   },
   bookImage: {
-    height: 95,
-    width: 80,
-    margin: 4,
-    marginRight: 16,
+    height: 75,
+    width: 75,
+    marginHorizontal: 16,
   },
 });
