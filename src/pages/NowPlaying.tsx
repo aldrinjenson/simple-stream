@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,6 +17,7 @@ import { formatSeconds } from '../global/utils';
 import { useSelector } from 'react-redux';
 import LyricsComponent from '../components/LyricsComponent';
 import { Song } from '../components/DisplaySongs';
+import { Switch } from 'react-native-paper';
 
 const { width } = Dimensions.get('window');
 
@@ -24,8 +25,10 @@ const NowPlaying = ({ navigation }) => {
   const currentSong = useSelector<null | Song>(
     state => state.songReducer.currentSong,
   );
+  const isPlaying = useSelector<null | Song>(
+    state => state.songReducer.isPlaying,
+  );
   const isUrlLoading = false;
-  const [isPaused, setIsPaused] = useState(false);
 
   const handlePause = () => {
     TrackPlayer.getState()
@@ -33,10 +36,8 @@ const NowPlaying = ({ navigation }) => {
         console.log(state);
         if (state === TrackPlayer.STATE_PLAYING) {
           TrackPlayer.pause();
-          setIsPaused(true);
         } else {
           TrackPlayer.play();
-          setIsPaused(false);
         }
       })
       .catch(err => console.log('error in getting state' + err));
@@ -86,7 +87,7 @@ const NowPlaying = ({ navigation }) => {
                 minimumTrackTintColor="#FFFFFF"
                 maximumTrackTintColor="#000000"
                 value={position}
-                onValueChange={ratio => TrackPlayer.seekTo(duration * ratio)}
+                onValueChange={val => TrackPlayer.seekTo(val)}
               />
               <Slider
                 style={{ position: 'absolute', width: '100%' }}
@@ -120,7 +121,7 @@ const NowPlaying = ({ navigation }) => {
                 color={isUrlLoading ? 'grey' : 'black'}
               />
               <MaterialIcons
-                name={isPaused ? 'play-circle-fill' : 'pause-circle-filled'}
+                name={isPlaying ? 'pause-circle-filled' : 'play-circle-fill'}
                 size={70}
                 color={isUrlLoading ? 'grey' : 'green'}
                 onPress={handlePause}
@@ -141,17 +142,7 @@ const NowPlaying = ({ navigation }) => {
               onPress={() => navigation.navigate('SongQueue')}
             />
           </View>
-          <TouchableOpacity
-            onPress={() => scrollRef?.current?.scrollToEnd({ animated: true })}
-            style={{
-              maxHeight: 500,
-              overflow: 'hidden',
-              backgroundColor: '#ffcccb',
-              borderRadius: 20,
-              paddingHorizontal: 15,
-            }}>
-            <LyricsComponent song={currentSong} />
-          </TouchableOpacity>
+          <LyricsComponent ref={scrollRef.current} song={currentSong} />
         </ImageBackground>
       </ScrollView>
     )

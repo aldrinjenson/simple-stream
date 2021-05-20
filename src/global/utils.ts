@@ -72,7 +72,6 @@ const getLyrics = async (item: Song) => {
 
 export const playSong = async (item: Song, isFromQueue: boolean) => {
   const { lyrics, timeStamped } = await getLyrics(item)
-  console.log(JSON.stringify(lyrics, null, 4))
   const { url } = await getSongUrlAndThumb(item.id)
   const obj = { ...item, lyrics, timeStamped, url }
   if (!isFromQueue && url) {
