@@ -1,9 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Switch } from 'react-native-paper';
 import { useTrackPlayerProgress } from 'react-native-track-player';
 import { Song } from './DisplaySongs';
+
+const MAX_LYRICS_HEIGHT = 500;
+
 interface TimeStampedLyricsProps {
   lyrics: { seconds: number; lyrics: string }[];
   shouldScroll: boolean;
@@ -13,6 +16,8 @@ const TimeStampedLyrics = React.forwardRef(
   (props: TimeStampedLyricsProps, forwardedRef) => {
     const { lyrics, shouldScroll } = props;
     const { position } = useTrackPlayerProgress(1000, undefined);
+    const lineHeight = useMemo(() => MAX_LYRICS_HEIGHT / lyrics.length, []);
+
     return (
       <View style={{ marginBottom: 20 }}>
         {lyrics.map(({ seconds, lyrics: lyric }, index) => {
@@ -24,7 +29,7 @@ const TimeStampedLyrics = React.forwardRef(
             shouldScroll &&
               forwardedRef?.scrollTo({
                 x: 0,
-                y: index * 20,
+                y: index * lineHeight,
                 animated: true,
               });
           }
@@ -114,7 +119,7 @@ export default React.memo(LyricsComponent);
 
 const styles = StyleSheet.create({
   lyricsComponent: {
-    maxHeight: 500,
+    maxHeight: MAX_LYRICS_HEIGHT,
     overflow: 'hidden',
     backgroundColor: '#ffcccb',
     borderRadius: 20,

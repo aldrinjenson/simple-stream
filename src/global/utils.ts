@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Snackbar from 'react-native-snackbar';
 import TrackPlayer from 'react-native-track-player';
 import ytdl from 'react-native-ytdl';
 import { API_URL, LYRICS_API } from '../../config';
@@ -70,13 +71,30 @@ const getLyrics = async (item: Song) => {
   })
 };
 
-export const playSong = async (item: Song, isFromQueue: boolean) => {
+const getRestOfSongProps = async (item: Song) => {
   const { lyrics, timeStamped } = await getLyrics(item)
   const { url } = await getSongUrlAndThumb(item.id)
   const obj = { ...item, lyrics, timeStamped, url }
-  if (!isFromQueue && url) {
+  return obj
+}
+
+export const playSong = async (songItem: Song, isFromQueue: boolean) => {
+  const completeSong = await getRestOfSongProps(songItem)
+  if (!isFromQueue) {
     await TrackPlayer.reset();
-    await TrackPlayer.add([obj]);
+    await TrackPlayer.add([completeSong]);
     await TrackPlayer.play();
   }
 };
+
+export const addToQueue = async (songItem: Song) => {
+  const completeSong = await getRestOfSongProps(songItem)
+  const existingQ = await TrackPlayer.getQueue()
+  const isSongAlreadyPresent = existingQ.some(el => el.id === songItem.id)
+  if (isSongAlreadyPresent) {
+    Snackbar.show({ text: 'Song already exists in queue' })
+  } else {
+    Snackbar.show({ text: 'Added to queue' })
+    TrackPlayer.add([completeSong])
+  }
+}

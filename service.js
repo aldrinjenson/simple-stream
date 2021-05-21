@@ -16,12 +16,13 @@ module.exports = async function () {
   TrackPlayer.addEventListener('remote-previous', () => {
     TrackPlayer.skipToPrevious();
   });
+
   TrackPlayer.addEventListener('remote-seek', ({ position }) => {
     console.log(position);
     TrackPlayer.seekTo(position);
   });
 
   TrackPlayer.addEventListener('remote-stop', () => {
-    TrackPlayer.destroy();
+    TrackPlayer.stop();
   });
 };

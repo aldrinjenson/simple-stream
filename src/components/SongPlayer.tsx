@@ -14,6 +14,7 @@ const TRACK_PLAYER_CONTROLS_OPTS = {
     TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
     TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
     TrackPlayer.CAPABILITY_SEEK_TO,
+    TrackPlayer.CAPABILITY_STOP,
   ],
   compactCapabilities: [
     TrackPlayer.CAPABILITY_PLAY,

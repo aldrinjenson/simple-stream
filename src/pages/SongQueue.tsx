@@ -15,7 +15,7 @@ const SongQueue = (props: Props) => {
   return (
     <View style={{ ...globalStyles.pageContainer }}>
       <Text style={globalStyles.pageTitle}> Queue</Text>
-      <DisplaySongs songs={songs} />
+      <DisplaySongs songs={songs} fromQueue={true} />
     </View>
   );
 };

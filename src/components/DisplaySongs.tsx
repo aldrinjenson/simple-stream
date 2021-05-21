@@ -15,16 +15,18 @@ export interface Song {
   duration: number;
   lyrics?: Lyric;
   timeStamped?: boolean;
+  isFavourite?: boolean;
   [x: string]: any;
 }
 
 interface Props {
   songs: Song[];
+  fromQueue?: boolean;
 }
 
 const DisplaySongs = (props: Props) => {
   const currentSong = useSelector(state => state.songReducer.currentSong);
-  const { songs } = props;
+  const { songs, fromQueue } = props;
 
   const handleClick = (item: Song) => {
     playSong(item, false);
@@ -41,7 +43,7 @@ const DisplaySongs = (props: Props) => {
               item={item}
               handleClick={handleClick}
               shouldHighLight={currentSong.id === item.id}
-              // secondaryAction={secondaryAction}
+              fromQueue={fromQueue}
             />
           );
         }}
