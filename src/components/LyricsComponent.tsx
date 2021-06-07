@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Switch } from 'react-native-paper';
 import { useTrackPlayerProgress } from 'react-native-track-player';
-import { Song } from './DisplaySongs';
+import { Song } from '../types';
 
 const MAX_LYRICS_HEIGHT = 500;
 

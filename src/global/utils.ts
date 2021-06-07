@@ -13,52 +13,33 @@ export const apiDispatch = (actionType = '', data = null) => {
 };
 
 export const formatSeconds = (seconds: number) => {
-  let mins: number = Math.floor(seconds / 60);
-  let sec: number | string = Math.floor(seconds % 60);
+  let mins: number = Math.floor(seconds / 60000);
+  let sec: number | string = Math.round(seconds % 60000);
   if (sec < 10) {
     sec = `0${sec}`;
   }
   return `${mins}:${sec}`;
 };
 
-// export const convertSongFormat = (songs = []) => {
-//   const newSongList = songs.map(song => ({
-//     name: song.title,
-//     thumbnails: song.thumbnails,
-//     artist: { name: song.author?.name.slice(0, -7) },
-//     duration: +song.lengthSeconds * 1000,
-//     videoId: song.videoId,
-//   }));
-//   return newSongList;
-// };
-
-export const hanleError = (err: Error) => {
-  console.log('error in response');
-  console.error(err);
+export const handleError = (msg: string, err: Error) => {
+  console.log(msg);
+  console.log(err)
 };
 
-const getSongUrlAndThumb = async (videoID: String) => {
-  try {
-    let info = await ytdl.getInfo(videoID);
+
+export const getSongAudioUrl = async (videoID: String) => {
+  ytdl.getInfo(videoID).then(info => {
     let audioFormats = ytdl.filterFormats(info.formats, 'audioonly');
-    const {
-      videoDetails: { thumbnails },
-    } = info;
-    console.log('getting song url for videoId' + videoID);
-    return {
-      url: audioFormats[0]?.url,
-      artwork: thumbnails[thumbnails.length - 2].url,
-    };
-  } catch (error) {
-    console.log('error in getting url');
-    return { url: '' }
-  }
+    return audioFormats[0].url || ''
+  }).catch((err: Error) => {
+    handleError(`error in getting url!!`, err)
+    return ''
+  })
 };
 
-const getLyrics = async (item: Song) => {
+export const getLyrics = async (item: Song) => {
   if (item.lyrics) return item.lyrics
   const { artist, title } = item
-
   return new Promise((resolve, reject) => {
     const lyricUrl = `${LYRICS_API}${title} ${artist}`;
     axios.get(lyricUrl).then(res => {
@@ -71,21 +52,6 @@ const getLyrics = async (item: Song) => {
   })
 };
 
-const getRestOfSongProps = async (item: Song) => {
-  const { lyrics, timeStamped } = await getLyrics(item)
-  const { url } = await getSongUrlAndThumb(item.id)
-  const obj = { ...item, lyrics, timeStamped, url }
-  return obj
-}
-
-export const playSong = async (songItem: Song, isFromQueue: boolean) => {
-  const completeSong = await getRestOfSongProps(songItem)
-  if (!isFromQueue) {
-    await TrackPlayer.reset();
-    await TrackPlayer.add([completeSong]);
-    await TrackPlayer.play();
-  }
-};
 
 export const addToQueue = async (songItem: Song) => {
   const completeSong = await getRestOfSongProps(songItem)

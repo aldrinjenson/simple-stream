@@ -7,6 +7,7 @@ import TrackPlayer from 'react-native-track-player';
 import { useSelector } from 'react-redux';
 
 const BottomBar = () => {
+  return null;
   const navigation = useNavigation();
   const currentSong = useSelector(state => state.songReducer.currentSong);
   const isPlaying = useSelector(state => state.songReducer.isPlaying);

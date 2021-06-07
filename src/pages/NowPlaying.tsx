@@ -16,15 +16,16 @@ import TrackPlayer, { useTrackPlayerProgress } from 'react-native-track-player';
 import { formatSeconds } from '../global/utils';
 import { useSelector } from 'react-redux';
 import LyricsComponent from '../components/LyricsComponent';
-import { Song } from '../components/DisplaySongs';
 import { Switch } from 'react-native-paper';
+import { Song } from '../types';
 
 const { width } = Dimensions.get('window');
 
 const NowPlaying = ({ navigation }) => {
-  const currentSong = useSelector<null | Song>(
-    state => state.songReducer.currentSong,
-  );
+  // const currentSong = useSelector<null | Song>(
+  //   state => state.songReducer.currentSong,
+  // );
+  const currentSong: Song = {};
   const isPlaying = useSelector<null | Song>(
     state => state.songReducer.isPlaying,
   );
@@ -33,7 +34,6 @@ const NowPlaying = ({ navigation }) => {
   const handlePause = () => {
     TrackPlayer.getState()
       .then(state => {
-        console.log(state);
         if (state === TrackPlayer.STATE_PLAYING) {
           TrackPlayer.pause();
         } else {
@@ -55,7 +55,7 @@ const NowPlaying = ({ navigation }) => {
         style={{ flex: 1 }}
         nestedScrollEnabled={true}>
         <ImageBackground
-          source={{ uri: currentSong?.artwork }}
+          source={{ uri: currentSong?.thumbnails[0].url }}
           blurRadius={50}
           style={{
             flex: 1,
@@ -69,11 +69,13 @@ const NowPlaying = ({ navigation }) => {
             }}>
             <Image
               style={styles.thumbnail}
-              source={{ uri: currentSong.artwork }}
+              source={{ uri: currentSong.thumbnails[1].url }}
             />
             <View style={{ alignItems: 'center', marginTop: 30 }}>
-              <Text style={styles.title}>{currentSong.title}</Text>
-              <Text style={{ fontWeight: '200' }}>{currentSong.artist}</Text>
+              <Text style={styles.title}>{currentSong.name}</Text>
+              <Text style={{ fontWeight: '200' }}>
+                {currentSong.artist.name}
+              </Text>
             </View>
           </View>
 

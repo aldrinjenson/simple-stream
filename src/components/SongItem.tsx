@@ -7,7 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { globalStyles } from '../global/globalStyles';
 import { addToQueue, formatSeconds } from '../global/utils';
-import { Song } from './DisplaySongs';
+import { Song } from '../types';
 
 interface Props {
   item: Song;
@@ -26,12 +26,7 @@ const SongItem = (props: Props) => {
   const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false);
 
   const handleAddorRemoveToQueue = (item: Song) => {
-    if (fromQueue) {
-      console.log('removing');
-      TrackPlayer.remove([item.id]);
-    } else {
-      addToQueue(item);
-    }
+    console.log('add or removed from/to queue');
   };
 
   return (
@@ -48,12 +43,15 @@ const SongItem = (props: Props) => {
           maxWidth: '88%',
         }}
         onPress={() => handleClick(item)}>
-        <Image style={styles.thumbnail} source={{ uri: item.artwork }} />
+        <Image
+          style={styles.thumbnail}
+          source={{ uri: item.thumbnails[0].url }}
+        />
         <View style={{ marginLeft: 10 }}>
           <Text style={{ ...globalStyles.title, flexWrap: 'wrap' }}>
-            {item.title}
+            {item.name}
           </Text>
-          <Text>{item.artist}</Text>
+          <Text>{item.artist.name}</Text>
           <Text>{formatSeconds(item.duration)}</Text>
         </View>
       </TouchableOpacity>
