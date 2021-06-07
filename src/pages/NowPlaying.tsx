@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,49 +7,51 @@ import {
   Dimensions,
   ImageBackground,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider';
-import TrackPlayer, { useTrackPlayerProgress } from 'react-native-track-player';
-import { formatSeconds } from '../global/utils';
-import { useSelector } from 'react-redux';
+import { formatSeconds, useAppDispatch, useAppSelector } from '../global/utils';
 import LyricsComponent from '../components/LyricsComponent';
-import { Switch } from 'react-native-paper';
+// import { Switch } from 'react-native-paper';
 import { Song } from '../types';
+import SoundPlayer from 'react-native-sound-player';
+import { setIsPlaying } from '../redux/actions/songActions';
+import useHandlePause from '../hooks/useHandlePause';
 
 const { width } = Dimensions.get('window');
 
 const NowPlaying = ({ navigation }) => {
-  // const currentSong = useSelector<null | Song>(
-  //   state => state.songReducer.currentSong,
-  // );
-  const currentSong: Song = {};
-  const isPlaying = useSelector<null | Song>(
-    state => state.songReducer.isPlaying,
+  const currentSong = useAppSelector<Song>(
+    state => state.songReducer.currentSong,
   );
+  const isPlaying = useAppSelector(state => state.songReducer.isPlaying);
+  const duration = currentSong.duration / 1000;
+  const [position, setPosition] = useState(0);
   const isUrlLoading = false;
 
-  const handlePause = () => {
-    TrackPlayer.getState()
-      .then(state => {
-        if (state === TrackPlayer.STATE_PLAYING) {
-          TrackPlayer.pause();
-        } else {
-          TrackPlayer.play();
-        }
-      })
-      .catch(err => console.log('error in getting state' + err));
-  };
+  const handlePause = useHandlePause();
 
-  const { position, bufferedPosition, duration } = useTrackPlayerProgress(
-    1000,
-    undefined,
-  );
+  // const handlePause = () => {
+  //   if (isPlaying) {
+  //     SoundPlayer.pause();
+  //     dispatch(setIsPlaying(false));
+  //   } else {
+  //     SoundPlayer.resume();
+  //     dispatch(setIsPlaying(true));
+  //   }
+  // };
+
+  useEffect(() => {
+    const songPositionPoller = setInterval(() => {
+      SoundPlayer.getInfo().then(info => setPosition(info.currentTime));
+    }, 500);
+    return () => clearInterval(songPositionPoller);
+  }, [currentSong]);
+
   const scrollRef = useRef(null);
   return (
-    currentSong && (
+    Object.keys(currentSong).length && (
       <ScrollView
         ref={scrollRef}
         style={{ flex: 1 }}
@@ -89,16 +91,7 @@ const NowPlaying = ({ navigation }) => {
                 minimumTrackTintColor="#FFFFFF"
                 maximumTrackTintColor="#000000"
                 value={position}
-                onValueChange={val => TrackPlayer.seekTo(val)}
-              />
-              <Slider
-                style={{ position: 'absolute', width: '100%' }}
-                minimumValue={0}
-                maximumValue={duration}
-                minimumTrackTintColor="#FFFFFF"
-                maximumTrackTintColor="#000000"
-                value={bufferedPosition}
-                disabled
+                onValueChange={seconds => SoundPlayer.seek(seconds)}
               />
             </View>
             <View
@@ -118,7 +111,7 @@ const NowPlaying = ({ navigation }) => {
             <View style={{ flexDirection: 'row' }}>
               <MaterialIcons
                 name="skip-previous"
-                onPress={() => TrackPlayer.skipToPrevious()}
+                onPress={() => {}}
                 size={70}
                 color={isUrlLoading ? 'grey' : 'black'}
               />
@@ -130,7 +123,7 @@ const NowPlaying = ({ navigation }) => {
               />
 
               <MaterialIcons
-                onPress={() => TrackPlayer.skipToNext()}
+                onPress={() => {}}
                 name="skip-next"
                 size={70}
                 color={isUrlLoading ? 'grey' : 'black'}
@@ -144,7 +137,11 @@ const NowPlaying = ({ navigation }) => {
               onPress={() => navigation.navigate('SongQueue')}
             />
           </View>
-          <LyricsComponent ref={scrollRef.current} song={currentSong} />
+          <LyricsComponent
+            ref={scrollRef.current}
+            song={currentSong}
+            position={position}
+          />
         </ImageBackground>
       </ScrollView>
     )

@@ -1,33 +1,43 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import SoundPlayer from 'react-native-sound-player';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../global/utils';
+import { setIsPlaying } from '../redux/actions/songActions';
 
 const SongPlayer = () => {
-  const currentSong = useSelector(state => state.songReducer.currentSong);
-  const startRef = useRef(0);
+  const currentSong = useAppSelector(state => state.songReducer.currentSong);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const songFinishedListener = SoundPlayer.addEventListener(
+    const songFinishedPlayingListener = SoundPlayer.addEventListener(
       'FinishedPlaying',
       () => {
         console.log('finsihed playing song');
       },
     );
+    const songFinishedLoadingListener = SoundPlayer.addEventListener(
+      'FinishedLoadingURL',
+      () => {
+        SoundPlayer.play();
+        dispatch(setIsPlaying(true));
+      },
+    );
     return () => {
-      songFinishedListener.remove();
+      songFinishedPlayingListener.remove();
+      songFinishedLoadingListener.remove();
+      SoundPlayer.stop();
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    if (currentSong.url && startRef.current === 0) {
-      SoundPlayer.playUrl(currentSong.url);
+    if (currentSong?.url) {
+      SoundPlayer.loadUrl(currentSong.url);
     }
-  }, [currentSong.url]);
+  }, [currentSong]);
 
   return (
     <View>
-      <Text></Text>
+      <Text />
     </View>
   );
 };

@@ -1,72 +1,68 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import TextTicker from 'react-native-text-ticker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import TrackPlayer from 'react-native-track-player';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../global/utils';
+import { Song } from '../types';
+import useHandlePause from '../hooks/useHandlePause';
 
 const BottomBar = () => {
-  return null;
   const navigation = useNavigation();
-  const currentSong = useSelector(state => state.songReducer.currentSong);
-  const isPlaying = useSelector(state => state.songReducer.isPlaying);
+  const currentSong = useAppSelector<Song>(
+    state => state.songReducer.currentSong,
+  );
+  const isPlaying = useAppSelector<boolean>(
+    state => state.songReducer.isPlaying,
+  );
   const isUrlLoading = false;
 
-  const handlePause = () => {
-    if (isPlaying) {
-      TrackPlayer.pause();
-    } else {
-      TrackPlayer.play();
-    }
-  };
-
-  if (!currentSong?.id) {
-    return null;
-  }
+  const handlePause = useHandlePause();
 
   return (
-    <View style={styles.bottomBar}>
-      <TouchableOpacity
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          maxWidth: '80%',
-        }}
-        onPress={() => navigation.navigate('NowPlaying')}>
-        <Image
-          style={styles.tabImage}
-          source={{
-            uri: currentSong.artwork,
+    currentSong && (
+      <View style={styles.bottomBar}>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            maxWidth: '80%',
           }}
-        />
-        <View style={{ marginLeft: 10, width: '70%' }}>
-          <TextTicker
-            style={{ fontSize: 18 }}
-            duration={13000}
-            marqueeDelay={1000}>
-            {currentSong.title}
-          </TextTicker>
-          <Text>{currentSong.artist}</Text>
+          onPress={() => navigation.navigate('NowPlaying')}>
+          <Image
+            style={styles.tabImage}
+            source={{
+              uri: currentSong.thumbnails[0].url,
+            }}
+          />
+          <View style={{ marginLeft: 10, width: '70%' }}>
+            <TextTicker
+              style={{ fontSize: 18 }}
+              duration={13000}
+              marqueeDelay={1000}>
+              {currentSong.name}
+            </TextTicker>
+            <Text>{currentSong.artist.name}</Text>
+          </View>
+        </TouchableOpacity>
+
+        <View style={{ flexDirection: 'row' }}>
+          <MaterialIcons
+            name={isPlaying ? 'pause-circle-filled' : 'play-circle-fill'}
+            color={isUrlLoading ? 'grey' : 'green'}
+            size={45}
+            onPress={handlePause}
+          />
+
+          <MaterialIcons
+            onPress={() => {}}
+            name="skip-next"
+            size={45}
+            color="white"
+          />
         </View>
-      </TouchableOpacity>
-
-      <View style={{ flexDirection: 'row' }}>
-        <MaterialIcons
-          name={isPlaying ? 'pause-circle-filled' : 'play-circle-fill'}
-          color={isUrlLoading ? 'grey' : 'green'}
-          size={45}
-          onPress={handlePause}
-        />
-
-        <MaterialIcons
-          onPress={() => TrackPlayer.skipToNext()}
-          name="skip-next"
-          size={45}
-          color="white"
-        />
       </View>
-    </View>
+    )
   );
 };
 

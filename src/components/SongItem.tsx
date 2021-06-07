@@ -11,7 +11,7 @@ import { Song } from '../types';
 
 interface Props {
   item: Song;
-  handleClick?: (item: Song) => void;
+  handleClick: (item: Song) => void;
   shouldHighLight?: boolean;
   fromQueue?: boolean;
 }
@@ -52,7 +52,7 @@ const SongItem = (props: Props) => {
             {item.name}
           </Text>
           <Text>{item.artist.name}</Text>
-          <Text>{formatSeconds(item.duration)}</Text>
+          <Text>{formatSeconds(item.duration, true)}</Text>
         </View>
       </TouchableOpacity>
       <View

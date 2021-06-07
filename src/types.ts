@@ -5,13 +5,13 @@ export interface Song {
   type: string;
   id: string;
   name: string;
-  url?: string
-  artist: { name: string; id: string };
-  album: { name: string; id: string };
+  url?: string;
+  artist: { name: string; browseId: string };
+  album: { name: string; browseId: string };
   duration: number;
   thumbnails: [thumbnail, thumbnail];
   lyrics?: Lyric;
-  isTimeStamped: boolean;
-  isFavourite?: boolean
+  isTimeStamped?: boolean;
+  isFavourite?: boolean;
   [x: string]: any;
 }

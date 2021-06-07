@@ -1,6 +1,6 @@
 StarredSongsPage.tsx
 SongQueue.tsx
-HomePage.tsx
+LibraryPage.tsx
 PlaylistsPage.tsx
 NowPlaying.tsx
 SongsPage.tsx

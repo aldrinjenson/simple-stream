@@ -9,6 +9,8 @@ import { Provider } from 'react-redux';
 import rootReducer from './redux/reducers/rootReducer';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export default function App() {
   return (

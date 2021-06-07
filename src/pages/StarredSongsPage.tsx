@@ -5,9 +5,7 @@ import { globalStyles } from '../global/globalStyles';
 import DisplaySongs from '../components/DisplaySongs';
 import { songData } from '../components/data';
 
-interface Props {}
-
-const StarredSongsPage = (props: Props) => {
+const StarredSongsPage = () => {
   return (
     <View style={{ backgroundColor: '#ccc', ...globalStyles.pageContainer }}>
       <Text style={globalStyles.pageTitle}>Starred Songs</Text>

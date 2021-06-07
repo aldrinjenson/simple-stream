@@ -8,19 +8,19 @@ import { Song } from '../types';
 const MAX_LYRICS_HEIGHT = 500;
 
 interface TimeStampedLyricsProps {
-  lyrics: { seconds: number; lyrics: string }[];
+  lyrics: { seconds: number; lyrics: string }[] | null;
   shouldScroll: boolean;
+  position: number;
 }
 
 const TimeStampedLyrics = React.forwardRef(
   (props: TimeStampedLyricsProps, forwardedRef) => {
-    const { lyrics, shouldScroll } = props;
-    const { position } = useTrackPlayerProgress(1000, undefined);
+    const { lyrics, shouldScroll, position } = props;
     const lineHeight = useMemo(() => MAX_LYRICS_HEIGHT / lyrics.length, []);
 
     return (
       <View style={{ marginBottom: 20 }}>
-        {lyrics.map(({ seconds, lyrics: lyric }, index) => {
+        {lyrics?.map(({ seconds, lyrics: lyric }, index) => {
           let color = position > seconds ? 'grey' : 'black';
           let fontSize = 17;
           if (position >= seconds && position <= lyrics[index + 1]?.seconds) {
@@ -52,7 +52,7 @@ const TimeStampedLyrics = React.forwardRef(
 const RegularLyrics = ({ lyrics }: { lyrics: string[] }) => {
   return (
     <View>
-      {lyrics.map((line, index) => (
+      {lyrics?.map((line, index) => (
         <Text key={index}>{line}</Text>
       ))}
     </View>
@@ -60,17 +60,20 @@ const RegularLyrics = ({ lyrics }: { lyrics: string[] }) => {
 };
 interface LyricProps {
   song: Song;
+  position: number;
 }
 
 const LyricsComponent = React.forwardRef((props: LyricProps, forwardedRef) => {
   const {
     song: { lyrics, timeStamped },
+    position,
   } = props;
   const lyricLineRef = useRef();
   const [shouldScroll, setShouldScroll] = useState(true);
+
   return (
     <View style={styles.lyricsComponent}>
-      {lyrics ? (
+      {lyrics?.length ? (
         <>
           <View style={{ flexDirection: 'row', width: '100%' }}>
             <TouchableOpacity
@@ -102,6 +105,7 @@ const LyricsComponent = React.forwardRef((props: LyricProps, forwardedRef) => {
                 ref={lyricLineRef.current}
                 shouldScroll={shouldScroll}
                 lyrics={lyrics}
+                position={position}
               />
             ) : (
               <RegularLyrics lyrics={lyrics} />
@@ -126,5 +130,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingBottom: 20,
   },
-  noLyricsText: { color: 'grey', textAlign: 'center' },
+  noLyricsText: { color: 'grey', textAlign: 'center', paddingTop: 5 },
 });
