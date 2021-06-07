@@ -8,9 +8,12 @@ import SearchInput from '../components/SearchInput';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { Song } from '../types';
+import { getSuggestedSongsList, useAppDispatch } from '../global/utils';
+import { playSong } from '../redux/actions/songActions';
 
 const SearchPage = () => {
   const [searchResults, setSearchResults] = useState<Song[]>(songData);
+  const dispatch = useAppDispatch();
 
   const handleSearch = (query: string) => {
     axios
@@ -23,11 +26,16 @@ const SearchPage = () => {
       });
   };
 
+  const handleClick = (item: Song) => {
+    dispatch(playSong(item));
+    dispatch(getSuggestedSongsList(item.videoId));
+  };
+
   return (
     <View style={{ backgroundColor: '#ccc', ...globalStyles.pageContainer }}>
       <Text style={globalStyles.pageTitle}>Browse Songs</Text>
       <SearchInput handleSearch={handleSearch} />
-      <DisplaySongs songs={searchResults} />
+      <DisplaySongs songs={searchResults} handleClick={handleClick} />
     </View>
   );
 };

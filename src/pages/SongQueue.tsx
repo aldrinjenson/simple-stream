@@ -1,21 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import TrackPlayer from 'react-native-track-player';
+import { ActivityIndicator } from 'react-native-paper';
+
 import { globalStyles } from '../global/globalStyles';
-import DisplaySongs, { Song } from '../components/DisplaySongs';
+import DisplaySongs from '../components/DisplaySongs';
+import { useAppDispatch, useAppSelector } from '../hooks/customReduxHooks';
+import { Song } from '../types';
+import { playSong } from '../redux/actions/songActions';
 
-interface Props {}
+const SongQueue = () => {
+  const queueSongs = useAppSelector<Song[]>(
+    state => state.songReducer.songQueue,
+  );
+  const isRelatedSongsLoading = useAppSelector(
+    state => state.songReducer.isRelatedSongsLoading,
+  );
+  const dispatch = useAppDispatch();
 
-const SongQueue = (props: Props) => {
-  const [songs, setSongs] = useState<Song[]>([]);
-  useEffect(() => {
-    TrackPlayer.getQueue().then(queue => setSongs(queue));
-  }, []);
+  const handleClick = (item: Song) => {
+    const index = queueSongs.indexOf(item);
+    dispatch(playSong(queueSongs[index]));
+  };
 
   return (
     <View style={{ ...globalStyles.pageContainer }}>
       <Text style={globalStyles.pageTitle}> Queue</Text>
-      <DisplaySongs songs={songs} fromQueue={true} />
+      {isRelatedSongsLoading ? (
+        <ActivityIndicator animating={true} color="blue" size="large" />
+      ) : (
+        <DisplaySongs
+          songs={queueSongs}
+          fromQueue={true}
+          handleClick={handleClick}
+        />
+      )}
     </View>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import SoundPlayer from 'react-native-sound-player';
-import { useAppDispatch, useAppSelector } from '../global/utils';
+import { useAppDispatch, useAppSelector } from '../hooks/customReduxHooks';
 import { setIsPlaying } from '../redux/actions/songActions';
 
 const SongPlayer = () => {

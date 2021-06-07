@@ -28,7 +28,6 @@ const SongItem = (props: Props) => {
   const handleAddorRemoveToQueue = (item: Song) => {
     console.log('add or removed from/to queue');
   };
-
   return (
     <View
       style={{

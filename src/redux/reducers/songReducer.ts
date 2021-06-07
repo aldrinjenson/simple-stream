@@ -1,14 +1,24 @@
 import { Song } from '../../types';
-import { SET_CURRENT_SONG, SET_IS_PLAYING } from '../constants';
+import {
+  GET_RELATED_SONGS_START,
+  GET_RELATED_SONGS_SUCCESS,
+  SET_CURRENT_SONG,
+  SET_IS_PLAYING,
+  SET_SONG_QUEUE,
+} from '../constants';
 interface InitialState {
   isPlaying: boolean;
   currentSong: Song | null;
   currentSongStatus: any;
+  songQueue: Song[];
+  isRelatedSongsLoading: boolean;
 }
 const initialState: InitialState = {
   isPlaying: false,
   currentSong: null,
   currentSongStatus: {},
+  songQueue: [],
+  isRelatedSongsLoading: false,
 };
 
 const songReducer = (state = initialState, { type, payload }) => {
@@ -20,6 +30,19 @@ const songReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isPlaying: payload,
+      };
+    case GET_RELATED_SONGS_START:
+      return {
+        ...state,
+        isRelatedSongsLoading: true,
+        songQueue: [],
+      };
+    case GET_RELATED_SONGS_SUCCESS:
+    case SET_SONG_QUEUE:
+      return {
+        ...state,
+        songQueue: payload,
+        isRelatedSongsLoading: false,
       };
     default:
       return state;

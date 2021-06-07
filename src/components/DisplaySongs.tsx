@@ -1,7 +1,6 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSuggestedSongsList } from '../global/utils';
+import { getSuggestedSongsList, useAppSelector } from '../global/utils';
 import { playSong } from '../redux/actions/songActions';
 import { Song } from '../types';
 import SongItem from './SongItem';
@@ -9,17 +8,12 @@ import SongItem from './SongItem';
 interface Props {
   songs: Song[];
   fromQueue?: boolean;
+  handleClick: (item: Song) => void;
 }
 
 const DisplaySongs = (props: Props) => {
-  const currentSong = useSelector(state => state.songReducer.currentSong);
-  const { songs, fromQueue } = props;
-  const dispatch = useDispatch();
-
-  const handleClick = (item: Song) => {
-    dispatch(playSong(item));
-    getSuggestedSongsList(item.videoId);
-  };
+  const currentSong = useAppSelector(state => state.songReducer.currentSong);
+  const { songs, fromQueue, handleClick } = props;
 
   return (
     <View style={{ flex: 1 }}>

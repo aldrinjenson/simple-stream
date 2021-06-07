@@ -3,7 +3,8 @@ import TextTicker from 'react-native-text-ticker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { titleCase, useAppSelector } from '../global/utils';
+import { useAppSelector } from '../hooks/customReduxHooks';
+import { titleCase } from '../global/utils';
 import { Song } from '../types';
 import useHandlePause from '../hooks/useHandlePause';
 

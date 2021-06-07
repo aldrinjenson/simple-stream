@@ -19,6 +19,7 @@ export const globalStyles = StyleSheet.create({
     paddingBottom: '15%',
   },
   pageTitle: {
-    fontSize: 20
-  }
+    fontSize: 20,
+    marginBottom: 10,
+  },
 });

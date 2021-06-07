@@ -11,12 +11,11 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider';
-import { formatSeconds, useAppDispatch, useAppSelector } from '../global/utils';
+import { formatSeconds } from '../global/utils';
 import LyricsComponent from '../components/LyricsComponent';
-// import { Switch } from 'react-native-paper';
+import { useAppSelector } from '../hooks/customReduxHooks';
 import { Song } from '../types';
 import SoundPlayer from 'react-native-sound-player';
-import { setIsPlaying } from '../redux/actions/songActions';
 import useHandlePause from '../hooks/useHandlePause';
 
 const { width } = Dimensions.get('window');
@@ -26,21 +25,10 @@ const NowPlaying = ({ navigation }) => {
     state => state.songReducer.currentSong,
   );
   const isPlaying = useAppSelector(state => state.songReducer.isPlaying);
-  const duration = currentSong.duration / 1000;
+  const duration = currentSong?.duration / 1000;
   const [position, setPosition] = useState(0);
-  const isUrlLoading = false;
-
   const handlePause = useHandlePause();
-
-  // const handlePause = () => {
-  //   if (isPlaying) {
-  //     SoundPlayer.pause();
-  //     dispatch(setIsPlaying(false));
-  //   } else {
-  //     SoundPlayer.resume();
-  //     dispatch(setIsPlaying(true));
-  //   }
-  // };
+  const isUrlLoading = false;
 
   useEffect(() => {
     const songPositionPoller = setInterval(() => {
@@ -51,7 +39,7 @@ const NowPlaying = ({ navigation }) => {
 
   const scrollRef = useRef(null);
   return (
-    Object.keys(currentSong).length && (
+    currentSong && (
       <ScrollView
         ref={scrollRef}
         style={{ flex: 1 }}

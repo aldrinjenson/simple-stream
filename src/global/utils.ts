@@ -5,11 +5,11 @@ import ytdl from 'react-native-ytdl';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { API_URL, LYRICS_API } from '../../config';
 import { AppDispatch, RootState } from '../App';
+import {
+  GET_RELATED_SONGS_START,
+  GET_RELATED_SONGS_SUCCESS,
+} from '../redux/constants';
 import { Song } from '../types';
-
-// Use throughout your app instead of plain `useDispatch` and `useSelector`
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const apiDispatch = (actionType = '', data = null) => {
   return {
@@ -115,7 +115,18 @@ export const titleCase = (str: string) => {
   return firstLetter + str.slice(1);
 };
 
-const getSongFromIds = async (songIds: string[]) => {
+export const convertSongFormat = (songs = []) => {
+  const newSongList = songs.map(song => ({
+    name: song.title,
+    thumbnails: song.thumbnails,
+    artist: { name: song.author?.name.slice(0, -7) },
+    duration: +song.lengthSeconds * 1000,
+    videoId: song.videoId,
+  }));
+  return newSongList;
+};
+
+export const getSongFromIds = async (songIds: string[]) => {
   let promises: any[] = [];
   songIds.forEach(id => promises.push(ytdl.getBasicInfo(id)));
   let suggestedSongInfos = await Promise.all(promises);
@@ -124,18 +135,20 @@ const getSongFromIds = async (songIds: string[]) => {
 };
 
 export const getSuggestedSongsList = (id: string) => {
-  axios
-    .get(`${API_URL}/suggested/${id}`)
-    .then(res => {
-      const songIds = res.data;
-      getSongFromIds(songIds).then(
-        songs => console.log(JSON.stringify(songs)),
-        // dispatch(
-        //   apiDispatch(GET_SUGGESTED_SONGS_SUCCESS, convertSongFormat(songs)),
-        // ),
-      );
-    })
-    .catch(err => {
-      console.log(`error in getting suggested songs: ${err}`);
-    });
+  return (dispatch: (arg0: { type: string; payload: null }) => void) => {
+    dispatch(apiDispatch(GET_RELATED_SONGS_START));
+    axios
+      .get(`${API_URL}/suggested/${id}`)
+      .then(res => {
+        const songIds = res.data;
+        getSongFromIds(songIds).then(songs => {
+          dispatch(
+            apiDispatch(GET_RELATED_SONGS_SUCCESS, convertSongFormat(songs)),
+          );
+        });
+      })
+      .catch(err => {
+        console.log('error in getting related songs: ' + err);
+      });
+  };
 };
