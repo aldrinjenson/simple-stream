@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import SoundPlayer from 'react-native-sound-player';
 import { useAppDispatch, useAppSelector } from '../global/utils';
 import { setIsPlaying } from '../redux/actions/songActions';
@@ -13,6 +13,7 @@ const SongPlayer = () => {
       'FinishedPlaying',
       () => {
         console.log('finsihed playing song');
+        dispatch(setIsPlaying(false));
       },
     );
     const songFinishedLoadingListener = SoundPlayer.addEventListener(
@@ -35,11 +36,7 @@ const SongPlayer = () => {
     }
   }, [currentSong]);
 
-  return (
-    <View>
-      <Text />
-    </View>
-  );
+  return <View />;
 };
 
 export default SongPlayer;

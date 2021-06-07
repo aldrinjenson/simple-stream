@@ -51,7 +51,7 @@ export const getSongAudioUrl = (videoID: String) => {
 
 export const getLyrics = async (item: Song) => {
   if (item.lyrics) {
-    console.log('lyrics exists!');
+    // lyrics already saved in db
     return item.lyrics;
   }
   const artist = item.artist.name;
@@ -82,7 +82,7 @@ export const getRestOfSongProps = (item: Song) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { lyrics, timeStamped } = await getLyrics(item);
-      getSongAudioUrl(item.id).then(url => {
+      getSongAudioUrl(item.videoId).then(url => {
         const obj = { ...item, lyrics, timeStamped, url };
         resolve(obj);
       });
@@ -99,11 +99,43 @@ export const getRestOfSongProps = (item: Song) => {
 export const addToQueue = async (songItem: Song) => {
   const completeSong = await getRestOfSongProps(songItem);
   const existingQ = await TrackPlayer.getQueue();
-  const isSongAlreadyPresent = existingQ.some(el => el.id === songItem.id);
+  const isSongAlreadyPresent = existingQ.some(
+    el => el.videoId === songItem.videoId,
+  );
   if (isSongAlreadyPresent) {
     Snackbar.show({ text: 'Song already exists in queue' });
   } else {
     Snackbar.show({ text: 'Added to queue' });
     TrackPlayer.add([completeSong]);
   }
+};
+
+export const titleCase = (str: string) => {
+  const firstLetter = str[0].toUpperCase();
+  return firstLetter + str.slice(1);
+};
+
+const getSongFromIds = async (songIds: string[]) => {
+  let promises: any[] = [];
+  songIds.forEach(id => promises.push(ytdl.getBasicInfo(id)));
+  let suggestedSongInfos = await Promise.all(promises);
+  const videoDetails = suggestedSongInfos.map(info => info.videoDetails);
+  return videoDetails;
+};
+
+export const getSuggestedSongsList = (id: string) => {
+  axios
+    .get(`${API_URL}/suggested/${id}`)
+    .then(res => {
+      const songIds = res.data;
+      getSongFromIds(songIds).then(
+        songs => console.log(JSON.stringify(songs)),
+        // dispatch(
+        //   apiDispatch(GET_SUGGESTED_SONGS_SUCCESS, convertSongFormat(songs)),
+        // ),
+      );
+    })
+    .catch(err => {
+      console.log(`error in getting suggested songs: ${err}`);
+    });
 };

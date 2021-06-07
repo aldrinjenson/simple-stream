@@ -1,4 +1,4 @@
-StarredSongsPage.tsx
+SearchPage.tsx
 SongQueue.tsx
 LibraryPage.tsx
 PlaylistsPage.tsx

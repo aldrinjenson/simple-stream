@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { getSuggestedSongsList } from '../global/utils';
 import { playSong } from '../redux/actions/songActions';
 import { Song } from '../types';
 import SongItem from './SongItem';
@@ -17,6 +18,7 @@ const DisplaySongs = (props: Props) => {
 
   const handleClick = (item: Song) => {
     dispatch(playSong(item));
+    getSuggestedSongsList(item.videoId);
   };
 
   return (
@@ -28,7 +30,7 @@ const DisplaySongs = (props: Props) => {
           <SongItem
             item={item}
             handleClick={handleClick}
-            shouldHighLight={currentSong?.id === item.id}
+            shouldHighLight={currentSong?.videoId === item.videoId}
             fromQueue={fromQueue}
           />
         )}

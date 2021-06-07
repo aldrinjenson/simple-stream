@@ -10,11 +10,9 @@ import LibraryPage from './pages/LibraryPage';
 import SettingsPage from './pages/SettingsPage';
 import DonatePage from './pages/DonatePage';
 import AppHeader from './headers/AppHeader';
-import Searchpage from './pages/Searchpage';
-import SearchHeader from './headers/SearchHeader';
 import { View } from 'react-native';
 import BottomBar from './components/Bottombar';
-import StarredSongsPage from './pages/StarredSongsPage';
+import SearchPage from './pages/SearchPage';
 import SongQueue from './pages/SongQueue';
 
 const Tab = createBottomTabNavigator();
@@ -38,14 +36,14 @@ const HomeTabs = () => (
         }}
       />
       <Tab.Screen
-        name="Starred"
-        component={StarredSongsPage}
+        name="SearchPage"
+        component={SearchPage}
         options={{
-          title: 'Starred Songs',
+          title: 'Search songs',
           tabBarIcon: ({ focused }) => (
             <MaterialIcons
               color={focused ? '#2f95dc' : '#000'}
-              name="star-outline"
+              name="search"
               size={23}
             />
           ),
@@ -83,13 +81,6 @@ const AppNavigator = () => {
         name="SongQueue"
         component={SongQueue}
         options={{ headerShown: true }}
-      />
-      <Stack.Screen
-        name="SearchPage"
-        component={Searchpage}
-        options={{
-          header: ({ navigation }) => <SearchHeader navigation={navigation} />,
-        }}
       />
     </Stack.Navigator>
   );

@@ -3,7 +3,7 @@ import TextTicker from 'react-native-text-ticker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { useAppSelector } from '../global/utils';
+import { titleCase, useAppSelector } from '../global/utils';
 import { Song } from '../types';
 import useHandlePause from '../hooks/useHandlePause';
 
@@ -40,7 +40,7 @@ const BottomBar = () => {
               style={{ fontSize: 18 }}
               duration={13000}
               marqueeDelay={1000}>
-              {currentSong.name}
+              {titleCase(currentSong.name)}
             </TextTicker>
             <Text>{currentSong.artist.name}</Text>
           </View>
