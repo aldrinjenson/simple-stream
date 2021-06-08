@@ -41,7 +41,7 @@ const songReducer = (state = initialState, { type, payload }) => {
     case SET_SONG_QUEUE:
       return {
         ...state,
-        songQueue: payload,
+        songQueue: [...payload], // to skip shallow comparison for allow re-renders
         isRelatedSongsLoading: false,
       };
     default:

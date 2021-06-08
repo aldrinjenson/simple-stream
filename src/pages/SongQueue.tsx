@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 
@@ -7,6 +7,7 @@ import DisplaySongs from '../components/DisplaySongs';
 import { useAppDispatch, useAppSelector } from '../hooks/customReduxHooks';
 import { Song } from '../types';
 import { playSong } from '../redux/actions/songActions';
+import SongListActions from '../components/SongListActions';
 
 const SongQueue = () => {
   const queueSongs = useAppSelector<Song[]>(
@@ -25,14 +26,18 @@ const SongQueue = () => {
   return (
     <View style={{ ...globalStyles.pageContainer }}>
       <Text style={globalStyles.pageTitle}> Queue</Text>
+
       {isRelatedSongsLoading ? (
         <ActivityIndicator animating={true} color="blue" size="large" />
       ) : (
-        <DisplaySongs
-          songs={queueSongs}
-          fromQueue={true}
-          handleClick={handleClick}
-        />
+        <>
+          <SongListActions />
+          <DisplaySongs
+            songs={queueSongs}
+            fromQueue={true}
+            handleClick={handleClick}
+          />
+        </>
       )}
     </View>
   );

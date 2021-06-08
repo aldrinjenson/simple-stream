@@ -7,9 +7,9 @@ import {
   GET_RELATED_SONGS_START,
   GET_RELATED_SONGS_SUCCESS,
 } from '../redux/constants';
-import { Song } from '../types';
+import { Song, FullSongProps } from '../types';
 
-export const apiDispatch = (actionType = '', data = null) => {
+export const apiDispatch = (actionType: string = '', data: any = null) => {
   return {
     type: actionType,
     payload: data,
@@ -29,7 +29,7 @@ export const formatSeconds = (seconds: number, isMilli = false) => {
 };
 
 export const getSongAudioUrl = (videoID: String) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     ytdl
       .getInfo(videoID)
       .then(async (info: { formats: any }) => {
@@ -77,7 +77,7 @@ export const getLyrics = async (item: Song) => {
 };
 
 export const getRestOfSongProps = (item: Song) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async resolve => {
     try {
       const { lyrics, timeStamped } = await getLyrics(item);
       getSongAudioUrl(item.videoId).then(url => {
@@ -108,19 +108,20 @@ export const addToQueue = async (songItem: Song) => {
   }
 };
 
-export const titleCase = (str: string) => {
+export const titleCase = (str: string): string => {
   const firstLetter = str[0].toUpperCase();
   return firstLetter + str.slice(1);
 };
 
-export const convertSongFormat = (songs = []) => {
+export const convertSongFormat = (songs: FullSongProps[]): Song[] => {
   const newSongList = songs.map(song => ({
     name: song.title,
     thumbnails: song.thumbnails,
-    artist: { name: song.author?.name.slice(0, -7) },
+    artist: { name: song.author?.name.slice(0, -7) || '' },
     duration: +song.lengthSeconds * 1000,
     videoId: song.videoId,
   }));
+
   return newSongList;
 };
 
@@ -139,11 +140,11 @@ export const getSuggestedSongsList = (id: string) => {
       .get(`${API_URL}/suggested/${id}`)
       .then(res => {
         const songIds = res.data;
-        getSongFromIds(songIds).then(songs => {
+        getSongFromIds(songIds).then((songs: FullSongProps[]) =>
           dispatch(
             apiDispatch(GET_RELATED_SONGS_SUCCESS, convertSongFormat(songs)),
-          );
-        });
+          ),
+        );
       })
       .catch(err => {
         console.log('error in getting related songs: ' + err);

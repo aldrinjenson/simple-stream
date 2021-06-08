@@ -1,9 +1,10 @@
-import { SET_CURRENT_SONG, SET_IS_PLAYING } from '../constants';
-import { Song } from '../../types';
+import { SET_CURRENT_SONG, SET_IS_PLAYING, SET_SONG_QUEUE } from '../constants';
+import { AppThunk, Song } from '../../types';
 import { getRestOfSongProps } from '../../global/utils';
+import { Action, ActionCreator } from 'redux';
 
-export const playSong = (songItem: Song) => {
-  return (dispatch: (arg0: { type: string; payload: Song }) => void) => {
+export const playSong = (songItem: Song): AppThunk => {
+  return dispatch => {
     getRestOfSongProps(songItem)
       .then(completeSong => {
         dispatch({
@@ -15,9 +16,16 @@ export const playSong = (songItem: Song) => {
   };
 };
 
-export const setIsPlaying = (isPlaying: boolean) => {
+export const setIsPlaying: ActionCreator<Action> = (isPlaying: boolean) => {
   return {
     type: SET_IS_PLAYING,
     payload: isPlaying,
+  };
+};
+
+export const setSongQueue: ActionCreator<Action> = (songQueue: Song[]) => {
+  return {
+    type: SET_SONG_QUEUE,
+    payload: songQueue,
   };
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { globalStyles } from '../global/globalStyles';
 import DisplaySongs from '../components/DisplaySongs';
@@ -9,12 +9,13 @@ import axios from 'axios';
 import { API_URL } from '../../config';
 import { Song } from '../types';
 import { getSuggestedSongsList } from '../global/utils';
-import { useAppDispatch } from '../hooks/customReduxHooks';
+// import { useAppDispatch } from '../hooks/customReduxHooks';
 import { playSong } from '../redux/actions/songActions';
+import { useDispatch } from 'react-redux';
 
 const SearchPage = () => {
   const [searchResults, setSearchResults] = useState<Song[]>(songData);
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch<any>();
 
   const handleSearch = (query: string) => {
     axios
@@ -42,5 +43,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-
-const styles = StyleSheet.create({});

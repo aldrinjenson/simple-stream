@@ -14,7 +14,7 @@ const SongPlayer = () => {
     const songFinishedPlayingListener = SoundPlayer.addEventListener(
       'FinishedPlaying',
       () => {
-        console.log('finsihed playing song');
+        console.log('finished playing song');
         dispatch(setIsPlaying(false));
         playNextSong();
       },
@@ -31,7 +31,7 @@ const SongPlayer = () => {
       songFinishedLoadingListener.remove();
       SoundPlayer.stop();
     };
-  }, [dispatch]);
+  }, [dispatch, playNextSong]);
 
   useEffect(() => {
     if (currentSong?.url) {

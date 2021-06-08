@@ -1,7 +1,8 @@
 import Snackbar from 'react-native-snackbar';
-import { playSong } from '../redux/actions/songActions';
+import { useDispatch } from 'react-redux';
+import { playSong, setSongQueue } from '../redux/actions/songActions';
 import { Song } from '../types';
-import { useAppDispatch, useAppSelector } from './customReduxHooks';
+import { useAppSelector } from './customReduxHooks';
 
 const getCurrentSongIndex = (song: Song, songList: Song[]) => {
   for (let i: number = 0; i < songList.length; i++) {
@@ -19,16 +20,16 @@ const useSongPlayActions = () => {
   const currentSong = useAppSelector<Song>(
     state => state.songReducer.currentSong,
   );
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const playNextSong = () => {
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) + 1;
-    if (nextSongIndex >= songQueue.length) {
+    if (nextSongIndex >= songQueue.length - 1) {
       Snackbar.show({
         text: 'Currently playing song is the last one in the queue',
       });
     } else {
-      const newSongObj = songQueue[nextSongIndex];
+      const newSongObj: Song = songQueue[nextSongIndex];
       dispatch(playSong(newSongObj));
     }
   };
@@ -45,7 +46,28 @@ const useSongPlayActions = () => {
     }
   };
 
-  return { playNextSong, playPreviousSong };
+  const shuffleQueue = () => {
+    let array = songQueue;
+    let currentIndex = array.length,
+      randomIndex;
+
+    while (currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+    Snackbar.show({
+      text: 'Shuffling queue',
+    });
+    dispatch(setSongQueue(array));
+  };
+
+  const addSongsToPlaylist = (songs: Song[]) => {};
+
+  return { playNextSong, playPreviousSong, shuffleQueue, addSongsToPlaylist };
 };
 
 export default useSongPlayActions;
