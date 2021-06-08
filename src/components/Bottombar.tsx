@@ -7,6 +7,7 @@ import { useAppSelector } from '../hooks/customReduxHooks';
 import { titleCase } from '../global/utils';
 import { Song } from '../types';
 import useHandlePause from '../hooks/useHandlePause';
+import useSongPlayActions from '../hooks/useSongPlayActions';
 
 const BottomBar = () => {
   const navigation = useNavigation();
@@ -16,6 +17,8 @@ const BottomBar = () => {
   const isPlaying = useAppSelector<boolean>(
     state => state.songReducer.isPlaying,
   );
+  const { playNextSong } = useSongPlayActions();
+
   const isUrlLoading = false;
 
   const handlePause = useHandlePause();
@@ -56,7 +59,7 @@ const BottomBar = () => {
           />
 
           <MaterialIcons
-            onPress={() => {}}
+            onPress={playNextSong}
             name="skip-next"
             size={45}
             color="white"

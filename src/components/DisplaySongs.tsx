@@ -1,7 +1,6 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import { getSuggestedSongsList, useAppSelector } from '../global/utils';
-import { playSong } from '../redux/actions/songActions';
+import { useAppSelector } from '../hooks/customReduxHooks';
 import { Song } from '../types';
 import SongItem from './SongItem';
 

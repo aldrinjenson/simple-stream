@@ -17,6 +17,7 @@ import { useAppSelector } from '../hooks/customReduxHooks';
 import { Song } from '../types';
 import SoundPlayer from 'react-native-sound-player';
 import useHandlePause from '../hooks/useHandlePause';
+import useSongPlayActions from '../hooks/useSongPlayActions';
 
 const { width } = Dimensions.get('window');
 
@@ -28,6 +29,7 @@ const NowPlaying = ({ navigation }) => {
   const duration = currentSong?.duration / 1000;
   const [position, setPosition] = useState(0);
   const handlePause = useHandlePause();
+  const { playNextSong, playPreviousSong } = useSongPlayActions();
   const isUrlLoading = false;
 
   useEffect(() => {
@@ -99,7 +101,7 @@ const NowPlaying = ({ navigation }) => {
             <View style={{ flexDirection: 'row' }}>
               <MaterialIcons
                 name="skip-previous"
-                onPress={() => {}}
+                onPress={playPreviousSong}
                 size={70}
                 color={isUrlLoading ? 'grey' : 'black'}
               />
@@ -111,7 +113,7 @@ const NowPlaying = ({ navigation }) => {
               />
 
               <MaterialIcons
-                onPress={() => {}}
+                onPress={playNextSong}
                 name="skip-next"
                 size={70}
                 color={isUrlLoading ? 'grey' : 'black'}

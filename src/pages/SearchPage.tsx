@@ -8,7 +8,8 @@ import SearchInput from '../components/SearchInput';
 import axios from 'axios';
 import { API_URL } from '../../config';
 import { Song } from '../types';
-import { getSuggestedSongsList, useAppDispatch } from '../global/utils';
+import { getSuggestedSongsList } from '../global/utils';
+import { useAppDispatch } from '../hooks/customReduxHooks';
 import { playSong } from '../redux/actions/songActions';
 
 const SearchPage = () => {

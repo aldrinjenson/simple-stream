@@ -2,9 +2,7 @@ import axios from 'axios';
 import Snackbar from 'react-native-snackbar';
 import TrackPlayer from 'react-native-track-player';
 import ytdl from 'react-native-ytdl';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { API_URL, LYRICS_API } from '../../config';
-import { AppDispatch, RootState } from '../App';
 import {
   GET_RELATED_SONGS_START,
   GET_RELATED_SONGS_SUCCESS,
