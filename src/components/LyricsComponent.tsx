@@ -22,7 +22,7 @@ const TimeStampedLyrics = React.forwardRef(
       <View style={{ marginBottom: 20 }}>
         {lyrics?.map(({ seconds, lyrics: lyric }, index) => {
           let color = position > seconds ? 'grey' : 'black';
-          let fontSize = 17;
+          let fontSize = 15;
           if (position >= seconds && position <= lyrics[index + 1]?.seconds) {
             color = 'red';
             // fontSize = 17;
@@ -53,7 +53,9 @@ const RegularLyrics = ({ lyrics }: { lyrics: string[] }) => {
   return (
     <View>
       {lyrics?.map((line, index) => (
-        <Text key={index}>{line}</Text>
+        <Text style={{ fontSize: 15 }} key={index}>
+          {line}
+        </Text>
       ))}
     </View>
   );

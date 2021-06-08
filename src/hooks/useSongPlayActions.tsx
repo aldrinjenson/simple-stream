@@ -36,7 +36,7 @@ const useSongPlayActions = () => {
 
   const playPreviousSong = () => {
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) - 1;
-    if (nextSongIndex <= 0) {
+    if (nextSongIndex < 0) {
       Snackbar.show({
         text: 'Currently playing song is the first one in the queue',
       });

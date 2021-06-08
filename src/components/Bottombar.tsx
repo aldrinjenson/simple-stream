@@ -4,7 +4,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { useAppSelector } from '../hooks/customReduxHooks';
-import { titleCase } from '../global/utils';
+import { sentenceCase } from '../global/utils';
 import { Song } from '../types';
 import useHandlePause from '../hooks/useHandlePause';
 import useSongPlayActions from '../hooks/useSongPlayActions';
@@ -44,7 +44,7 @@ const BottomBar = () => {
               style={{ fontSize: 18 }}
               duration={13000}
               marqueeDelay={1000}>
-              {titleCase(currentSong.name)}
+              {sentenceCase(currentSong.name)}
             </TextTicker>
             <Text>{currentSong.artist.name}</Text>
           </View>

@@ -31,7 +31,7 @@ const SongPlayer = () => {
       songFinishedLoadingListener.remove();
       SoundPlayer.stop();
     };
-  }, [dispatch, playNextSong]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (currentSong?.url) {

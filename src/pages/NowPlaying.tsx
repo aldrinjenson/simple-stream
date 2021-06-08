@@ -11,7 +11,7 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider';
-import { formatSeconds } from '../global/utils';
+import { formatSeconds, sentenceCase } from '../global/utils';
 import LyricsComponent from '../components/LyricsComponent';
 import { useAppSelector } from '../hooks/customReduxHooks';
 import { Song } from '../types';
@@ -39,6 +39,8 @@ const NowPlaying = ({ navigation }) => {
     return () => clearInterval(songPositionPoller);
   }, [currentSong]);
 
+  const imageIndex = currentSong?.thumbnails?.length - 2;
+
   const scrollRef = useRef(null);
   return (
     currentSong && (
@@ -61,10 +63,10 @@ const NowPlaying = ({ navigation }) => {
             }}>
             <Image
               style={styles.thumbnail}
-              source={{ uri: currentSong.thumbnails[1].url }}
+              source={{ uri: currentSong.thumbnails[imageIndex].url }}
             />
             <View style={{ alignItems: 'center', marginTop: 30 }}>
-              <Text style={styles.title}>{currentSong.name}</Text>
+              <Text style={styles.title}>{sentenceCase(currentSong.name)}</Text>
               <Text style={{ fontWeight: '200' }}>
                 {currentSong.artist.name}
               </Text>

@@ -28,14 +28,22 @@ export const formatSeconds = (seconds: number, isMilli = false) => {
   return `${mins}:${sec}`;
 };
 
-export const getSongAudioUrl = (videoID: String) => {
+export const getUrlAndThumbs = (videoID: String) => {
   return new Promise(resolve => {
     ytdl
       .getInfo(videoID)
-      .then(async (info: { formats: any }) => {
-        let audioFormats = await ytdl.filterFormats(info.formats, 'audioonly');
-        const url = audioFormats[0].url || '';
-        resolve(url);
+      .then(async (info: { formats: any; videoDetails: any }) => {
+        const audioFormats = await ytdl.filterFormats(
+          info.formats,
+          'audioonly',
+        );
+        const {
+          videoDetails: { thumbnails },
+        } = info;
+        resolve({
+          url: audioFormats[0]?.url,
+          thumbnails: thumbnails,
+        });
       })
       .catch((err: Error) => {
         console.log('error in getting url!!', err);
@@ -58,15 +66,15 @@ export const getLyrics = async (item: Song) => {
     const lyricUrl = `${LYRICS_API}${title} ${artist}`;
     axios
       .get(lyricUrl)
-      .then(res => {
-        resolve({ lyrics: res.data, timeStamped: true });
+      .then(({ data }) => {
+        resolve({ lyrics: data, timeStamped: true });
       })
       .catch(async () => {
         const url = `${API_URL}/lyrics/?artist=${artist}&title=${title}`;
         axios
           .get(url)
-          .then(lyrics => {
-            resolve({ lyrics, timeStamped: false });
+          .then(({ data }) => {
+            resolve({ lyrics: data, timeStamped: false });
           })
           .catch(err => {
             console.log('all hopes lost in getting lyrics lol');
@@ -80,8 +88,8 @@ export const getRestOfSongProps = (item: Song) => {
   return new Promise(async resolve => {
     try {
       const { lyrics, timeStamped } = await getLyrics(item);
-      getSongAudioUrl(item.videoId).then(url => {
-        const obj = { ...item, lyrics, timeStamped, url };
+      getUrlAndThumbs(item.videoId).then(({ url, thumbnails }) => {
+        const obj = { ...item, lyrics, timeStamped, url, thumbnails };
         resolve(obj);
       });
     } catch (error) {
@@ -104,11 +112,10 @@ export const addToQueue = async (songItem: Song) => {
     Snackbar.show({ text: 'Song already exists in queue' });
   } else {
     Snackbar.show({ text: 'Added to queue' });
-    TrackPlayer.add([completeSong]);
   }
 };
 
-export const titleCase = (str: string): string => {
+export const sentenceCase = (str: string): string => {
   const firstLetter = str[0].toUpperCase();
   return firstLetter + str.slice(1);
 };
