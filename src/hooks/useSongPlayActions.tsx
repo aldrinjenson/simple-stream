@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import Snackbar from 'react-native-snackbar';
 import { useDispatch } from 'react-redux';
 import { playSong, setSongQueue } from '../redux/actions/songActions';
@@ -22,7 +23,7 @@ const useSongPlayActions = () => {
   );
   const dispatch = useDispatch();
 
-  const playNextSong = () => {
+  const playNextSong = useCallback(() => {
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) + 1;
     if (nextSongIndex >= songQueue.length - 1) {
       Snackbar.show({
@@ -32,9 +33,9 @@ const useSongPlayActions = () => {
       const newSongObj: Song = songQueue[nextSongIndex];
       dispatch(playSong(newSongObj));
     }
-  };
+  }, [currentSong, dispatch, songQueue]);
 
-  const playPreviousSong = () => {
+  const playPreviousSong = useCallback(() => {
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) - 1;
     if (nextSongIndex < 0) {
       Snackbar.show({
@@ -44,9 +45,9 @@ const useSongPlayActions = () => {
       const newSongObj = songQueue[nextSongIndex];
       dispatch(playSong(newSongObj));
     }
-  };
+  }, [currentSong, dispatch, songQueue]);
 
-  const shuffleQueue = () => {
+  const shuffleQueue = useCallback(() => {
     let array = songQueue;
     let currentIndex = array.length,
       randomIndex;
@@ -63,7 +64,7 @@ const useSongPlayActions = () => {
       text: 'Shuffling queue',
     });
     dispatch(setSongQueue(array));
-  };
+  }, [dispatch, songQueue]);
 
   const addSongsToPlaylist = (songs: Song[]) => {};
 

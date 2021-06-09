@@ -7,8 +7,7 @@ import { useAppSelector } from '../hooks/customReduxHooks';
 import { sentenceCase } from '../global/utils';
 import { Song } from '../types';
 import useSongPlayActions from '../hooks/useSongPlayActions';
-import { setIsPlaying } from '../redux/actions/songActions';
-import { useDispatch } from 'react-redux';
+import useHandlePause from '../hooks/useHandlePause';
 
 const BottomBar = () => {
   const navigation = useNavigation();
@@ -22,8 +21,7 @@ const BottomBar = () => {
 
   const isUrlLoading = false;
 
-  // const { handlePause } = useSoundPlayer();
-  const dispatch = useDispatch();
+  const handlePause = useHandlePause();
 
   return (
     currentSong && (
@@ -57,7 +55,7 @@ const BottomBar = () => {
             name={isPlaying ? 'pause-circle-filled' : 'play-circle-fill'}
             color={isUrlLoading ? 'grey' : 'green'}
             size={45}
-            onPress={() => dispatch(setIsPlaying(true))}
+            onPress={handlePause}
           />
 
           <MaterialIcons

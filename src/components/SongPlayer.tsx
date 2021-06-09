@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import SoundPlayer from 'react-native-sound-player';
-import { useAppDispatch, useAppSelector } from '../hooks/customReduxHooks';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../hooks/customReduxHooks';
 import useSongPlayActions from '../hooks/useSongPlayActions';
 import { setIsPlaying } from '../redux/actions/songActions';
 
 const SongPlayer = () => {
   const currentSong = useAppSelector(state => state.songReducer.currentSong);
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const { playNextSong } = useSongPlayActions();
 
   useEffect(() => {
+    console.log(`rendering useEffect`);
     const songFinishedPlayingListener = SoundPlayer.addEventListener(
       'FinishedPlaying',
       () => {
@@ -31,7 +33,7 @@ const SongPlayer = () => {
       songFinishedLoadingListener.remove();
       SoundPlayer.stop();
     };
-  }, [dispatch]);
+  }, [dispatch, playNextSong]);
 
   useEffect(() => {
     if (currentSong?.url) {
