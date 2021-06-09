@@ -2,7 +2,6 @@ import React, { useMemo, useRef, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Switch } from 'react-native-paper';
-import { useTrackPlayerProgress } from 'react-native-track-player';
 import { Song } from '../types';
 
 const MAX_LYRICS_HEIGHT = 500;
@@ -22,7 +21,7 @@ const TimeStampedLyrics = React.forwardRef(
       <View style={{ marginBottom: 20 }}>
         {lyrics?.map(({ seconds, lyrics: lyric }, index) => {
           let color = position > seconds ? 'grey' : 'black';
-          let fontSize = 15;
+          let fontSize = 16;
           if (position >= seconds && position <= lyrics[index + 1]?.seconds) {
             color = 'red';
             // fontSize = 17;
@@ -53,7 +52,7 @@ const RegularLyrics = ({ lyrics }: { lyrics: string[] }) => {
   return (
     <View>
       {lyrics?.map((line, index) => (
-        <Text style={{ fontSize: 15 }} key={index}>
+        <Text style={{ fontSize: 16 }} key={index}>
           {line}
         </Text>
       ))}

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Menu } from 'react-native-paper';
-import TrackPlayer from 'react-native-track-player';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { globalStyles } from '../global/globalStyles';
-import { addToQueue, formatSeconds } from '../global/utils';
+import { formatSeconds } from '../global/utils';
 import { Song } from '../types';
 
 interface Props {

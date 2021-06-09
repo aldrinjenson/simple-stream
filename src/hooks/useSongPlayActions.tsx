@@ -66,7 +66,9 @@ const useSongPlayActions = () => {
     dispatch(setSongQueue(array));
   }, [dispatch, songQueue]);
 
-  const addSongsToPlaylist = (songs: Song[]) => {};
+  const addSongsToPlaylist = useCallback((songs: Song[]) => {
+    console.log(songs);
+  }, []);
 
   return { playNextSong, playPreviousSong, shuffleQueue, addSongsToPlaylist };
 };

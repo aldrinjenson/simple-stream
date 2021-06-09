@@ -21,7 +21,7 @@ const BottomBar = () => {
 
   const isUrlLoading = false;
 
-  const handlePause = useHandlePause();
+  const { handlePause } = useHandlePause();
 
   return (
     currentSong && (

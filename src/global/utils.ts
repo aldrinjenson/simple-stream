@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Snackbar from 'react-native-snackbar';
-import TrackPlayer from 'react-native-track-player';
 import ytdl from 'react-native-ytdl';
 import { API_URL, LYRICS_API } from '../../config';
 import {
@@ -103,16 +102,16 @@ export const getRestOfSongProps = (item: Song) => {
 };
 
 export const addToQueue = async (songItem: Song) => {
-  const completeSong = await getRestOfSongProps(songItem);
-  const existingQ = await TrackPlayer.getQueue();
-  const isSongAlreadyPresent = existingQ.some(
-    el => el.videoId === songItem.videoId,
-  );
-  if (isSongAlreadyPresent) {
-    Snackbar.show({ text: 'Song already exists in queue' });
-  } else {
-    Snackbar.show({ text: 'Added to queue' });
-  }
+  // const completeSong = await getRestOfSongProps(songItem);
+  // const existingQ = await TrackPlayer.getQueue();
+  // const isSongAlreadyPresent = existingQ.some(
+  //   el => el.videoId === songItem.videoId,
+  // );
+  // if (isSongAlreadyPresent) {
+  //   Snackbar.show({ text: 'Song already exists in queue' });
+  // } else {
+  //   Snackbar.show({ text: 'Added to queue' });
+  // }
 };
 
 export const sentenceCase = (str: string): string => {
