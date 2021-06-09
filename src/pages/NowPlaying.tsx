@@ -16,7 +16,7 @@ import LyricsComponent from '../components/LyricsComponent';
 import { useAppSelector } from '../hooks/customReduxHooks';
 import { Song } from '../types';
 import SoundPlayer from 'react-native-sound-player';
-import useHandlePause from '../hooks/useHandlePause';
+// import useHandlePause from '../hooks/useHandlePause';
 import useSongPlayActions from '../hooks/useSongPlayActions';
 
 const { width } = Dimensions.get('window');
@@ -28,7 +28,7 @@ const NowPlaying = ({ navigation }) => {
   const isPlaying = useAppSelector(state => state.songReducer.isPlaying);
   const duration = currentSong?.duration / 1000;
   const [position, setPosition] = useState(0);
-  const handlePause = useHandlePause();
+  const handlePause = () => {};
   const { playNextSong, playPreviousSong } = useSongPlayActions();
   const isUrlLoading = false;
 

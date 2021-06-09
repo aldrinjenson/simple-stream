@@ -22,6 +22,7 @@
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-draggable-flatlist": "^2.6.2",
+    "react-native-dropdown-picker": "^5.1.20",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-music-control": "^1.4.0",
     "react-native-paper": "^4.8.1",

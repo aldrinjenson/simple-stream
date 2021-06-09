@@ -7,7 +7,7 @@ interface Props {
 }
 
 const SearchInput = ({ handleSearch }: Props) => {
-  const [searchQuery, setSearchQuery] = React.useState('halo beyonce');
+  const [searchQuery, setSearchQuery] = React.useState('Coldplay');
 
   const handleSubmit = () => {
     handleSearch(searchQuery);

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 
+import { useAppSelector } from '../hooks/customReduxHooks';
 import { globalStyles } from '../global/globalStyles';
 import DisplaySongs from '../components/DisplaySongs';
-import { useAppDispatch, useAppSelector } from '../hooks/customReduxHooks';
 import { Song } from '../types';
 import { playSong } from '../redux/actions/songActions';
 import SongListActions from '../components/SongListActions';
@@ -16,7 +17,7 @@ const SongQueue = () => {
   const isRelatedSongsLoading = useAppSelector(
     state => state.songReducer.isRelatedSongsLoading,
   );
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const handleClick = (item: Song) => {
     const index = queueSongs.indexOf(item);
