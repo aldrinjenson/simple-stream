@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "load": "react-native run-android && react-native start",
-    "android": "react-native run-android && scrcpy -S -w &",
+    "android": "react-native run-android && scrcpy -S -w",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
@@ -19,6 +19,7 @@
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
     "axios": "^0.21.1",
+    "intl": "^1.2.5",
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-draggable-flatlist": "^2.6.2",
@@ -38,7 +39,9 @@
     "react-native-ytdl": "^4.2.1",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "util": "^0.12.4",
+    "youtube-music-api": "^1.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

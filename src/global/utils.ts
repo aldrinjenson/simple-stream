@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Snackbar from 'react-native-snackbar';
 import ytdl from 'react-native-ytdl';
+import YoutubeMusicApi from 'youtube-music-api';
 import { API_URL, LYRICS_API } from '../../config';
 import {
   GET_RELATED_SONGS_START,
@@ -139,13 +140,37 @@ export const getSongFromIds = async (songIds: string[]) => {
   return videoDetails;
 };
 
+const getNext = async (id: string) => {
+  return new Promise(async resolve => {
+    const api = new YoutubeMusicApi();
+    try {
+      api
+        .initalize()
+        .then(async () => {
+          const suggestions = await api.getNext(id);
+          const videoIds = suggestions.content.map(
+            (suggestion: { videoId: string }) => suggestion.videoId,
+          );
+          resolve(videoIds);
+        })
+        .catch((err: Error) => {
+          console.log('Error in initializing api: ' + err);
+        });
+    } catch (error) {
+      Snackbar.show({
+        text:
+          'There seems to be some issues with the network. Please try after some time',
+      });
+      console.log('error in getting suggestions ' + error);
+    }
+  });
+};
+
 export const getSuggestedSongsList = (id: string) => {
   return (dispatch: (arg0: { type: string; payload: null }) => void) => {
     dispatch(apiDispatch(GET_RELATED_SONGS_START));
-    axios
-      .get(`${API_URL}/suggested/${id}`)
-      .then(res => {
-        const songIds = res.data;
+    getNext(id)
+      .then(songIds => {
         getSongFromIds(songIds).then((songs: FullSongProps[]) =>
           dispatch(
             apiDispatch(GET_RELATED_SONGS_SUCCESS, convertSongFormat(songs)),
