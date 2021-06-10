@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import NowPlaying from './pages/NowPlaying';
 import LibraryPage from './pages/LibraryPage';
@@ -23,19 +22,6 @@ const HomeTabs = () => (
   <View style={{ flex: 1 }}>
     <Tab.Navigator>
       <Tab.Screen
-        name="Playlists"
-        component={LibraryPage}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <MaterialIcons
-              color={focused ? '#2f95dc' : '#000'}
-              name="library-music"
-              size={23}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="SearchPage"
         component={SearchPage}
         options={{
@@ -44,6 +30,19 @@ const HomeTabs = () => (
             <MaterialIcons
               color={focused ? '#2f95dc' : '#000'}
               name="search"
+              size={23}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Playlists"
+        component={LibraryPage}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <MaterialIcons
+              color={focused ? '#2f95dc' : '#000'}
+              name="library-music"
               size={23}
             />
           ),

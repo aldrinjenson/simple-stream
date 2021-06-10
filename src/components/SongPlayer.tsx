@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { View } from 'react-native';
-import SoundPlayer from 'react-native-sound-player';
+import SoundPlayer, { SoundPlayerEventData } from 'react-native-sound-player';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../hooks/customReduxHooks';
 import useSongPlayActions from '../hooks/useSongPlayActions';
@@ -10,36 +10,42 @@ const SongPlayer = () => {
   const currentSong = useAppSelector(state => state.songReducer.currentSong);
   const dispatch = useDispatch();
   const { playNextSong } = useSongPlayActions();
+  const nextSongFunc = useRef(playNextSong);
 
   useEffect(() => {
-    console.log('rendering useEffect');
-    const songFinishedPlayingListener = SoundPlayer.addEventListener(
-      'FinishedPlaying',
-      () => {
-        console.log('finished playing song');
-        dispatch(setIsPlaying(false));
-        playNextSong();
-      },
-    );
-    const songFinishedLoadingListener = SoundPlayer.addEventListener(
-      'FinishedLoadingURL',
-      () => {
-        SoundPlayer.play();
-        dispatch(setIsPlaying(true));
-      },
-    );
-    return () => {
-      songFinishedPlayingListener.remove();
-      songFinishedLoadingListener.remove();
-      SoundPlayer.stop();
-    };
-  }, [dispatch, playNextSong]);
+    nextSongFunc.current = playNextSong;
+  }, [playNextSong]);
 
   useEffect(() => {
     if (currentSong?.url) {
       SoundPlayer.loadUrl(currentSong.url);
     }
   }, [currentSong]);
+
+  useEffect(() => {
+    console.log('rendering useEffect');
+    const _onFinishedPlayingSubscription = SoundPlayer.addEventListener(
+      'FinishedPlaying',
+      () => {
+        console.log('finished playing song');
+        dispatch(setIsPlaying(false));
+        nextSongFunc.current();
+      },
+    );
+    const _onFinishedLoadingSubscription = SoundPlayer.addEventListener(
+      'FinishedLoadingURL',
+      () => {
+        console.log('finished loading url');
+        SoundPlayer.play();
+        dispatch(setIsPlaying(true));
+      },
+    );
+    return () => {
+      console.log('in useefect return');
+      _onFinishedPlayingSubscription.remove();
+      _onFinishedLoadingSubscription.remove();
+    };
+  }, [dispatch]);
 
   return <View />;
 };

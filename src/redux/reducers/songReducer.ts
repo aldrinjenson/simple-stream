@@ -20,8 +20,13 @@ const initialState: InitialState = {
   songQueue: [],
   isRelatedSongsLoading: false,
 };
+type Action = {
+  type: string;
+  payload: any;
+};
 
-const songReducer = (state = initialState, { type, payload }) => {
+const songReducer = (state = initialState, action: Action) => {
+  const { type, payload } = action;
   switch (type) {
     case SET_CURRENT_SONG:
       return { ...state, currentSong: payload };

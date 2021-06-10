@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import Snackbar from 'react-native-snackbar';
 import { useDispatch } from 'react-redux';
 import { playSong, setSongQueue } from '../redux/actions/songActions';
@@ -39,7 +39,7 @@ const useSongPlayActions = () => {
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) - 1;
     if (nextSongIndex < 0) {
       Snackbar.show({
-        text: 'Currently playing song is the first one in the queue',
+        text: 'Current song is the first one in the queue',
       });
     } else {
       const newSongObj = songQueue[nextSongIndex];
