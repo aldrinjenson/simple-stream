@@ -28,7 +28,7 @@ const NowPlaying = ({ navigation }) => {
   const isPlaying = useAppSelector(state => state.songReducer.isPlaying);
   const duration = currentSong?.duration / 1000;
   const [position, setPosition] = useState(0);
-  const handlePause = useHandlePause();
+  const { handlePause, handleSeek } = useHandlePause();
   const { playNextSong, playPreviousSong } = useSongPlayActions();
   const isUrlLoading = false;
 
@@ -83,7 +83,7 @@ const NowPlaying = ({ navigation }) => {
                 minimumTrackTintColor="#FFFFFF"
                 maximumTrackTintColor="#000000"
                 value={position}
-                onValueChange={seconds => SoundPlayer.seek(seconds)}
+                onValueChange={seconds => handleSeek(seconds)}
               />
             </View>
             <View

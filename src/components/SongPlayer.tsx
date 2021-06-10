@@ -12,7 +12,7 @@ const SongPlayer = () => {
   const { playNextSong } = useSongPlayActions();
 
   useEffect(() => {
-    console.log(`rendering useEffect`);
+    console.log('rendering useEffect');
     const songFinishedPlayingListener = SoundPlayer.addEventListener(
       'FinishedPlaying',
       () => {
