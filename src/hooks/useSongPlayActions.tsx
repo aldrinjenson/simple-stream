@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef } from 'react';
-import Snackbar from 'react-native-snackbar';
+import { useCallback } from 'react';
+import Toast from 'react-native-simple-toast';
 import { useDispatch } from 'react-redux';
 import { playSong, setSongQueue } from '../redux/actions/songActions';
 import { Song } from '../types';
@@ -26,9 +26,7 @@ const useSongPlayActions = () => {
   const playNextSong = useCallback(() => {
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) + 1;
     if (nextSongIndex >= songQueue.length - 1) {
-      Snackbar.show({
-        text: 'Currently playing song is the last one in the queue',
-      });
+      Toast.show('Currently playing song is the last one in the queue');
     } else {
       const newSongObj: Song = songQueue[nextSongIndex];
       dispatch(playSong(newSongObj));
@@ -38,9 +36,7 @@ const useSongPlayActions = () => {
   const playPreviousSong = useCallback(() => {
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) - 1;
     if (nextSongIndex < 0) {
-      Snackbar.show({
-        text: 'Current song is the first one in the queue',
-      });
+      Toast.show('Current song is the first one in the queue');
     } else {
       const newSongObj = songQueue[nextSongIndex];
       dispatch(playSong(newSongObj));
@@ -60,9 +56,7 @@ const useSongPlayActions = () => {
         array[currentIndex],
       ];
     }
-    Snackbar.show({
-      text: 'Shuffling queue',
-    });
+    Toast.show('Shuffling queue');
     dispatch(setSongQueue(array));
   }, [dispatch, songQueue]);
 

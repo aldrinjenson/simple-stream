@@ -1,7 +1,7 @@
 import axios from 'axios';
-import Snackbar from 'react-native-snackbar';
 import ytdl from 'react-native-ytdl';
 import YoutubeMusicApi from 'youtube-music-api';
+import Toast from 'react-native-simple-toast';
 import { API_URL, LYRICS_API } from '../../config';
 import {
   GET_RELATED_SONGS_START,
@@ -47,10 +47,9 @@ export const getUrlAndThumbs = (videoID: String) => {
       })
       .catch((err: Error) => {
         console.log('error in getting url!!', err);
-        Snackbar.show({
-          text:
-            'There seems to be some issues with the network. Please try after some time',
-        });
+        Toast.show(
+          'There seems to be some issues with the network. Please try after some time',
+        );
       });
   });
 };
@@ -93,10 +92,9 @@ export const getRestOfSongProps = (item: Song) => {
         resolve(obj);
       });
     } catch (error) {
-      Snackbar.show({
-        text:
-          'There seems to be some issues with the network. Please try after some time',
-      });
+      Toast(
+        'There seems to be some issues with the network. Please try after some time',
+      );
       console.log('error in getting song extra data ' + error);
     }
   });
@@ -157,10 +155,9 @@ const getNext = async (id: string) => {
           console.log('Error in initializing api: ' + err);
         });
     } catch (error) {
-      Snackbar.show({
-        text:
-          'There seems to be some issues with the network. Please try after some time',
-      });
+      Toast.show(
+        'There seems to be some issues with the network. Please try after some time',
+      );
       console.log('error in getting suggestions ' + error);
     }
   });
