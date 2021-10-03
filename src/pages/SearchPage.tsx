@@ -1,30 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
 import { globalStyles } from '../global/globalStyles';
 import DisplaySongs from '../components/DisplaySongs';
-import { songData } from '../components/data';
+import songData from '../components/data';
 import SearchInput from '../components/SearchInput';
-import axios from 'axios';
-import { API_URL } from '../../config';
 import { Song } from '../types';
 import { getSuggestedSongsList } from '../global/utils';
 import { playSong } from '../redux/actions/songActions';
 import { useDispatch } from 'react-redux';
+import YoutubeMusicApi from 'youtube-music-api';
+const api = new YoutubeMusicApi();
 
 const SearchPage = () => {
   const [searchResults, setSearchResults] = useState<Song[]>(songData);
   const dispatch = useDispatch<any>();
 
-  const handleSearch = (query: string) => {
-    axios
-      .get(`${API_URL}/search/${query}`)
-      .then(res => {
-        setSearchResults(res.data);
-      })
-      .catch(err => {
-        console.log(`error in searching: ${err}`);
-      });
+  useEffect(() => {
+    api.initalize().then(() => console.log('Api initalized'));
+  }, []);
+
+  const handleSearch = async (query: string) => {
+    try {
+      const { content: songs } = await api.search(query, 'song');
+      console.log(songs);
+      setSearchResults(songs);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleClick = (item: Song) => {

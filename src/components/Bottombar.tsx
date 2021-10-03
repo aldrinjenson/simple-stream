@@ -59,7 +59,7 @@ const BottomBar = () => {
           />
 
           <MaterialIcons
-            onPress={playNextSong}
+            onPress={() => playNextSong()}
             name="skip-next"
             size={45}
             color="white"

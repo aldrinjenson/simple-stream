@@ -115,7 +115,7 @@ const NowPlaying = ({ navigation }) => {
               />
 
               <MaterialIcons
-                onPress={playNextSong}
+                onPress={() => playNextSong()}
                 name="skip-next"
                 size={70}
                 color={isUrlLoading ? 'grey' : 'black'}

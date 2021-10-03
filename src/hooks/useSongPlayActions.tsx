@@ -23,7 +23,8 @@ const useSongPlayActions = () => {
   );
   const dispatch = useDispatch();
 
-  const playNextSong = useCallback(() => {
+  const playNextSong = () => {
+    console.log('inside function');
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) + 1;
     if (nextSongIndex >= songQueue.length - 1) {
       Toast.show('Currently playing song is the last one in the queue');
@@ -31,7 +32,7 @@ const useSongPlayActions = () => {
       const newSongObj: Song = songQueue[nextSongIndex];
       dispatch(playSong(newSongObj));
     }
-  }, [currentSong, dispatch, songQueue]);
+  };
 
   const playPreviousSong = useCallback(() => {
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) - 1;

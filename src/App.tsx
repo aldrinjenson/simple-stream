@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import SongPlayer from './components/SongPlayer';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -21,15 +21,24 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: 'tomato',
+    accent: 'yellow',
+  },
+};
+
 export default function App() {
   return (
-    <PaperProvider>
-      <Provider store={store}>
+    <Provider store={store}>
+      <PaperProvider theme={theme}>
         <NavigationContainer>
           <AppNavigator />
         </NavigationContainer>
         <SongPlayer />
-      </Provider>
-    </PaperProvider>
+      </PaperProvider>
+    </Provider>
   );
 }

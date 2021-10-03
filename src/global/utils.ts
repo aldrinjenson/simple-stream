@@ -62,11 +62,13 @@ export const getLyrics = async (item: Song) => {
   const artist = item.artist.name;
   const title = item.name;
   return new Promise((resolve, reject) => {
-    const lyricUrl = `${LYRICS_API}${title} ${artist}`;
+    // const lyricUrl = `${LYRICS_API}${title} ${artist}`;
+    const lyricUrl = `${API_URL}/lyrics/?artist=${artist}&title=${title}`;
     axios
       .get(lyricUrl)
       .then(({ data }) => {
-        resolve({ lyrics: data, timeStamped: true });
+        // resolve({ lyrics: data, timeStamped: true });
+        resolve({ lyrics: data, timeStamped: false });
       })
       .catch(async () => {
         const url = `${API_URL}/lyrics/?artist=${artist}&title=${title}`;
@@ -92,7 +94,7 @@ export const getRestOfSongProps = (item: Song) => {
         resolve(obj);
       });
     } catch (error) {
-      Toast(
+      Toast.show(
         'There seems to be some issues with the network. Please try after some time',
       );
       console.log('error in getting song extra data ' + error);
@@ -101,6 +103,7 @@ export const getRestOfSongProps = (item: Song) => {
 };
 
 export const addToQueue = async (songItem: Song) => {
+  console.log(songItem);
   // const completeSong = await getRestOfSongProps(songItem);
   // const existingQ = await TrackPlayer.getQueue();
   // const isSongAlreadyPresent = existingQ.some(

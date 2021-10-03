@@ -1,3 +1,4 @@
+import Toast from 'react-native-simple-toast';
 import { SET_CURRENT_SONG, SET_IS_PLAYING, SET_SONG_QUEUE } from '../constants';
 import { AppThunk, Song } from '../../types';
 import { getRestOfSongProps } from '../../global/utils';
@@ -5,6 +6,7 @@ import { Action, ActionCreator } from 'redux';
 
 export const playSong = (songItem: Song): AppThunk => {
   return dispatch => {
+    Toast.show('Loading song..');
     getRestOfSongProps(songItem)
       .then(completeSong => {
         dispatch({

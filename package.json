@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "load": "react-native run-android && react-native start",
-    "android": "react-native run-android && scrcpy -S -w",
+    "android": "react-native run-android",
+    "dev": "react-native run-android && scrcpy -S -w",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
