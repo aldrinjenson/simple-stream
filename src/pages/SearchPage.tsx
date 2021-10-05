@@ -23,7 +23,6 @@ const SearchPage = () => {
   const handleSearch = async (query: string) => {
     try {
       const { content: songs } = await api.search(query, 'song');
-      console.log(songs);
       setSearchResults(songs);
     } catch (error) {
       console.error(error);

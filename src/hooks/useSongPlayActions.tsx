@@ -24,7 +24,6 @@ const useSongPlayActions = () => {
   const dispatch = useDispatch();
 
   const playNextSong = () => {
-    console.log('inside function');
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) + 1;
     if (nextSongIndex >= songQueue.length - 1) {
       Toast.show('Currently playing song is the last one in the queue');

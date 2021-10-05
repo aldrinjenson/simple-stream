@@ -1,6 +1,7 @@
 export const SET_CURRENT_SONG: string = 'SET_CURRENT_SONG';
 export const SET_IS_PLAYING: string = 'SET_IS_PLAYING';
 export const SET_SONG_QUEUE: string = 'SET_SONG_QUEUE';
+export const SET_SEEK_POSITION: string = 'SET_SEEK_POSITION';
 
 export const GET_RELATED_SONGS_START: string = 'GET_RELATED_SONGS_START';
 export const GET_RELATED_SONGS_SUCCESS: string = 'GET_RELATED_SONGS_SUCCESS';

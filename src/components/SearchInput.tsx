@@ -11,7 +11,6 @@ const SearchInput = ({ handleSearch }: Props) => {
 
   const handleSubmit = () => {
     handleSearch(searchQuery);
-    setSearchQuery('');
   };
 
   return (

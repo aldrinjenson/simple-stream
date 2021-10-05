@@ -4,6 +4,7 @@ import {
   GET_RELATED_SONGS_SUCCESS,
   SET_CURRENT_SONG,
   SET_IS_PLAYING,
+  SET_SEEK_POSITION,
   SET_SONG_QUEUE,
 } from '../constants';
 interface InitialState {
@@ -12,6 +13,7 @@ interface InitialState {
   currentSongStatus: any;
   songQueue: Song[];
   isRelatedSongsLoading: boolean;
+  seekPosition: 0;
 }
 const initialState: InitialState = {
   isPlaying: false,
@@ -19,6 +21,7 @@ const initialState: InitialState = {
   currentSongStatus: {},
   songQueue: [],
   isRelatedSongsLoading: false,
+  seekPosition: 0,
 };
 type Action = {
   type: string;
@@ -48,6 +51,11 @@ const songReducer = (state = initialState, action: Action) => {
         ...state,
         songQueue: [...payload], // to skip shallow comparison for allow re-renders
         isRelatedSongsLoading: false,
+      };
+    case SET_SEEK_POSITION:
+      return {
+        ...state,
+        seekPosition: payload,
       };
     default:
       return state;
