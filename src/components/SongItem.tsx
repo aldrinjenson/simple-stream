@@ -1,37 +1,68 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Menu } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import Toast from 'react-native-simple-toast';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { globalStyles } from '../global/globalStyles';
 import { formatSeconds } from '../global/utils';
 import { Song } from '../types';
+import { useAppSelector } from '../hooks/customReduxHooks';
+import { setSongQueue } from '../redux/actions/songActions';
 
 interface Props {
   item: Song;
   handleClick: (item: Song) => void;
-  shouldHighLight?: boolean;
-  fromQueue?: boolean;
 }
 
 const SongItem = (props: Props) => {
-  const {
-    item,
-    handleClick,
-    shouldHighLight = false,
-    fromQueue = false,
-  } = props;
+  const songQueue = useAppSelector(state => state.queueReducer.songQueue);
+  const currentSong = useAppSelector(state => state.songReducer.currentSong);
+  const { item, handleClick } = props;
   const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
-  const handleAddorRemoveToQueue = (item: Song) => {
-    console.log('add or removed from/to queue');
+  const isInQueue = songQueue.includes(item);
+  const isCurrentSong = currentSong?.videoId === item.videoId;
+
+  const handleAddorRemoveToQueue = () => {
+    setIsMenuVisible(false);
+    let updatedSongQueue;
+    if (!isInQueue) {
+      updatedSongQueue = [...songQueue, item];
+      Toast.show('Adding to queue');
+    } else {
+      updatedSongQueue = songQueue.filter(
+        song => song.videoId !== item.videoId,
+      );
+      Toast.show('Removing from queue');
+    }
+    dispatch(setSongQueue(updatedSongQueue));
   };
+
+  const makeSongPlayNext = () => {
+    let updatedSongQueue = [];
+    for (const song of songQueue) {
+      if (song.videoId === item.videoId) {
+        continue;
+      }
+      updatedSongQueue.push(song);
+      if (song.videoId === currentSong.videoId) {
+        updatedSongQueue.push(item);
+      }
+    }
+    setIsMenuVisible(false);
+    Toast.show('Updating queue');
+    dispatch(setSongQueue(updatedSongQueue));
+  };
+
   return (
     <View
       style={{
         ...styles.horizonatalCard,
-        backgroundColor: shouldHighLight ? 'grey' : 'transparent',
+        backgroundColor: isCurrentSong ? 'grey' : 'transparent',
       }}>
       <MaterialIcons name="reorder" size={15} style={{ paddingRight: 2 }} />
       <TouchableOpacity
@@ -69,10 +100,12 @@ const SongItem = (props: Props) => {
             />
           }>
           <Menu.Item
-            onPress={() => handleAddorRemoveToQueue(item)}
-            title={`${fromQueue ? 'Remove from' : 'Add to'} queue`}
+            onPress={() => handleAddorRemoveToQueue()}
+            title={`${isInQueue ? 'Remove from' : 'Add to'} queue`}
           />
-          <Menu.Item onPress={() => {}} title="Play next" />
+          {!isCurrentSong && (
+            <Menu.Item onPress={makeSongPlayNext} title="Play next" />
+          )}
           <Menu.Item onPress={() => {}} title="Download" />
         </Menu>
         <MaterialCommunityIcons

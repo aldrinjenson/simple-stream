@@ -33,11 +33,7 @@ const SongQueue = () => {
       ) : (
         <>
           <SongListActions />
-          <DisplaySongs
-            songs={queueSongs}
-            fromQueue={true}
-            handleClick={handleClick}
-          />
+          <DisplaySongs songs={queueSongs} handleClick={handleClick} />
         </>
       )}
     </View>

@@ -9,7 +9,6 @@ const useHandlePause = () => {
   const dispatch = useDispatch();
 
   const handlePause = useCallback(() => {
-    console.log('rendering');
     if (isPlaying) {
       SoundPlayer.pause();
       dispatch(setIsPlaying(false));
