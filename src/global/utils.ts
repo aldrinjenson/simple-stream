@@ -2,12 +2,10 @@ import axios from 'axios';
 import ytdl from 'react-native-ytdl';
 import YoutubeMusicApi from 'youtube-music-api';
 import Toast from 'react-native-simple-toast';
-import { API_URL, LYRICS_API } from '../../config';
-import {
-  GET_RELATED_SONGS_START,
-  GET_RELATED_SONGS_SUCCESS,
-} from '../redux/constants';
+import { API_URL } from '../../config';
+import { SONG_QUEUE_LOADING_START } from '../redux/constants/queueConstants';
 import { Song, FullSongProps } from '../types';
+import { setSongQueue } from '../redux/actions/songActions';
 
 export const apiDispatch = (actionType: string = '', data: any = null) => {
   return {
@@ -115,7 +113,6 @@ export const addToQueue = async (songItem: Song) => {
   //   Snackbar.show({ text: 'Added to queue' });
   // }
 };
-
 export const sentenceCase = (str: string): string => {
   const firstLetter = str[0].toUpperCase();
   return firstLetter + str.slice(1);
@@ -167,15 +164,13 @@ const getNext = async (id: string) => {
 };
 
 export const getSuggestedSongsList = (id: string) => {
-  return (dispatch: (arg0: { type: string; payload: null }) => void) => {
-    dispatch(apiDispatch(GET_RELATED_SONGS_START));
+  return (dispatch: (x: any) => void) => {
+    dispatch(apiDispatch(SONG_QUEUE_LOADING_START));
     getNext(id)
       .then(songIds => {
-        getSongFromIds(songIds).then((songs: FullSongProps[]) =>
-          dispatch(
-            apiDispatch(GET_RELATED_SONGS_SUCCESS, convertSongFormat(songs)),
-          ),
-        );
+        getSongFromIds(songIds).then((songs: FullSongProps[]) => {
+          dispatch(setSongQueue(convertSongFormat(songs)));
+        });
       })
       .catch(err => {
         console.log('error in getting related songs: ' + err);

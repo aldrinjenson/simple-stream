@@ -12,7 +12,7 @@ import SongListActions from '../components/SongListActions';
 
 const SongQueue = () => {
   const queueSongs = useAppSelector<Song[]>(
-    state => state.songReducer.songQueue,
+    state => state.queueReducer.songQueue,
   );
   const isRelatedSongsLoading = useAppSelector(
     state => state.songReducer.isRelatedSongsLoading,

@@ -16,7 +16,7 @@ const getCurrentSongIndex = (song: Song, songList: Song[]) => {
 
 const useSongPlayActions = () => {
   const songQueue = useAppSelector<Song[]>(
-    state => state.songReducer.songQueue,
+    state => state.queueReducer.songQueue,
   );
   const currentSong = useAppSelector<Song>(
     state => state.songReducer.currentSong,

@@ -20,17 +20,17 @@ const SongPlayer = () => {
           SoundPlayer.getInfo().then(info => {
             const { currentTime, duration } = info;
             dispatch(setSeekPosition(info.currentTime));
-            if (currentTime && duration - currentTime <= 0.5) {
+            if (currentTime && duration - currentTime <= 1) {
               playNextSong();
             }
           });
-        }, 750);
+        }, 1000);
       }
     }
     return () => {
       songPositionPoller && clearInterval(songPositionPoller);
     };
-  }, [currentSong, dispatch, playNextSong]);
+  }, [currentSong, dispatch]);
 
   useEffect(() => {
     const _onFinishedLoadingSubscription = SoundPlayer.addEventListener(
@@ -38,6 +38,7 @@ const SongPlayer = () => {
       () => {
         SoundPlayer.play();
         dispatch(setIsPlaying(true));
+        // dispatch(setSeekPosition(0));
       },
     );
     return () => {

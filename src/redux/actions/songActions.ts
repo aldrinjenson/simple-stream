@@ -1,13 +1,13 @@
 import Toast from 'react-native-simple-toast';
+import { Action, ActionCreator } from 'redux';
 import {
   SET_CURRENT_SONG,
   SET_IS_PLAYING,
   SET_SEEK_POSITION,
-  SET_SONG_QUEUE,
-} from '../constants';
+} from '../constants/songConstants';
+import { SET_SONG_QUEUE } from '../constants/queueConstants';
 import { AppThunk, Song } from '../../types';
 import { getRestOfSongProps } from '../../global/utils';
-import { Action, ActionCreator } from 'redux';
 
 export const playSong = (songItem: Song): AppThunk => {
   return dispatch => {
