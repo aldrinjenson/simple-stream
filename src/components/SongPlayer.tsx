@@ -16,13 +16,20 @@ const SongPlayer = () => {
     if (currentSong?.url) {
       SoundPlayer.loadUrl(currentSong.url);
       if (!songPositionPoller) {
+        let isInfoCbReceivedMutex = true;
         songPositionPoller = setInterval(() => {
+          if (!isInfoCbReceivedMutex) {
+            return;
+          }
+          isInfoCbReceivedMutex = false; // set mutex false on entry
           SoundPlayer.getInfo().then(info => {
+            isInfoCbReceivedMutex = true;
             const { currentTime, duration } = info;
             dispatch(setSeekPosition(info.currentTime));
             if (currentTime && duration - currentTime <= 1) {
               playNextSong();
             }
+            isInfoCbReceivedMutex = true; // unlock mutex
           });
         }, 1000);
       }
@@ -38,7 +45,6 @@ const SongPlayer = () => {
       () => {
         SoundPlayer.play();
         dispatch(setIsPlaying(true));
-        // dispatch(setSeekPosition(0));
       },
     );
     return () => {
