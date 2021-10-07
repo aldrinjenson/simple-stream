@@ -44,10 +44,11 @@ const useSongPlayActions = () => {
   }, [currentSong, dispatch, songQueue]);
 
   const shuffleQueue = useCallback(() => {
+    Toast.show('Shuffling queue');
+
     let array = songQueue;
     let currentIndex = array.length,
       randomIndex;
-
     while (currentIndex) {
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex--;
@@ -56,7 +57,6 @@ const useSongPlayActions = () => {
         array[currentIndex],
       ];
     }
-    Toast.show('Shuffling queue');
     dispatch(setSongQueue(array));
   }, [dispatch, songQueue]);
 

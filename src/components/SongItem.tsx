@@ -71,7 +71,7 @@ const SongItem = (props: Props) => {
           flexGrow: 1,
           maxWidth: '88%',
         }}
-        onPress={() => handleClick(item)}>
+        onPress={() => !isCurrentSong && handleClick(item)}>
         <Image
           style={styles.thumbnail}
           source={{ uri: item.thumbnails[0].url }}

@@ -13,6 +13,7 @@ import { View } from 'react-native';
 import BottomBar from './components/Bottombar';
 import SearchPage from './pages/SearchPage';
 import SongQueue from './pages/SongQueue';
+import PlaylistsPage from './pages/PlaylistsPage';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -22,6 +23,19 @@ const HomeTabs = () => (
   <View style={{ flex: 1 }}>
     <Tab.Navigator>
       <Tab.Screen
+        name="Playlists"
+        component={PlaylistsPage}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <MaterialIcons
+              color={focused ? '#2f95dc' : '#000'}
+              name="library-music"
+              size={23}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="SearchPage"
         component={SearchPage}
         options={{
@@ -30,19 +44,6 @@ const HomeTabs = () => (
             <MaterialIcons
               color={focused ? '#2f95dc' : '#000'}
               name="search"
-              size={23}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Playlists"
-        component={LibraryPage}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <MaterialIcons
-              color={focused ? '#2f95dc' : '#000'}
-              name="library-music"
               size={23}
             />
           ),

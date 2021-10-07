@@ -19,6 +19,7 @@
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
     "axios": "^0.21.1",
+    "buffer": "^6.0.3",
     "intl": "^1.2.5",
     "react": "17.0.1",
     "react-native": "0.64.0",

@@ -100,19 +100,6 @@ export const getRestOfSongProps = (item: Song) => {
   });
 };
 
-export const addToQueue = async (songItem: Song) => {
-  console.log(songItem);
-  // const completeSong = await getRestOfSongProps(songItem);
-  // const existingQ = await TrackPlayer.getQueue();
-  // const isSongAlreadyPresent = existingQ.some(
-  //   el => el.videoId === songItem.videoId,
-  // );
-  // if (isSongAlreadyPresent) {
-  //   Snackbar.show({ text: 'Song already exists in queue' });
-  // } else {
-  //   Snackbar.show({ text: 'Added to queue' });
-  // }
-};
 export const sentenceCase = (str: string): string => {
   const firstLetter = str[0].toUpperCase();
   return firstLetter + str.slice(1);
@@ -167,11 +154,11 @@ export const getSuggestedSongsList = (id: string) => {
   return (dispatch: (x: any) => void) => {
     dispatch(apiDispatch(SONG_QUEUE_LOADING_START));
     getNext(id)
-      .then(songIds => {
+      .then(songIds =>
         getSongFromIds(songIds).then((songs: FullSongProps[]) => {
           dispatch(setSongQueue(convertSongFormat(songs)));
-        });
-      })
+        }),
+      )
       .catch(err => {
         console.log('error in getting related songs: ' + err);
       });
