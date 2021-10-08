@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 
 import { globalStyles } from '../global/globalStyles';
 import DisplaySongs from '../components/DisplaySongs';
-import songData from '../components/data';
+import songData from '../data';
 import SearchInput from '../components/SearchInput';
 import { Song } from '../types';
 import { getSuggestedSongsList } from '../global/utils';

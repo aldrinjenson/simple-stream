@@ -9,6 +9,11 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   AnyAction
 >;
 
+export type Action = {
+  type: string;
+  payload: any;
+};
+
 export type Lyric = string[] | { seconds: number; lyrics: string }[];
 
 export type thumbnail = { url: string; width: number; height: number };
@@ -33,4 +38,12 @@ export type FullSongProps = {
   lengthSeconds: number;
   author?: { name: string; browseId: string };
   videoId: string;
+};
+
+export type Playlist = {
+  title: string;
+  canBeDeleted: boolean;
+  createdAt: number;
+  songs: Song[];
+  id: number;
 };

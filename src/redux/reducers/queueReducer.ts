@@ -1,4 +1,4 @@
-import { Song } from '../../types';
+import { Action, Song } from '../../types';
 import {
   SONG_QUEUE_LOADING_START,
   SET_SONG_QUEUE,
@@ -12,11 +12,6 @@ interface InitialState {
 const initialState: InitialState = {
   songQueue: [],
   isRelatedSongsLoading: false,
-};
-
-type Action = {
-  type: string;
-  payload: any;
 };
 
 const queueReducer = (state = initialState, action: Action) => {

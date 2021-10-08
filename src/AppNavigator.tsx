@@ -14,6 +14,7 @@ import BottomBar from './components/Bottombar';
 import SearchPage from './pages/SearchPage';
 import SongQueue from './pages/SongQueue';
 import PlaylistsPage from './pages/PlaylistsPage';
+import PlaylistSongsPage from './pages/PlaylistSongsPage';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -80,6 +81,11 @@ const AppNavigator = () => {
       <Stack.Screen
         name="SongQueue"
         component={SongQueue}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="PlaylistSongsPage"
+        component={PlaylistSongsPage}
         options={{ headerShown: true }}
       />
     </Stack.Navigator>

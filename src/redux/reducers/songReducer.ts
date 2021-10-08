@@ -1,4 +1,4 @@
-import { Song } from '../../types';
+import { Song, Action } from '../../types';
 import {
   SET_CURRENT_SONG,
   SET_IS_PLAYING,
@@ -15,10 +15,6 @@ const initialState: InitialState = {
   currentSong: null,
   isRelatedSongsLoading: false,
   seekPosition: 0,
-};
-type Action = {
-  type: string;
-  payload: any;
 };
 
 const songReducer = (state = initialState, action: Action) => {
