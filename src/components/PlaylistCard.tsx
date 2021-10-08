@@ -10,13 +10,15 @@ interface Props {
 }
 
 const PlaylistCard = ({ playlist }: Props) => {
-  const { title, songs } = playlist;
+  const { title, songs, id } = playlist;
   const navigation = useNavigation();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   return (
     <View style={{ marginBottom: 20 }}>
       <Card
-        onPress={() => navigation.navigate('PlaylistSongsPage', { playlist })}>
+        onPress={() =>
+          navigation.navigate('PlaylistSongsPage', { playlistId: id })
+        }>
         <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
         <Card.Content>
           <View

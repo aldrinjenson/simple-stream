@@ -8,22 +8,24 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { globalStyles } from '../global/globalStyles';
 import { formatSeconds } from '../global/utils';
-import { Song } from '../types';
+import { MenuItem, Song } from '../types';
 import { useAppSelector } from '../hooks/customReduxHooks';
 import { setSongQueue } from '../redux/actions/songActions';
 
 interface Props {
   item: Song;
   handleClick: (item: Song) => void;
+  extraMenuItems?: MenuItem[];
 }
 
 const SongItem = (props: Props) => {
   const songQueue = useAppSelector(state => state.queueReducer.songQueue);
   const currentSong = useAppSelector(state => state.songReducer.currentSong);
-  const { item, handleClick } = props;
+  const { item, handleClick, extraMenuItems } = props;
   const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false);
   const dispatch = useDispatch();
 
+  const isQueueActive = songQueue.length;
   const isInQueue = songQueue.includes(item);
   const isCurrentSong = currentSong?.videoId === item.videoId;
 
@@ -56,6 +58,15 @@ const SongItem = (props: Props) => {
     setIsMenuVisible(false);
     Toast.show('Updating queue');
     dispatch(setSongQueue(updatedSongQueue));
+  };
+
+  const handleAddToPlaylist = () => {
+    console.log(item);
+  };
+
+  const handleExtraMenuItem = (func: (item: Song) => void) => () => {
+    setIsMenuVisible(false);
+    func(item);
   };
 
   return (
@@ -99,14 +110,27 @@ const SongItem = (props: Props) => {
               size={30}
             />
           }>
+          {isQueueActive ? (
+            <Menu.Item
+              onPress={() => handleAddorRemoveToQueue()}
+              title={`${isInQueue ? 'Remove from' : 'Add to'} queue`}
+            />
+          ) : null}
           <Menu.Item
-            onPress={() => handleAddorRemoveToQueue()}
-            title={`${isInQueue ? 'Remove from' : 'Add to'} queue`}
+            onPress={() => handleAddToPlaylist()}
+            title="Add to playlist"
           />
-          {!isCurrentSong && (
+          {!isCurrentSong && isQueueActive ? (
             <Menu.Item onPress={makeSongPlayNext} title="Play next" />
-          )}
+          ) : null}
           <Menu.Item onPress={() => {}} title="Download" />
+          {extraMenuItems?.map(({ text, func }) => (
+            <Menu.Item
+              key={text}
+              onPress={handleExtraMenuItem(func)}
+              title={text}
+            />
+          ))}
         </Menu>
         <MaterialCommunityIcons
           name={item.isFavourite ? 'heart' : 'heart-outline'}

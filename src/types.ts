@@ -47,3 +47,8 @@ export type Playlist = {
   songs: Song[];
   id: number;
 };
+
+export type MenuItem = {
+  text: string;
+  func: (s: Song) => void;
+};

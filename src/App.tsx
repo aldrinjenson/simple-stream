@@ -12,6 +12,8 @@ import AppNavigator from './AppNavigator';
 import { Provider } from 'react-redux';
 import rootReducer from './redux/reducers/rootReducer';
 
+LogBox.ignoreLogs(['react-native-ytdl is out of date!']);
+
 if (Platform.OS === 'android') {
   if (typeof (Intl as any).__disableRegExpRestore === 'function') {
     (Intl as any).__disableRegExpRestore();

@@ -1,5 +1,9 @@
+/* eslint-disable curly */
 import { Action, Playlist } from '../../types';
-import { ADD_TO_PLAYLIST } from '../constants/playlistConstants';
+import {
+  ADD_TO_PLAYLIST,
+  UPDATE_PLAYLIST,
+} from '../constants/playlistConstants';
 import songData from '../../data';
 
 interface InitialState {
@@ -20,7 +24,7 @@ const initialState: InitialState = {
       canBeDeleted: false,
       createdAt: new Date().getTime(),
       songs: songData,
-      id: new Date(1633594323826).getSeconds(),
+      id: 234,
     },
   ],
 };
@@ -31,6 +35,15 @@ const playlistReducer = (state = initialState, action: Action) => {
     case ADD_TO_PLAYLIST:
       return {
         ...state,
+      };
+    case UPDATE_PLAYLIST:
+      const updatedPlaylists = state.playlists.map(playlist => {
+        if (playlist.id === payload.id) return payload;
+        else return playlist;
+      });
+      return {
+        ...state,
+        playlists: updatedPlaylists,
       };
     default:
       return state;

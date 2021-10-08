@@ -1,18 +1,16 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import { useAppDispatch, useAppSelector } from '../hooks/customReduxHooks';
-import { setSongQueue } from '../redux/actions/songActions';
-import { Song } from '../types';
+import { MenuItem, Song } from '../types';
 import SongItem from './SongItem';
 
 interface Props {
   songs: Song[];
   handleClick: (item: Song) => void;
+  extraMenuItems?: MenuItem[];
 }
 
 const DisplaySongs = (props: Props) => {
-  const currentSong = useAppSelector(state => state.songReducer.currentSong);
-  const { songs, handleClick } = props;
+  const { songs, handleClick, extraMenuItems } = props;
 
   return (
     <View style={{ flex: 1 }}>
@@ -20,7 +18,11 @@ const DisplaySongs = (props: Props) => {
         data={songs}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <SongItem item={item} handleClick={handleClick} />
+          <SongItem
+            extraMenuItems={extraMenuItems}
+            item={item}
+            handleClick={handleClick}
+          />
         )}
       />
     </View>
