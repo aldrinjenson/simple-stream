@@ -1,7 +1,7 @@
 SearchPage.tsx
 SongQueue.tsx
 LibraryPage.tsx
-PlaylistsPage.tsx
+PlaylistsListPage.tsx
 NowPlaying.tsx
 SongsPage.tsx
 SettingsPage.tsx

@@ -13,7 +13,7 @@ import { View } from 'react-native';
 import BottomBar from './components/Bottombar';
 import SearchPage from './pages/SearchPage';
 import SongQueue from './pages/SongQueue';
-import PlaylistsPage from './pages/PlaylistsPage';
+import PlaylistsListPage from './pages/PlaylistsListPage';
 import PlaylistSongsPage from './pages/PlaylistSongsPage';
 
 const Tab = createBottomTabNavigator();
@@ -25,7 +25,7 @@ const HomeTabs = () => (
     <Tab.Navigator>
       <Tab.Screen
         name="Playlists"
-        component={PlaylistsPage}
+        component={PlaylistsListPage}
         options={{
           tabBarIcon: ({ focused }) => (
             <MaterialIcons

@@ -39,6 +39,7 @@ const NowPlaying = ({ navigation }) => {
   if (!currentSong.url) {
     return null;
   }
+  const toggleFavourite = () => {};
 
   return (
     <ScrollView ref={scrollRef} style={{ flex: 1 }} nestedScrollEnabled={true}>
@@ -87,9 +88,11 @@ const NowPlaying = ({ navigation }) => {
 
         <View style={styles.controlButtons}>
           <MaterialCommunityIcons
-            name={'repeat' || 'repeat-off' || 'repeat-once'}
+            // name={item.isFavourite ? 'heart' : 'heart-outline'}
+            name="heart-outline"
             size={30}
             color="black"
+            onPress={toggleFavourite}
           />
 
           <View style={{ flexDirection: 'row' }}>

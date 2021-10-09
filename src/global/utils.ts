@@ -57,7 +57,7 @@ export const getLyrics = async (item: Song) => {
     // lyrics already saved in db
     return item.lyrics;
   }
-  const artist = item.artist.name;
+  const artist = item.artist.name || '';
   const title = item.name;
   return new Promise((resolve, reject) => {
     // const lyricUrl = `${LYRICS_API}${title} ${artist}`;

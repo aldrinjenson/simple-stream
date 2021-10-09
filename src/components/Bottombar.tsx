@@ -18,10 +18,9 @@ const BottomBar = () => {
     state => state.songReducer.isPlaying,
   );
   const { playNextSong } = useSongPlayActions();
+  const { handlePause } = useHandlePause();
 
   const isUrlLoading = false;
-
-  const { handlePause } = useHandlePause();
 
   return (
     currentSong && (
@@ -31,6 +30,7 @@ const BottomBar = () => {
             flexDirection: 'row',
             alignItems: 'center',
             maxWidth: '80%',
+            backgroundColor: 'green',
           }}
           onPress={() => navigation.navigate('NowPlaying')}>
           <Image

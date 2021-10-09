@@ -11,6 +11,7 @@ import { formatSeconds } from '../global/utils';
 import { MenuItem, Song } from '../types';
 import { useAppSelector } from '../hooks/customReduxHooks';
 import { setSongQueue } from '../redux/actions/songActions';
+import PlaylistModal from './PlaylistModal';
 
 interface Props {
   item: Song;
@@ -23,6 +24,7 @@ const SongItem = (props: Props) => {
   const currentSong = useAppSelector(state => state.songReducer.currentSong);
   const { item, handleClick, extraMenuItems } = props;
   const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false);
+  const [playlistModalVisible, setPlaylistModalVisible] = useState(false);
   const dispatch = useDispatch();
 
   const isQueueActive = songQueue.length;
@@ -61,7 +63,8 @@ const SongItem = (props: Props) => {
   };
 
   const handleAddToPlaylist = () => {
-    console.log(item);
+    setIsMenuVisible(false);
+    setPlaylistModalVisible(true);
   };
 
   const handleExtraMenuItem = (func: (item: Song) => void) => () => {
@@ -75,6 +78,11 @@ const SongItem = (props: Props) => {
         ...styles.horizonatalCard,
         backgroundColor: isCurrentSong ? 'grey' : 'transparent',
       }}>
+      <PlaylistModal
+        visible={playlistModalVisible}
+        onDismiss={() => setPlaylistModalVisible(false)}
+        song={item}
+      />
       <MaterialIcons name="reorder" size={15} style={{ paddingRight: 2 }} />
       <TouchableOpacity
         style={{

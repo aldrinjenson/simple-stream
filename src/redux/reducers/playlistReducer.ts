@@ -2,6 +2,7 @@
 import { Action, Playlist } from '../../types';
 import {
   ADD_TO_PLAYLIST,
+  DELETE_PLAYLIST,
   UPDATE_PLAYLIST,
 } from '../constants/playlistConstants';
 import songData from '../../data';
@@ -44,6 +45,14 @@ const playlistReducer = (state = initialState, action: Action) => {
       return {
         ...state,
         playlists: updatedPlaylists,
+      };
+    case DELETE_PLAYLIST:
+      const updatedPlaylistList = state.playlists.filter(
+        playlist => playlist.id !== payload,
+      );
+      return {
+        ...state,
+        playlists: updatedPlaylistList,
       };
     default:
       return state;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Headline } from 'react-native-paper';
+import { Headline, Subheading } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import DisplaySongs from '../components/DisplaySongs';
-import { useAppDispatch, useAppSelector } from '../hooks/customReduxHooks';
+import { useAppSelector } from '../hooks/customReduxHooks';
 import { updatePlaylist } from '../redux/actions/playlistActions';
 import { playSong, setSongQueue } from '../redux/actions/songActions';
 import { MenuItem, Playlist, Song } from '../types';
@@ -24,7 +24,6 @@ const PlaylistSongsPage = ({ route }) => {
     dispatch(setSongQueue(playlist.songs));
   };
 
-  const addToPlaylist = () => {};
   const removeFromPlaylist = (item: Song) => {
     const updatedPlaylistSongs: Song[] = playlist.songs.filter(
       song => song.videoId !== item.videoId,
@@ -39,6 +38,7 @@ const PlaylistSongsPage = ({ route }) => {
   return (
     <View style={{ flex: 1 }}>
       <Headline>{title}</Headline>
+      <Subheading>{songs.length} songs</Subheading>
       <DisplaySongs
         extraMenuItems={menuItems}
         songs={songs}
