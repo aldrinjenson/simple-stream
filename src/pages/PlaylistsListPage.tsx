@@ -13,28 +13,22 @@ const PlaylistsListPage = (props: Props) => {
   const playlists = useAppSelector<Playlist[]>(
     state => state.playlistReducer.playlists,
   );
-
-  const favourites = useAppSelector<Playlist>(
-    state => state.playlistReducer.favourites,
-  );
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1 }}>
       <ScrollView>
         <Headline>Playlists</Headline>
-        <View style={{}}>
-          {[...playlists, favourites].map(playlist => (
-            <PlaylistItem
-              onPress={() =>
-                navigation.navigate('PlaylistSongsPage', {
-                  playlistId: playlist.id,
-                })
-              }
-              key={playlist.id}
-              playlist={playlist}
-            />
-          ))}
-        </View>
+        {playlists.map(playlist => (
+          <PlaylistItem
+            onPress={() =>
+              navigation.navigate('PlaylistSongsPage', {
+                playlistId: playlist.id,
+              })
+            }
+            key={playlist.id}
+            playlist={playlist}
+          />
+        ))}
       </ScrollView>
     </View>
   );

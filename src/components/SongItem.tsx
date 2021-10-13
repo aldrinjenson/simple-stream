@@ -10,8 +10,12 @@ import { globalStyles } from '../global/globalStyles';
 import { formatSeconds } from '../global/utils';
 import { MenuItem, Song } from '../types';
 import { useAppSelector } from '../hooks/customReduxHooks';
-import { setSongQueue } from '../redux/actions/songActions';
+import {
+  setSongQueue,
+  toggleFavouriteSong,
+} from '../redux/actions/songActions';
 import PlaylistModal from './PlaylistModal';
+import useIsFavourite from '../hooks/useIsFavourite';
 
 interface Props {
   item: Song;
@@ -26,6 +30,7 @@ const SongItem = (props: Props) => {
   const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false);
   const [playlistModalVisible, setPlaylistModalVisible] = useState(false);
   const dispatch = useDispatch();
+  const { isFavourite } = useIsFavourite(item);
 
   const isQueueActive = songQueue.length;
   const isInQueue = songQueue.includes(item);
@@ -33,7 +38,6 @@ const SongItem = (props: Props) => {
 
   // usecallback here
   const handleAddorRemoveToQueue = () => {
-    console.log('evaluating function');
     setIsMenuVisible(false);
     let updatedSongQueue;
     if (!isInQueue) {
@@ -144,10 +148,11 @@ const SongItem = (props: Props) => {
           ))}
         </Menu>
         <MaterialCommunityIcons
-          name={item.isFavourite ? 'heart' : 'heart-outline'}
+          name={isFavourite ? 'heart' : 'heart-outline'}
           size={20}
           color={'green'}
           style={{ paddingHorizontal: 5, paddingTop: 7 }}
+          onPress={() => dispatch(toggleFavouriteSong(item))}
         />
       </View>
     </View>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -19,6 +19,7 @@ import useHandlePause from '../hooks/useHandlePause';
 import useSongPlayActions from '../hooks/useSongPlayActions';
 import { useDispatch } from 'react-redux';
 import { toggleFavouriteSong } from '../redux/actions/songActions';
+import useIsFavourite from '../hooks/useIsFavourite';
 
 // try webscraping from this one to get timestamped lyrics
 // https://www.megalobiz.com/search/all?qry=hello+adele
@@ -32,9 +33,6 @@ const NowPlaying = ({ navigation }) => {
   const isPlaying = useAppSelector<Boolean>(
     state => state.songReducer.isPlaying,
   );
-  const favouriteSongs = useAppSelector<Song[]>(
-    state => state.playlistReducer.favourites.songs,
-  );
   const seekPosition = useAppSelector(state => state.songReducer.seekPosition);
   const duration = currentSong?.duration / 1000;
   const { handlePause, handleSeek } = useHandlePause();
@@ -43,17 +41,7 @@ const NowPlaying = ({ navigation }) => {
   const dispatch = useDispatch();
   const imageIndex = currentSong?.thumbnails?.length - 2;
   const isUrlLoading = false;
-  const [isFavourite, setIsFavourite] = useState(false);
-
-  useEffect(() => {
-    for (let i = 0; i < favouriteSongs.length; i++) {
-      if (favouriteSongs[i].id === currentSong.id) {
-        setIsFavourite(true);
-        return;
-      }
-    }
-    setIsFavourite(false);
-  }, [currentSong, favouriteSongs]);
+  const { isFavourite } = useIsFavourite(currentSong);
 
   if (!currentSong.url) {
     return null;

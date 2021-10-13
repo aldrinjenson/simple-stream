@@ -3,6 +3,7 @@ import { Action, Playlist } from '../../types';
 import {
   ADD_TO_PLAYLIST,
   DELETE_PLAYLIST,
+  FAVOURITE_ID,
   UPDATE_PLAYLIST,
 } from '../constants/playlistConstants';
 import songData from '../../data';
@@ -11,7 +12,6 @@ import { toggleSongFavouriteInList } from '../reduxUtils';
 
 interface InitialState {
   playlists: Playlist[];
-  favourites: Playlist;
 }
 
 const initialState: InitialState = {
@@ -23,14 +23,14 @@ const initialState: InitialState = {
       songs: songData,
       id: new Date().getTime(),
     },
+    {
+      title: 'Favourites',
+      canBeDeleted: false,
+      createdAt: new Date().getTime(),
+      songs: songData,
+      id: FAVOURITE_ID,
+    },
   ],
-  favourites: {
-    title: 'Favourites',
-    canBeDeleted: false,
-    createdAt: new Date().getTime(),
-    songs: songData,
-    id: new Date(1634114093543).getTime(),
-  },
 };
 
 const playlistReducer = (state = initialState, action: Action) => {
@@ -58,11 +58,11 @@ const playlistReducer = (state = initialState, action: Action) => {
         playlists: updatedPlaylistList,
       };
     case TOGGLE_SONG_FAVOURITE:
-      const udpatedFavourites = toggleSongFavouriteInList(
+      const updatedPlaylistObj = toggleSongFavouriteInList(
         payload,
-        state.favourites,
+        state.playlists,
       );
-      return { ...state, favourites: udpatedFavourites };
+      return { ...state, playlists: updatedPlaylistObj };
     default:
       return state;
   }
