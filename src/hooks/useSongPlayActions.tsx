@@ -23,12 +23,17 @@ const useSongPlayActions = () => {
   const currentSong = useAppSelector<Song>(
     state => state.songReducer.currentSong,
   );
+  const isSongLoading = useAppSelector<Song>(
+    state => state.songReducer.isSongLoading,
+  );
   const dispatch = useDispatch();
 
   const playNextSong = () => {
+    if (isSongLoading) {
+      return;
+    }
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) + 1;
-    if (nextSongIndex === songQueue.length - 1) {
-      console.log('last song. Hence stopping');
+    if (nextSongIndex >= songQueue.length) {
       Toast.show('Currently playing song is the last one in the queue');
       dispatch({
         type: SET_CURRENT_SONG,

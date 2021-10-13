@@ -37,7 +37,6 @@ const SongItem = (props: Props) => {
   const isInQueue = songQueue.includes(item);
   const isCurrentSong = currentSong?.videoId === item.videoId;
 
-  // usecallback here
   const handleAddorRemoveToQueue = () => {
     setIsMenuVisible(false);
     if (!songQueue?.length) {
@@ -57,7 +56,7 @@ const SongItem = (props: Props) => {
     }
     dispatch(setSongQueue(updatedSongQueue));
   };
-  // usecallback here
+
   const makeSongPlayNext = () => {
     let updatedSongQueue = [];
     for (const song of songQueue) {
@@ -80,7 +79,6 @@ const SongItem = (props: Props) => {
   };
 
   const handleExtraMenuItem = (func: (item: Song) => void) => () => {
-    // chaining functions
     setIsMenuVisible(false);
     func(item);
   };
@@ -108,7 +106,7 @@ const SongItem = (props: Props) => {
           style={styles.thumbnail}
           source={{ uri: item.thumbnails[0].url }}
         />
-        <View style={{ marginLeft: 10 }}>
+        <View style={{ marginLeft: 10, maxWidth: '70%' }}>
           <Text style={{ ...globalStyles.title, flexWrap: 'wrap' }}>
             {item.name}
           </Text>
@@ -120,6 +118,8 @@ const SongItem = (props: Props) => {
         style={{
           padding: 5,
           paddingBottom: 10,
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
         }}>
         <Menu
           visible={isMenuVisible}
@@ -153,13 +153,23 @@ const SongItem = (props: Props) => {
             />
           ))}
         </Menu>
-        <MaterialCommunityIcons
-          name={isFavourite ? 'heart' : 'heart-outline'}
-          size={20}
-          color={'green'}
-          style={{ paddingHorizontal: 5, paddingTop: 7 }}
-          onPress={() => dispatch(toggleFavouriteSong(item))}
-        />
+        <View style={{ flexDirection: 'row' }}>
+          {true && (
+            <MaterialCommunityIcons
+              name="download"
+              size={20}
+              color={'green'}
+              style={{ paddingHorizontal: 5, paddingTop: 7 }}
+            />
+          )}
+          <MaterialCommunityIcons
+            name={isFavourite ? 'heart' : 'heart-outline'}
+            size={20}
+            color={'green'}
+            style={{ paddingHorizontal: 5, paddingTop: 7 }}
+            onPress={() => dispatch(toggleFavouriteSong(item))}
+          />
+        </View>
       </View>
     </View>
   );

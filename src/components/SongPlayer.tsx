@@ -41,7 +41,7 @@ const SongPlayer = () => {
           if (!isInfoCbReceivedMutex) {
             return;
           }
-          isInfoCbReceivedMutex = false; // set mutex false on entry
+          isInfoCbReceivedMutex = false; // set mutex to false on entry
           SoundPlayer.getInfo().then(info => {
             isInfoCbReceivedMutex = true;
             const { currentTime, duration } = info;
@@ -53,6 +53,9 @@ const SongPlayer = () => {
           });
         }, 1000);
       }
+    }
+    if (!currentSong?.url && songPositionPoller) {
+      clearInterval(songPositionPoller);
     }
     return () => {
       songPositionPoller && clearInterval(songPositionPoller);

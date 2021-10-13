@@ -4,15 +4,17 @@ import {
   SET_CURRENT_SONG,
   SET_IS_PLAYING,
   SET_SEEK_POSITION,
+  SET_SONG_LOADING,
   TOGGLE_SONG_FAVOURITE,
 } from '../constants/songConstants';
 import { SET_SONG_QUEUE } from '../constants/queueConstants';
 import { AppThunk, Song } from '../../types';
-import { getRestOfSongProps } from '../../global/utils';
+import { apiDispatch, getRestOfSongProps } from '../../global/utils';
 
 export const playSong = (songItem: Song): AppThunk => {
   return dispatch => {
     Toast.show('Loading song..');
+    dispatch(apiDispatch(SET_SONG_LOADING, true));
     getRestOfSongProps(songItem)
       .then(completeSong => {
         dispatch({
@@ -20,7 +22,8 @@ export const playSong = (songItem: Song): AppThunk => {
           payload: completeSong,
         });
       })
-      .catch(err => console.log('error in dispatching complete song' + err));
+      .catch(err => console.log('error in dispatching complete song' + err))
+      .finally(() => apiDispatch(SET_SONG_LOADING, false));
   };
 };
 

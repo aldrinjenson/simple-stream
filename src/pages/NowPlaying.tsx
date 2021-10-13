@@ -33,6 +33,9 @@ const NowPlaying = ({ navigation }) => {
   const isPlaying = useAppSelector<Boolean>(
     state => state.songReducer.isPlaying,
   );
+  const isUrlLoading = useAppSelector<Boolean>(
+    state => state.songReducer.isSongLoading,
+  );
   const seekPosition = useAppSelector(state => state.songReducer.seekPosition);
   const duration = currentSong?.duration / 1000;
   const { handlePause } = useHandlePause();
@@ -40,7 +43,7 @@ const NowPlaying = ({ navigation }) => {
   const scrollRef = useRef(null);
   const dispatch = useDispatch();
   const imageIndex = currentSong?.thumbnails?.length - 2;
-  const isUrlLoading = false;
+  // const isUrlLoading = false;
   const { isFavourite } = useIsFavourite(currentSong);
 
   if (!currentSong.url) {
