@@ -20,6 +20,7 @@ const SearchInput = ({ handleSearch }: Props) => {
         onChangeText={query => setSearchQuery(query)}
         value={searchQuery}
         onIconPress={handleSubmit}
+        onSubmitEditing={handleSubmit}
       />
     </View>
   );

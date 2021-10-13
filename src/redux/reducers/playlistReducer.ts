@@ -1,6 +1,7 @@
 /* eslint-disable curly */
 import { Action, Playlist } from '../../types';
 import {
+  ADD_NEW_PLAYLIST,
   ADD_TO_PLAYLIST,
   DELETE_PLAYLIST,
   FAVOURITE_ID,
@@ -67,6 +68,11 @@ const playlistReducer = (state = initialState, action: Action) => {
       return {
         ...state,
         playlists: toggleSongFavouriteInList(payload, state.playlists),
+      };
+    case ADD_NEW_PLAYLIST:
+      return {
+        ...state,
+        playlists: [...state.playlists, payload],
       };
     default:
       return state;

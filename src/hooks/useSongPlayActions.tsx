@@ -25,7 +25,7 @@ const useSongPlayActions = () => {
   const dispatch = useDispatch();
 
   const playNextSong = () => {
-    const nextSongIndex = getCurrentSongIndex(currentSong, songQueue);
+    const nextSongIndex = getCurrentSongIndex(currentSong, songQueue) + 1;
     if (nextSongIndex === songQueue.length - 1) {
       console.log('last song. Hence stopping');
       Toast.show('Currently playing song is the last one in the queue');
@@ -66,11 +66,7 @@ const useSongPlayActions = () => {
     dispatch(setSongQueue(array));
   }, [dispatch, songQueue]);
 
-  const addSongsToPlaylist = useCallback((songs: Song[]) => {
-    console.log(songs);
-  }, []);
-
-  return { playNextSong, playPreviousSong, shuffleQueue, addSongsToPlaylist };
+  return { playNextSong, playPreviousSong, shuffleQueue };
 };
 
 export default useSongPlayActions;

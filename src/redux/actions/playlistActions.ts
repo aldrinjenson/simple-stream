@@ -1,5 +1,6 @@
 import { Song, Playlist } from '../../types';
 import {
+  ADD_NEW_PLAYLIST,
   ADD_TO_PLAYLIST,
   DELETE_PLAYLIST,
   UPDATE_PLAYLIST,
@@ -16,6 +17,13 @@ export const addSongToPlaylist = (playlistId: number, song: Song) => {
   return {
     type: ADD_TO_PLAYLIST,
     payload: { id: playlistId, song },
+  };
+};
+
+export const addNewPlaylist = (newPlaylist: Playlist) => {
+  return {
+    type: ADD_NEW_PLAYLIST,
+    payload: newPlaylist,
   };
 };
 

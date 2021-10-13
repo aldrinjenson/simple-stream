@@ -22,7 +22,7 @@ const BottomBar = () => {
 
   const isUrlLoading = false;
 
-  if (!currentSong?.uri) {
+  if (!currentSong?.url) {
     return null;
   }
 
@@ -33,7 +33,6 @@ const BottomBar = () => {
           flexDirection: 'row',
           alignItems: 'center',
           maxWidth: '80%',
-          backgroundColor: 'green',
         }}
         onPress={() => navigation.navigate('NowPlaying')}>
         <Image

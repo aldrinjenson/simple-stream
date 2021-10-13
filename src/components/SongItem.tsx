@@ -11,6 +11,7 @@ import { formatSeconds } from '../global/utils';
 import { MenuItem, Song } from '../types';
 import { useAppSelector } from '../hooks/customReduxHooks';
 import {
+  playSong,
   setSongQueue,
   toggleFavouriteSong,
 } from '../redux/actions/songActions';
@@ -39,6 +40,11 @@ const SongItem = (props: Props) => {
   // usecallback here
   const handleAddorRemoveToQueue = () => {
     setIsMenuVisible(false);
+    if (!songQueue?.length) {
+      dispatch(playSong(item));
+      dispatch(setSongQueue([item]));
+      return;
+    }
     let updatedSongQueue;
     if (!isInQueue) {
       updatedSongQueue = [...songQueue, item];

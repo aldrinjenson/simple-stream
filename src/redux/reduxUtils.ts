@@ -1,4 +1,5 @@
 /* eslint-disable curly */
+import Toast from 'react-native-simple-toast';
 import { Playlist, Song } from '../types';
 import { FAVOURITE_ID } from './constants/playlistConstants';
 
@@ -33,8 +34,13 @@ export const addNewSongInPlaylist = (
 ): Playlist[] => {
   const updatedPlaylist = playlists.map(pl => {
     if (pl.id === playlistId) {
+      if (pl.songs.includes(song)) {
+        Toast.show('Song already in playlist');
+        return pl;
+      }
       return { ...pl, songs: [...pl.songs, song] };
     } else return pl;
   });
+  Toast.show('Song added to playlist');
   return updatedPlaylist;
 };
