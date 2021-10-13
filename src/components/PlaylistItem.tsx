@@ -14,7 +14,7 @@ interface Props {
 }
 
 const PlaylistItem = ({ playlist, shouldHideMenu, onPress }: Props) => {
-  const { title, songs, id: playlistId } = playlist;
+  const { title, songs, id: playlistId, canBeDeleted } = playlist;
   const dispatch = useDispatch();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
@@ -64,7 +64,9 @@ const PlaylistItem = ({ playlist, shouldHideMenu, onPress }: Props) => {
             />
           }>
           <Menu.Item onPress={() => {}} title="Download" />
-          <Menu.Item onPress={handlePlaylistDelete} title="Delete Playlist" />
+          {canBeDeleted ? (
+            <Menu.Item onPress={handlePlaylistDelete} title="Delete Playlist" />
+          ) : null}
         </Menu>
       )}
     </View>
