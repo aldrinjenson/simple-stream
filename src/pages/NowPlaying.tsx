@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,6 +17,8 @@ import { useAppSelector } from '../hooks/customReduxHooks';
 import { Song } from '../types';
 import useHandlePause from '../hooks/useHandlePause';
 import useSongPlayActions from '../hooks/useSongPlayActions';
+import { useDispatch } from 'react-redux';
+import { toggleFavouriteSong } from '../redux/actions/songActions';
 
 // try webscraping from this one to get timestamped lyrics
 // https://www.megalobiz.com/search/all?qry=hello+adele
@@ -27,19 +29,35 @@ const NowPlaying = ({ navigation }) => {
   const currentSong = useAppSelector<Song>(
     state => state.songReducer.currentSong,
   );
-  const isPlaying = useAppSelector(state => state.songReducer.isPlaying);
+  const isPlaying = useAppSelector<Boolean>(
+    state => state.songReducer.isPlaying,
+  );
+  const favouriteSongs = useAppSelector<Song[]>(
+    state => state.playlistReducer.favourites.songs,
+  );
   const seekPosition = useAppSelector(state => state.songReducer.seekPosition);
   const duration = currentSong?.duration / 1000;
   const { handlePause, handleSeek } = useHandlePause();
   const { playNextSong, playPreviousSong } = useSongPlayActions();
   const scrollRef = useRef(null);
-
+  const dispatch = useDispatch();
   const imageIndex = currentSong?.thumbnails?.length - 2;
   const isUrlLoading = false;
+  const [isFavourite, setIsFavourite] = useState(false);
+
+  useEffect(() => {
+    for (let i = 0; i < favouriteSongs.length; i++) {
+      if (favouriteSongs[i].id === currentSong.id) {
+        setIsFavourite(true);
+        return;
+      }
+    }
+    setIsFavourite(false);
+  }, [currentSong, favouriteSongs]);
+
   if (!currentSong.url) {
     return null;
   }
-  const toggleFavourite = () => {};
 
   return (
     <ScrollView ref={scrollRef} style={{ flex: 1 }} nestedScrollEnabled={true}>
@@ -88,11 +106,10 @@ const NowPlaying = ({ navigation }) => {
 
         <View style={styles.controlButtons}>
           <MaterialCommunityIcons
-            // name={item.isFavourite ? 'heart' : 'heart-outline'}
-            name="heart-outline"
+            name={isFavourite ? 'heart' : 'heart-outline'}
             size={30}
             color="black"
-            onPress={toggleFavourite}
+            onPress={() => dispatch(toggleFavouriteSong(currentSong))}
           />
 
           <View style={{ flexDirection: 'row' }}>

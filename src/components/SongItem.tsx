@@ -31,7 +31,9 @@ const SongItem = (props: Props) => {
   const isInQueue = songQueue.includes(item);
   const isCurrentSong = currentSong?.videoId === item.videoId;
 
+  // usecallback here
   const handleAddorRemoveToQueue = () => {
+    console.log('evaluating function');
     setIsMenuVisible(false);
     let updatedSongQueue;
     if (!isInQueue) {
@@ -45,7 +47,7 @@ const SongItem = (props: Props) => {
     }
     dispatch(setSongQueue(updatedSongQueue));
   };
-
+  // usecallback here
   const makeSongPlayNext = () => {
     let updatedSongQueue = [];
     for (const song of songQueue) {
@@ -68,6 +70,7 @@ const SongItem = (props: Props) => {
   };
 
   const handleExtraMenuItem = (func: (item: Song) => void) => () => {
+    // chaining functions
     setIsMenuVisible(false);
     func(item);
   };

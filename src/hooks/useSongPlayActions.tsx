@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import Toast from 'react-native-simple-toast';
 import { useDispatch } from 'react-redux';
 import { playSong, setSongQueue } from '../redux/actions/songActions';
+import { SET_CURRENT_SONG } from '../redux/constants/songConstants';
 import { Song } from '../types';
 import { useAppSelector } from './customReduxHooks';
 
@@ -25,9 +26,13 @@ const useSongPlayActions = () => {
 
   const playNextSong = () => {
     const nextSongIndex = getCurrentSongIndex(currentSong, songQueue);
-    if (nextSongIndex >= songQueue.length - 1) {
-      console.log('last song');
+    if (nextSongIndex === songQueue.length - 1) {
+      console.log('last song. Hence stopping');
       Toast.show('Currently playing song is the last one in the queue');
+      dispatch({
+        type: SET_CURRENT_SONG,
+        payload: {},
+      });
     } else {
       const newSongObj: Song = songQueue[nextSongIndex];
       dispatch(playSong(newSongObj));

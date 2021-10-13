@@ -24,19 +24,20 @@ const PlaylistModal = (props: Props) => {
     <Portal>
       <Dialog visible={visible} onDismiss={onDismiss}>
         <Dialog.Title>Choose Playlist</Dialog.Title>
-
-        <Dialog.ScrollArea>
-          <ScrollView>
-            {allPlaylists.map(playlist => (
-              <PlaylistItem
-                shouldHideMenu={true}
-                onPress={addToPlaylist}
-                key={playlist.id}
-                playlist={playlist}
-              />
-            ))}
-          </ScrollView>
-        </Dialog.ScrollArea>
+        <Dialog.Content>
+          <Dialog.ScrollArea>
+            <ScrollView>
+              {allPlaylists.map(playlist => (
+                <PlaylistItem
+                  shouldHideMenu={true}
+                  onPress={addToPlaylist}
+                  key={playlist.id}
+                  playlist={playlist}
+                />
+              ))}
+            </ScrollView>
+          </Dialog.ScrollArea>
+        </Dialog.Content>
         <Dialog.Actions>
           <Button onPress={onDismiss}>Cancel</Button>
         </Dialog.Actions>

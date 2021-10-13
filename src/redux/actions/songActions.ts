@@ -4,6 +4,7 @@ import {
   SET_CURRENT_SONG,
   SET_IS_PLAYING,
   SET_SEEK_POSITION,
+  TOGGLE_SONG_FAVOURITE,
 } from '../constants/songConstants';
 import { SET_SONG_QUEUE } from '../constants/queueConstants';
 import { AppThunk, Song } from '../../types';
@@ -41,5 +42,13 @@ export const setSongQueue: ActionCreator<Action> = (songQueue: Song[]) => {
   return {
     type: SET_SONG_QUEUE,
     payload: songQueue,
+  };
+};
+
+export const toggleFavouriteSong: ActionCreator<Action> = (song: Song) => {
+  Toast.show('Updating Favourites');
+  return {
+    type: TOGGLE_SONG_FAVOURITE,
+    payload: song,
   };
 };

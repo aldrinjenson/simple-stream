@@ -40,8 +40,8 @@ export default function App() {
         <NavigationContainer>
           <AppNavigator />
         </NavigationContainer>
-        <SongPlayer />
       </PaperProvider>
+      <SongPlayer />
     </Provider>
   );
 }

@@ -15,7 +15,12 @@ const PlaylistSongsPage = ({ route }) => {
   const allPlaylists = useAppSelector<Playlist[]>(
     state => state.playlistReducer.playlists,
   );
-  const playlist: Playlist = allPlaylists.find(pl => pl.id === playlistId);
+  const favourites = useAppSelector<Playlist>(
+    state => state.playlistReducer.favourites,
+  );
+  const playlist: Playlist = [...allPlaylists, favourites].find(
+    pl => pl.id === playlistId,
+  );
   const dispatch = useDispatch();
   const { songs, title } = playlist;
 
