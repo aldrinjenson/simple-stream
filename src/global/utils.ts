@@ -53,7 +53,7 @@ export const getUrlAndThumbs = (videoID: String) => {
 };
 
 export const getLyrics = async (item: Song) => {
-  if (item.lyrics) {
+  if (item?.lyrics) {
     // lyrics already saved in db
     return item.lyrics;
   }

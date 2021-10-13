@@ -57,6 +57,7 @@ const SongPlayer = () => {
     return () => {
       songPositionPoller && clearInterval(songPositionPoller);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSong, dispatch]);
 
   useEffect(() => {

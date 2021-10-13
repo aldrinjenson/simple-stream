@@ -28,11 +28,7 @@ const useHandlePause = () => {
     }
   }, [dispatch, isPlaying]);
 
-  const handleSeek = useCallback(seconds => {
-    SoundPlayer.seek(seconds);
-  }, []);
-
-  return { handlePause, handleSeek };
+  return { handlePause };
 };
 
 export default useHandlePause;

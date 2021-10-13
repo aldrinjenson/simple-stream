@@ -35,8 +35,8 @@ const NowPlaying = ({ navigation }) => {
   );
   const seekPosition = useAppSelector(state => state.songReducer.seekPosition);
   const duration = currentSong?.duration / 1000;
-  const { handlePause, handleSeek } = useHandlePause();
-  const { playNextSong, playPreviousSong } = useSongPlayActions();
+  const { handlePause } = useHandlePause();
+  const { playNextSong, playPreviousSong, handleSeek } = useSongPlayActions();
   const scrollRef = useRef(null);
   const dispatch = useDispatch();
   const imageIndex = currentSong?.thumbnails?.length - 2;
@@ -74,7 +74,12 @@ const NowPlaying = ({ navigation }) => {
 
         <View>
           <View
-            style={{ position: 'relative', height: 30, width: width * 0.85 }}>
+            style={{
+              position: 'relative',
+              height: 30,
+              width: '100%',
+              alignSelf: 'center',
+            }}>
             <Slider
               style={{ position: 'absolute', width: '100%' }}
               minimumValue={0}
@@ -82,7 +87,7 @@ const NowPlaying = ({ navigation }) => {
               minimumTrackTintColor="#FFFFFF"
               maximumTrackTintColor="#000000"
               value={seekPosition}
-              onValueChange={seconds => handleSeek(seconds)}
+              onValueChange={handleSeek}
             />
           </View>
           <View

@@ -12,16 +12,15 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import SongPlayer from './components/SongPlayer';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
 import AppNavigator from './AppNavigator';
 import rootReducer from './redux/reducers/rootReducer';
-import { PersistGate } from 'redux-persist/integration/react';
 
 LogBox.ignoreLogs(['react-native-ytdl is out of date!']);
-
 if (Platform.OS === 'android') {
   if (typeof (Intl as any).__disableRegExpRestore === 'function') {
     (Intl as any).__disableRegExpRestore();

@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import Toast from 'react-native-simple-toast';
+import SoundPlayer from 'react-native-sound-player';
 import { useDispatch } from 'react-redux';
 import { playSong, setSongQueue } from '../redux/actions/songActions';
 import { SET_CURRENT_SONG } from '../redux/constants/songConstants';
@@ -66,7 +67,11 @@ const useSongPlayActions = () => {
     dispatch(setSongQueue(array));
   }, [dispatch, songQueue]);
 
-  return { playNextSong, playPreviousSong, shuffleQueue };
+  const handleSeek = useCallback(seconds => {
+    SoundPlayer.seek(seconds);
+  }, []);
+
+  return { playNextSong, playPreviousSong, shuffleQueue, handleSeek };
 };
 
 export default useSongPlayActions;
