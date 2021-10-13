@@ -25,3 +25,16 @@ export const toggleSongFavouriteInList = (
   });
   return updatedPlaylits;
 };
+
+export const addNewSongInPlaylist = (
+  playlists: Playlist[],
+  playlistId: number,
+  song: Song,
+): Playlist[] => {
+  const updatedPlaylist = playlists.map(pl => {
+    if (pl.id === playlistId) {
+      return { ...pl, songs: [...pl.songs, song] };
+    } else return pl;
+  });
+  return updatedPlaylist;
+};

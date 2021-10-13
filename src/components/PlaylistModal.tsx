@@ -1,8 +1,11 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Dialog, Portal } from 'react-native-paper';
+import Toast from 'react-native-simple-toast';
+import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../hooks/customReduxHooks';
-import { Song } from '../types';
+import { addSongToPlaylist } from '../redux/actions/playlistActions';
+import { Song, Playlist } from '../types';
 import PlaylistItem from './PlaylistItem';
 
 interface Props {
@@ -13,13 +16,17 @@ interface Props {
 
 const PlaylistModal = (props: Props) => {
   const { visible, onDismiss, song } = props;
+  const dispatch = useDispatch();
   const allPlaylists = useAppSelector<Playlist[]>(
     state => state.playlistReducer.playlists,
   );
-  const addToPlaylist = () => {
-    console.log('hi');
-    console.log(song.name);
+
+  const addToPlaylist = (plId: number) => {
+    Toast.show('Adding to playlist');
+    dispatch(addSongToPlaylist(plId, song));
+    onDismiss();
   };
+
   return (
     <Portal>
       <Dialog visible={visible} onDismiss={onDismiss}>
@@ -30,7 +37,7 @@ const PlaylistModal = (props: Props) => {
               {allPlaylists.map(playlist => (
                 <PlaylistItem
                   shouldHideMenu={true}
-                  onPress={addToPlaylist}
+                  onPress={() => addToPlaylist(playlist.id)}
                   key={playlist.id}
                   playlist={playlist}
                 />

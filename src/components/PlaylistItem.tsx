@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Title, Paragraph, Menu } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch } from 'react-redux';
@@ -27,15 +26,15 @@ const PlaylistItem = ({ playlist, shouldHideMenu, onPress }: Props) => {
       style={{
         marginVertical: 5,
         flexDirection: 'row',
-        backgroundColor: 'grey',
         justifyContent: 'space-between',
         paddingLeft: 10,
         paddingVertical: 5,
+        borderWidth: 1,
+        borderColor: 'grey',
       }}>
       <TouchableOpacity
         onPress={onPress}
         style={{
-          backgroundColor: 'red',
           flexDirection: 'row',
           flexGrow: 1,
         }}>
@@ -57,10 +56,7 @@ const PlaylistItem = ({ playlist, shouldHideMenu, onPress }: Props) => {
               onPress={() => setIsMenuVisible(true)}
               name="more-vert"
               size={30}
-              style={{
-                padding: 10,
-                backgroundColor: 'green',
-              }}
+              style={{ padding: 10 }}
             />
           }>
           <Menu.Item onPress={() => {}} title="Download" />

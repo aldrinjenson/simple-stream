@@ -8,7 +8,7 @@ import {
 } from '../constants/playlistConstants';
 import songData from '../../data';
 import { TOGGLE_SONG_FAVOURITE } from '../constants/songConstants';
-import { toggleSongFavouriteInList } from '../reduxUtils';
+import { addNewSongInPlaylist, toggleSongFavouriteInList } from '../reduxUtils';
 
 interface InitialState {
   playlists: Playlist[];
@@ -39,7 +39,13 @@ const playlistReducer = (state = initialState, action: Action) => {
     case ADD_TO_PLAYLIST:
       return {
         ...state,
+        playlists: addNewSongInPlaylist(
+          state.playlists,
+          payload.id,
+          payload.song,
+        ),
       };
+
     case UPDATE_PLAYLIST:
       const updatedPlaylists = state.playlists.map(playlist => {
         if (playlist.id === payload.id) return payload;
@@ -58,11 +64,10 @@ const playlistReducer = (state = initialState, action: Action) => {
         playlists: updatedPlaylistList,
       };
     case TOGGLE_SONG_FAVOURITE:
-      const updatedPlaylistObj = toggleSongFavouriteInList(
-        payload,
-        state.playlists,
-      );
-      return { ...state, playlists: updatedPlaylistObj };
+      return {
+        ...state,
+        playlists: toggleSongFavouriteInList(payload, state.playlists),
+      };
     default:
       return state;
   }
