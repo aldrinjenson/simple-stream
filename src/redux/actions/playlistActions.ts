@@ -1,6 +1,7 @@
-import { Song, Playlist } from '../../types';
+import { Song, Playlist, FullSong } from '../../types';
 import {
   ADD_NEW_PLAYLIST,
+  ADD_SONG_TO_DOWNLOADS,
   ADD_TO_PLAYLIST,
   DELETE_PLAYLIST,
   UPDATE_PLAYLIST,
@@ -31,5 +32,12 @@ export const deletePlaylist = (playlistId: number) => {
   return {
     type: DELETE_PLAYLIST,
     payload: playlistId,
+  };
+};
+
+export const addSongToDownloads = (songObj: FullSong) => {
+  return {
+    type: ADD_SONG_TO_DOWNLOADS,
+    payload: songObj,
   };
 };

@@ -1,5 +1,6 @@
-import Toast from 'react-native-simple-toast';
 import { Action, ActionCreator } from 'redux';
+import Toast from 'react-native-simple-toast';
+import RNFetchBlob from 'rn-fetch-blob';
 import {
   SET_CURRENT_SONG,
   SET_IS_PLAYING,
@@ -8,22 +9,71 @@ import {
   TOGGLE_SONG_FAVOURITE,
 } from '../constants/songConstants';
 import { SET_SONG_QUEUE } from '../constants/queueConstants';
-import { AppThunk, Song } from '../../types';
+import { AppThunk, FullSong, Song } from '../../types';
 import { apiDispatch, getRestOfSongProps } from '../../global/utils';
+import { downloadHelper } from '../../global/songUtils';
+import { addSongToDownloads, addSongToPlaylist } from './playlistActions';
+import { DOWNLOAD_ID } from '../constants/playlistConstants';
+
+export const setCurentSong = (completeSong: FullSong) => {
+  return {
+    type: SET_CURRENT_SONG,
+    payload: completeSong,
+  };
+};
 
 export const playSong = (songItem: Song): AppThunk => {
-  return dispatch => {
+  return (dispatch, getState) => {
     Toast.show('Loading song..');
     dispatch(apiDispatch(SET_SONG_LOADING, true));
+    const existingSongObj = getState().playlistReducer.downloadPaths[
+      songItem.videoId
+    ];
+    if (existingSongObj) {
+      Toast.show('Playing from downloads');
+      dispatch(setCurentSong(existingSongObj));
+      return;
+    }
     getRestOfSongProps(songItem)
-      .then(completeSong => {
-        dispatch({
-          type: SET_CURRENT_SONG,
-          payload: completeSong,
-        });
-      })
+      .then(completeSong => dispatch(setCurentSong(completeSong)))
       .catch(err => console.log('error in dispatching complete song' + err))
       .finally(() => apiDispatch(SET_SONG_LOADING, false));
+  };
+};
+
+export const downloadSong = (song: Song) => {
+  return async (dispatch, getState) => {
+    const existingSongObj = getState().playlistReducer.downloadPaths[
+      song.videoId
+    ];
+    if (existingSongObj) {
+      Toast.show('Already downloaded');
+      return;
+    }
+
+    let songItem = song;
+    if (!songItem.url) {
+      Toast.show('Preparing to download song..');
+      songItem = await getRestOfSongProps(song);
+    }
+    const songName = `${songItem.name}-${songItem.artist.name}`;
+    const imgPath = `thumbs/${songName}.png`;
+    const songPath = `${songName}.mp3`;
+
+    let savedImgPath: string = await downloadHelper(
+      imgPath,
+      songItem.thumbnails[0].url,
+    );
+    let savedSongPath: string = await downloadHelper(songPath, songItem.url);
+
+    const fullSong: FullSong = {
+      ...song,
+      url: savedSongPath,
+      thumbnails: [{ ...songItem.thumbnails[0], url: savedImgPath }],
+    };
+
+    dispatch(addSongToDownloads(fullSong));
+    dispatch(addSongToPlaylist(DOWNLOAD_ID, song));
   };
 };
 

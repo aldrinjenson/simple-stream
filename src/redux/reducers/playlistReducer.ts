@@ -1,7 +1,8 @@
 /* eslint-disable curly */
-import { Action, Playlist } from '../../types';
+import { Action, FullSong, Playlist } from '../../types';
 import {
   ADD_NEW_PLAYLIST,
+  ADD_SONG_TO_DOWNLOADS,
   ADD_TO_PLAYLIST,
   DELETE_PLAYLIST,
   FAVOURITE_ID,
@@ -13,6 +14,9 @@ import { addNewSongInPlaylist, toggleSongFavouriteInList } from '../reduxUtils';
 
 interface InitialState {
   playlists: Playlist[];
+  downloadPaths?: {
+    [vieoId: string]: FullSong;
+  };
 }
 
 const initialState: InitialState = {
@@ -32,6 +36,7 @@ const initialState: InitialState = {
       id: FAVOURITE_ID,
     },
   ],
+  downloadPaths: {},
 };
 
 const playlistReducer = (state = initialState, action: Action) => {
@@ -47,6 +52,13 @@ const playlistReducer = (state = initialState, action: Action) => {
         ),
       };
 
+    case ADD_SONG_TO_DOWNLOADS:
+      const videoId = payload.videoId;
+      return {
+        ...state,
+        downloadPaths: { ...state.downloadPaths, [videoId]: payload },
+      };
+
     case UPDATE_PLAYLIST:
       const updatedPlaylists = state.playlists.map(playlist => {
         if (playlist.id === payload.id) return payload;
@@ -56,6 +68,7 @@ const playlistReducer = (state = initialState, action: Action) => {
         ...state,
         playlists: updatedPlaylists,
       };
+
     case DELETE_PLAYLIST:
       const updatedPlaylistList = state.playlists.filter(
         playlist => playlist.id !== payload,
@@ -64,16 +77,19 @@ const playlistReducer = (state = initialState, action: Action) => {
         ...state,
         playlists: updatedPlaylistList,
       };
+
     case TOGGLE_SONG_FAVOURITE:
       return {
         ...state,
         playlists: toggleSongFavouriteInList(payload, state.playlists),
       };
+
     case ADD_NEW_PLAYLIST:
       return {
         ...state,
         playlists: [...state.playlists, payload],
       };
+
     default:
       return state;
   }

@@ -24,19 +24,6 @@ const HomeTabs = () => (
   <View style={{ flex: 1 }}>
     <Tab.Navigator>
       <Tab.Screen
-        name="Playlists"
-        component={PlaylistsListPage}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <MaterialIcons
-              color={focused ? '#2f95dc' : '#000'}
-              name="library-music"
-              size={23}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="SearchPage"
         component={SearchPage}
         options={{
@@ -45,6 +32,19 @@ const HomeTabs = () => (
             <MaterialIcons
               color={focused ? '#2f95dc' : '#000'}
               name="search"
+              size={23}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Playlists"
+        component={PlaylistsListPage}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <MaterialIcons
+              color={focused ? '#2f95dc' : '#000'}
+              name="library-music"
               size={23}
             />
           ),

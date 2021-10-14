@@ -23,7 +23,7 @@ const SongPlayer = () => {
       SoundPlayer.loadUrl(currentSong.url);
       MusicControl.setNowPlaying({
         title: currentSong.name,
-        artwork: currentSong.thumbnails[1].url,
+        artwork: currentSong.thumbnails[0].url,
         artist: currentSong.artist.name,
         album: currentSong.album?.name,
         duration: currentSong.duration / 1000,

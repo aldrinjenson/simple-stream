@@ -18,7 +18,10 @@ import { Song } from '../types';
 import useHandlePause from '../hooks/useHandlePause';
 import useSongPlayActions from '../hooks/useSongPlayActions';
 import { useDispatch } from 'react-redux';
-import { toggleFavouriteSong } from '../redux/actions/songActions';
+import {
+  downloadSong,
+  toggleFavouriteSong,
+} from '../redux/actions/songActions';
 import useIsFavourite from '../hooks/useIsFavourite';
 
 // try webscraping from this one to get timestamped lyrics
@@ -42,7 +45,8 @@ const NowPlaying = ({ navigation }) => {
   const { playNextSong, playPreviousSong, handleSeek } = useSongPlayActions();
   const scrollRef = useRef(null);
   const dispatch = useDispatch();
-  const imageIndex = currentSong?.thumbnails?.length - 2;
+  const imageIndex =
+    currentSong.thumbnails.length > 1 ? currentSong.thumbnails.length - 2 : 0;
   // const isUrlLoading = false;
   const { isFavourite } = useIsFavourite(currentSong);
 
@@ -105,7 +109,8 @@ const NowPlaying = ({ navigation }) => {
             name={isFavourite ? 'heart' : 'heart-outline'}
             size={30}
             color="black"
-            onPress={() => dispatch(toggleFavouriteSong(currentSong))}
+            // onPress={() => dispatch(toggleFavouriteSong(currentSong))}
+            onPress={() => dispatch(downloadSong(currentSong))}
           />
 
           <View style={{ flexDirection: 'row' }}>

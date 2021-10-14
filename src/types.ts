@@ -29,7 +29,16 @@ export interface Song {
   album?: { name: string; browseId: string };
   lyrics?: Lyric;
   isTimeStamped?: boolean;
-  isFavourite?: boolean;
+  [x: string]: any;
+}
+export type FullSong = {
+  name: string;
+  videoId: string;
+  artist: { name: string; browseId?: string };
+  duration: number;
+  thumbnails: thumbnail[];
+  url: string;
+  lyrics?: Lyric;
   [x: string]: any;
 }
 export type FullSongProps = {

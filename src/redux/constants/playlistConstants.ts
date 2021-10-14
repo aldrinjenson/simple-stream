@@ -3,4 +3,6 @@ export const UPDATE_PLAYLIST = 'UPDATE_PLAYLIST';
 export const DELETE_PLAYLIST = 'DELETE_PLAYLIST';
 export const ADD_NEW_PLAYLIST = 'ADD_NEW_PLAYLIST';
 
+export const ADD_SONG_TO_DOWNLOADS = 'ADD_SONG_TO_DOWNLOADS';
 export const FAVOURITE_ID = 22;
+export const DOWNLOAD_ID = 23;

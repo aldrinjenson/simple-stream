@@ -11,6 +11,7 @@ import { formatSeconds } from '../global/utils';
 import { MenuItem, Song } from '../types';
 import { useAppSelector } from '../hooks/customReduxHooks';
 import {
+  downloadSong,
   playSong,
   setSongQueue,
   toggleFavouriteSong,
@@ -82,6 +83,10 @@ const SongItem = (props: Props) => {
     setIsMenuVisible(false);
     func(item);
   };
+  const handleDownload = () => {
+    dispatch(downloadSong(item));
+    setIsMenuVisible(false);
+  };
 
   return (
     <View
@@ -144,7 +149,7 @@ const SongItem = (props: Props) => {
           {!isCurrentSong && isQueueActive ? (
             <Menu.Item onPress={makeSongPlayNext} title="Play next" />
           ) : null}
-          <Menu.Item onPress={() => {}} title="Download" />
+          <Menu.Item onPress={handleDownload} title="Download" />
           {extraMenuItems?.map(({ text, func }) => (
             <Menu.Item
               key={text}
