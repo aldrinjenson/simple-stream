@@ -5,7 +5,9 @@ import {
   ADD_SONG_TO_DOWNLOADS,
   ADD_TO_PLAYLIST,
   DELETE_PLAYLIST,
+  DOWNLOAD_ID,
   FAVOURITE_ID,
+  SET_SONG_DOWNLADING,
   UPDATE_PLAYLIST,
 } from '../constants/playlistConstants';
 import songData from '../../data';
@@ -25,7 +27,7 @@ const initialState: InitialState = {
       canBeDeleted: false,
       createdAt: new Date(1633594323826).getTime(),
       songs: [],
-      id: new Date().getTime(),
+      id: DOWNLOAD_ID,
     },
     {
       title: 'Favourites',
@@ -52,11 +54,18 @@ const playlistReducer = (state = initialState, action: Action) => {
         ),
       };
 
+    case SET_SONG_DOWNLADING:
+      return {
+        ...state,
+        downloadingSongs: payload ? [...state.downloadingSongs, payload] : [],
+      };
+
     case ADD_SONG_TO_DOWNLOADS:
       const videoId = payload.videoId;
       return {
         ...state,
         downloadPaths: { ...state.downloadPaths, [videoId]: payload },
+        downloadingSongs: state.downloadingSongs.filter(vId => vId !== videoId),
       };
 
     case UPDATE_PLAYLIST:

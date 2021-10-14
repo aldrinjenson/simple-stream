@@ -7,10 +7,11 @@ import DisplaySongs from '../components/DisplaySongs';
 import songData from '../data';
 import SearchInput from '../components/SearchInput';
 import { Song } from '../types';
-import { getSuggestedSongsList } from '../global/utils';
+import { apiDispatch, getSuggestedSongsList } from '../global/utils';
 import { playSong } from '../redux/actions/songActions';
 import { useDispatch } from 'react-redux';
 import YoutubeMusicApi from 'youtube-music-api';
+import { SET_SONG_DOWNLADING } from '../redux/constants/playlistConstants';
 const api = new YoutubeMusicApi();
 
 const SearchPage = () => {
@@ -21,11 +22,9 @@ const SearchPage = () => {
     api
       .initalize()
       .then(() => console.log('Api initalized'))
-      .catch(err => {
-        console.log('error in initialising API: ' + err);
-        Toast.show('There seems to be some isses with your network.');
-      });
-  }, []);
+      .catch((err: string) => console.log('error in initialising API: ' + err));
+    dispatch(apiDispatch(SET_SONG_DOWNLADING)); // place to be changed
+  }, [dispatch]);
 
   const handleSearch = async (query: string) => {
     try {
@@ -33,6 +32,8 @@ const SearchPage = () => {
       setSearchResults(songs);
     } catch (error) {
       console.error(error);
+      Toast.show('There seems to be some isses with your network.');
+      api.initialize();
     }
   };
 

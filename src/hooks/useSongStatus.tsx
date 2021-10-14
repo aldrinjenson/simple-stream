@@ -17,6 +17,7 @@ const useSongStatus = (songItem: Song) => {
   const downloadingSongs = useAppSelector<string[]>(
     state => state.playlistReducer.downloadingSongs,
   );
+
   useEffect(() => {
     const favourites = allPlaylists.find(
       (playlist: Playlist) => playlist.id === FAVOURITE_ID,
@@ -30,7 +31,7 @@ const useSongStatus = (songItem: Song) => {
     }
     setIsFavourite(false);
   }, [allPlaylists, songItem]);
-  console.log(downloadPaths);
+
   useEffect(() => {
     if (downloadPaths[songItem.videoId]) {
       setIsDownloaded(true);
@@ -38,6 +39,7 @@ const useSongStatus = (songItem: Song) => {
       setIsDownloaded(false);
     }
   }, [songItem, downloadPaths]);
+
   useEffect(() => {
     setIsDownloading(downloadingSongs.includes(songItem.videoId));
   }, [downloadingSongs, songItem]);

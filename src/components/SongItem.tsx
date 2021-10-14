@@ -1,12 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  _Image,
-} from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Menu } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import Toast from 'react-native-simple-toast';
@@ -41,11 +34,8 @@ const SongItem = (props: Props) => {
   const dispatch = useDispatch();
   const { isFavourite, isDownloaded, isDownloading } = useSongStatus(item);
 
-  const isQueueActive = useCallback(() => songQueue.length, [songQueue.length]);
-  const isInQueue = useCallback(() => songQueue.includes(item), [
-    item,
-    songQueue,
-  ]);
+  const isQueueActive = useMemo(() => songQueue.length, [songQueue.length]);
+  const isInQueue = useMemo(() => songQueue.includes(item), [item, songQueue]);
   const isCurrentSong = currentSong?.videoId === item.videoId;
 
   const handleAddorRemoveToQueue = () => {
@@ -159,7 +149,7 @@ const SongItem = (props: Props) => {
           {!isCurrentSong && isQueueActive ? (
             <Menu.Item onPress={makeSongPlayNext} title="Play next" />
           ) : null}
-          {!isDownloaded && (
+          {!isDownloaded && !isDownloading && (
             <Menu.Item onPress={handleDownload} title="Download" />
           )}
           {extraMenuItems?.map(({ text, func }) => (
@@ -174,7 +164,7 @@ const SongItem = (props: Props) => {
           {isDownloading && (
             <Image
               source={require('../assets/downloading.gif')}
-              style={{ width: 20, height: 20 }}
+              style={{ width: 20, height: 20, alignSelf: 'flex-end' }}
             />
           )}
           {isDownloaded && (

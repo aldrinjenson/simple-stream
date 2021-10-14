@@ -34,11 +34,11 @@ export const downloadHelper = (
         console.log('progress', received / total);
       })
       .then(resp => {
-        console.log('The file saved to ', resp.path());
+        console.log('File saved to ', resp.path());
         resolve(resp.path());
       })
       .catch(err => {
-        console.log('Error in downloaing files: ' + err);
+        console.log('Error in downloaing file: ' + err);
         reject(err);
       });
   });

@@ -19,6 +19,7 @@ import 'intl';
 import 'intl/locale-data/jsonp/en';
 import AppNavigator from './AppNavigator';
 import rootReducer from './redux/reducers/rootReducer';
+import LoadingScreen from './components/LoadingScreen';
 
 LogBox.ignoreLogs(['react-native-ytdl is out of date!']);
 if (Platform.OS === 'android') {
@@ -51,7 +52,7 @@ const theme = {
 export default function App() {
   return (
     <Provider store={store}>
-      <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+      <PersistGate loading={<LoadingScreen />} persistor={persistor}>
         <PaperProvider theme={theme}>
           <NavigationContainer>
             <AppNavigator />

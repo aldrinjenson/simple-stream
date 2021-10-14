@@ -18,10 +18,7 @@ import { Song } from '../types';
 import useHandlePause from '../hooks/useHandlePause';
 import useSongPlayActions from '../hooks/useSongPlayActions';
 import { useDispatch } from 'react-redux';
-import {
-  downloadSong,
-  toggleFavouriteSong,
-} from '../redux/actions/songActions';
+import { toggleFavouriteSong } from '../redux/actions/songActions';
 import useSongStatus from '../hooks/useSongStatus';
 
 // try webscraping from this one to get timestamped lyrics
@@ -109,8 +106,7 @@ const NowPlaying = ({ navigation }) => {
             name={isFavourite ? 'heart' : 'heart-outline'}
             size={30}
             color="black"
-            // onPress={() => dispatch(toggleFavouriteSong(currentSong))}
-            onPress={() => dispatch(downloadSong(currentSong))}
+            onPress={() => dispatch(toggleFavouriteSong(currentSong))}
           />
 
           <View style={{ flexDirection: 'row' }}>
