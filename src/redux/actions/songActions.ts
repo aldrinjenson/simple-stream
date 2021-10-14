@@ -14,6 +14,7 @@ import { apiDispatch, getRestOfSongProps } from '../../global/utils';
 import { downloadHelper } from '../../global/songUtils';
 import { addSongToDownloads, addSongToPlaylist } from './playlistActions';
 import { DOWNLOAD_ID } from '../constants/playlistConstants';
+import { PermissionsAndroid, Platform } from 'react-native';
 
 export const setCurentSong = (completeSong: FullSong) => {
   return {
@@ -30,6 +31,7 @@ export const playSong = (songItem: Song): AppThunk => {
       songItem.videoId
     ];
     if (existingSongObj) {
+      console.log(existingSongObj.url);
       Toast.show('Playing from downloads');
       dispatch(setCurentSong(existingSongObj));
       return;
@@ -41,7 +43,32 @@ export const playSong = (songItem: Song): AppThunk => {
   };
 };
 
+const requestFileAccessPermission = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      {
+        title: 'Gran File Access Permission',
+        message:
+          'You need to give File Access permission to download songs',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK'
+      }
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log('File access permission received');
+    } else {
+      console.log('File access permission denied');
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+};
+
 export const downloadSong = (song: Song) => {
+  // requestFileAccessPermission()
+  // return;
   return async (dispatch, getState) => {
     const existingSongObj = getState().playlistReducer.downloadPaths[
       song.videoId
@@ -60,20 +87,35 @@ export const downloadSong = (song: Song) => {
     const imgPath = `thumbs/${songName}.png`;
     const songPath = `${songName}.mp3`;
 
+    Toast.show('Downloading Song and thumbnail');
+
+    let savedSongPath: string = await downloadHelper(
+      songPath,
+      songItem.url,
+      songName + '.mp3',
+    );
     let savedImgPath: string = await downloadHelper(
       imgPath,
       songItem.thumbnails[0].url,
+      songName + '.jpg',
     );
-    let savedSongPath: string = await downloadHelper(songPath, songItem.url);
 
+    console.log(savedSongPath, savedImgPath);
     const fullSong: FullSong = {
       ...song,
       url: savedSongPath,
-      thumbnails: [{ ...songItem.thumbnails[0], url: savedImgPath }],
+      thumbnails: [
+        {
+          ...songItem.thumbnails[0],
+          url:
+            Platform.OS === 'android' ? 'file://' + savedImgPath : savedImgPath,
+        },
+      ],
     };
 
     dispatch(addSongToDownloads(fullSong));
     dispatch(addSongToPlaylist(DOWNLOAD_ID, song));
+    Toast.show('Song downloaded to: ' + savedSongPath);
   };
 };
 

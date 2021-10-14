@@ -13,7 +13,7 @@ export const getCurrentSongIndex = (song: Song, songList: Song[]) => {
 export const downloadHelper = (
   filePath: string,
   fileUrl: string,
-  // fileName?: string,
+  fileName?: string,
 ) => {
   return new Promise((resolve, reject) => {
     const dirs = RNFetchBlob.fs.dirs;
@@ -22,6 +22,7 @@ export const downloadHelper = (
     RNFetchBlob.config({
       path,
       addAndroidDownloads: {
+        title: fileName,
         useDownloadManager: true,
         notification: true,
         description: `File downloaded by ${appName}`,
@@ -29,7 +30,7 @@ export const downloadHelper = (
       },
     })
       .fetch('GET', fileUrl)
-      .progress({ count: 10 }, (received, total) => {
+      .progress((received, total) => {
         console.log('progress', received / total);
       })
       .then(resp => {

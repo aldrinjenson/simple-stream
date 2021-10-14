@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
+import Toast from 'react-native-simple-toast';
 
 import { globalStyles } from '../global/globalStyles';
 import DisplaySongs from '../components/DisplaySongs';
@@ -17,7 +18,13 @@ const SearchPage = () => {
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
-    api.initalize().then(() => console.log('Api initalized'));
+    api
+      .initalize()
+      .then(() => console.log('Api initalized'))
+      .catch(err => {
+        console.log('error in initialising API: ' + err);
+        Toast.show('There seems to be some isses with your network.');
+      });
   }, []);
 
   const handleSearch = async (query: string) => {

@@ -22,7 +22,7 @@ import {
   downloadSong,
   toggleFavouriteSong,
 } from '../redux/actions/songActions';
-import useIsFavourite from '../hooks/useIsFavourite';
+import useSongStatus from '../hooks/useSongStatus';
 
 // try webscraping from this one to get timestamped lyrics
 // https://www.megalobiz.com/search/all?qry=hello+adele
@@ -48,7 +48,7 @@ const NowPlaying = ({ navigation }) => {
   const imageIndex =
     currentSong.thumbnails.length > 1 ? currentSong.thumbnails.length - 2 : 0;
   // const isUrlLoading = false;
-  const { isFavourite } = useIsFavourite(currentSong);
+  const { isFavourite } = useSongStatus(currentSong);
 
   if (!currentSong.url) {
     return null;

@@ -1,5 +1,5 @@
 /* eslint-disable curly */
-import { Action, FullSong, Playlist } from '../../types';
+import { Action, DownloadPath, Playlist } from '../../types';
 import {
   ADD_NEW_PLAYLIST,
   ADD_SONG_TO_DOWNLOADS,
@@ -14,9 +14,8 @@ import { addNewSongInPlaylist, toggleSongFavouriteInList } from '../reduxUtils';
 
 interface InitialState {
   playlists: Playlist[];
-  downloadPaths?: {
-    [vieoId: string]: FullSong;
-  };
+  downloadPaths: DownloadPath;
+  downloadingSongs: string[];
 }
 
 const initialState: InitialState = {
@@ -25,7 +24,7 @@ const initialState: InitialState = {
       title: 'Downloaded',
       canBeDeleted: false,
       createdAt: new Date(1633594323826).getTime(),
-      songs: songData,
+      songs: [],
       id: new Date().getTime(),
     },
     {
@@ -37,6 +36,7 @@ const initialState: InitialState = {
     },
   ],
   downloadPaths: {},
+  downloadingSongs: [],
 };
 
 const playlistReducer = (state = initialState, action: Action) => {

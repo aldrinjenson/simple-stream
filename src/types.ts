@@ -61,3 +61,6 @@ export type MenuItem = {
   text: string;
   func: (s: Song) => void;
 };
+export type DownloadPath = {
+  [vieoId: string]: FullSong;
+};

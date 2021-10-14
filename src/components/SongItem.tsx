@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  _Image,
+} from 'react-native';
 import { Menu } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import Toast from 'react-native-simple-toast';
@@ -17,7 +24,7 @@ import {
   toggleFavouriteSong,
 } from '../redux/actions/songActions';
 import PlaylistModal from './PlaylistModal';
-import useIsFavourite from '../hooks/useIsFavourite';
+import useSongStatus from '../hooks/useSongStatus';
 
 interface Props {
   item: Song;
@@ -32,10 +39,13 @@ const SongItem = (props: Props) => {
   const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false);
   const [playlistModalVisible, setPlaylistModalVisible] = useState(false);
   const dispatch = useDispatch();
-  const { isFavourite } = useIsFavourite(item);
+  const { isFavourite, isDownloaded, isDownloading } = useSongStatus(item);
 
-  const isQueueActive = songQueue.length;
-  const isInQueue = songQueue.includes(item);
+  const isQueueActive = useCallback(() => songQueue.length, [songQueue.length]);
+  const isInQueue = useCallback(() => songQueue.includes(item), [
+    item,
+    songQueue,
+  ]);
   const isCurrentSong = currentSong?.videoId === item.videoId;
 
   const handleAddorRemoveToQueue = () => {
@@ -149,7 +159,9 @@ const SongItem = (props: Props) => {
           {!isCurrentSong && isQueueActive ? (
             <Menu.Item onPress={makeSongPlayNext} title="Play next" />
           ) : null}
-          <Menu.Item onPress={handleDownload} title="Download" />
+          {!isDownloaded && (
+            <Menu.Item onPress={handleDownload} title="Download" />
+          )}
           {extraMenuItems?.map(({ text, func }) => (
             <Menu.Item
               key={text}
@@ -159,7 +171,13 @@ const SongItem = (props: Props) => {
           ))}
         </Menu>
         <View style={{ flexDirection: 'row' }}>
-          {true && (
+          {isDownloading && (
+            <Image
+              source={require('../assets/downloading.gif')}
+              style={{ width: 20, height: 20 }}
+            />
+          )}
+          {isDownloaded && (
             <MaterialCommunityIcons
               name="download"
               size={20}
