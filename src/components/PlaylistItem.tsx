@@ -40,7 +40,11 @@ const PlaylistItem = ({ playlist, shouldHideMenu, onPress }: Props) => {
         }}>
         <Image
           style={{ width: 75, height: 75 }}
-          source={{ uri: songs[0]?.thumbnails[1].url }}
+          source={
+            songs[0]?.thumbnails
+              ? { uri: songs[0]?.thumbnails[1].url }
+              : require('../assets/music.png')
+          }
         />
         <View style={{ marginLeft: 20 }}>
           <Title>{title}</Title>

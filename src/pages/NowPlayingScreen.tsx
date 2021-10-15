@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -37,15 +37,14 @@ const NowPlaying = ({ navigation }) => {
     state => state.songReducer.isSongLoading,
   );
   const seekPosition = useAppSelector(state => state.songReducer.seekPosition);
-  const duration = currentSong?.duration / 1000;
+  const duration = useMemo(() => currentSong?.duration / 1000, [currentSong]);
   const { handlePause } = useHandlePause();
+  const { isFavourite } = useSongStatus(currentSong);
   const { playNextSong, playPreviousSong, handleSeek } = useSongPlayActions();
   const scrollRef = useRef(null);
   const dispatch = useDispatch();
   const imageIndex =
-    currentSong.thumbnails?.length > 1 ? currentSong.thumbnails.length - 2 : 0;
-  // const isUrlLoading = false;
-  const { isFavourite } = useSongStatus(currentSong);
+    currentSong.thumbnails?.length > 1 ? currentSong.thumbnails.length - 1 : 0;
 
   if (!currentSong.url) {
     return null;

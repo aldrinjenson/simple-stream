@@ -29,7 +29,7 @@ const PlaylistsListPage = (props: Props) => {
         <MaterialIcons
           name="playlist-add"
           size={40}
-          color="green"
+          color="black"
           onPress={() => setIsModalVisible(true)}
         />
       </View>

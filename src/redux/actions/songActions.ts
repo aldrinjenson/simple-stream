@@ -84,10 +84,8 @@ export const downloadSong = (song: Song) => {
       songItem = await getRestOfSongProps(song);
     }
     dispatch(apiDispatch(SET_SONG_DOWNLADING, song.videoId));
-    const songName = `${songItem.name}-${songItem.artist.name || songItem.videoId
-      }`
-      .split(' ')
-      .join('_');
+    const { name, thumbnails, url, artist, videoId } = songItem;
+    const songName = `${name}-${artist.name || videoId}`.split(' ').join('_');
     const imgPath = `thumbs/${songName}.png`;
     const songPath = `${songName}.mp3`;
 
@@ -95,14 +93,15 @@ export const downloadSong = (song: Song) => {
       'Downloading Song and thumbnail\nProgress can be checked in the status bar',
     );
 
+    const choosenThumbnail = thumbnails[thumbnails.length - 1];
     let savedSongPath: string = await downloadHelper(
       songPath,
-      songItem.url,
+      url,
       songName + '.mp3',
     );
     let savedImgPath: string = await downloadHelper(
       imgPath,
-      songItem.thumbnails[3].url,
+      choosenThumbnail.url,
       songName + '.jpg',
     );
 
@@ -112,7 +111,7 @@ export const downloadSong = (song: Song) => {
       url: savedSongPath,
       thumbnails: [
         {
-          ...songItem.thumbnails[3],
+          ...choosenThumbnail,
           url:
             Platform.OS === 'android' ? 'file://' + savedImgPath : savedImgPath,
         },

@@ -33,7 +33,7 @@ const initialState: InitialState = {
       title: 'Favourites',
       canBeDeleted: false,
       createdAt: new Date().getTime(),
-      songs: songData,
+      songs: [],
       id: FAVOURITE_ID,
     },
   ],
