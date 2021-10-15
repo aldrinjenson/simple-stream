@@ -1,12 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Linking, StyleSheet, Text, View } from 'react-native';
+import { Button, Headline } from 'react-native-paper';
 
-interface Props {}
-
-const DonatePage = (props: Props) => {
+const DonatePage = () => {
   return (
-    <View>
-      <Text>Donate Page</Text>
+    <View style={{ flex: 1, padding: 10 }}>
+      <Headline>Donate Page</Headline>
+      <Text>Think this app is any good?</Text>
+      <Button
+        style={{ marginTop: 20 }}
+        onPress={() =>
+          Linking.openURL('https://github.com/aldrinjenson/simple-stream')
+        }>
+        Visit project
+      </Button>
     </View>
   );
 };
