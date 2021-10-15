@@ -6,9 +6,15 @@ interface Props {}
 
 const LoadingScreen = (props: Props) => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Loading...</Text>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#FFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
       <ActivityIndicator size="large" />
+      <Text>Loading...</Text>
     </View>
   );
 };

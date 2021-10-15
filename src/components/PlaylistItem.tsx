@@ -59,7 +59,6 @@ const PlaylistItem = ({ playlist, shouldHideMenu, onPress }: Props) => {
               style={{ padding: 10 }}
             />
           }>
-          <Menu.Item onPress={() => {}} title="Download" />
           {canBeDeleted ? (
             <Menu.Item onPress={handlePlaylistDelete} title="Delete Playlist" />
           ) : null}

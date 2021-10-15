@@ -43,7 +43,7 @@ const NowPlaying = ({ navigation }) => {
   const scrollRef = useRef(null);
   const dispatch = useDispatch();
   const imageIndex =
-    currentSong.thumbnails.length > 1 ? currentSong.thumbnails.length - 2 : 0;
+    currentSong.thumbnails?.length > 1 ? currentSong.thumbnails.length - 2 : 0;
   // const isUrlLoading = false;
   const { isFavourite } = useSongStatus(currentSong);
 

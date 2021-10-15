@@ -76,8 +76,8 @@ export const getLyrics = async (item: Song) => {
             resolve({ lyrics: data, timeStamped: false });
           })
           .catch(err => {
-            console.log('all hopes lost in getting lyrics lol');
-            reject(err);
+            console.log('all hopes lost in getting lyrics: ' + err);
+            resolve({ lyrics: [], timeStamped: false });
           });
       });
   });

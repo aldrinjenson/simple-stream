@@ -32,11 +32,11 @@ const PlaylistSongsPage = ({ route }) => {
   };
 
   const menuItems: MenuItem[] = [
-    { text: 'Remove from Playlist', func: removeFromPlaylist },
+    { text: 'Remove from playlist', func: removeFromPlaylist },
   ];
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, padding: 10 }}>
       <Headline>{title}</Headline>
       <Subheading>{songs.length} songs</Subheading>
       <DisplaySongs

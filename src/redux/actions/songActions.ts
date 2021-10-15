@@ -1,4 +1,5 @@
 import { Action, ActionCreator } from 'redux';
+import { PermissionsAndroid, Platform } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import {
   SET_CURRENT_SONG,
@@ -16,7 +17,6 @@ import {
   DOWNLOAD_ID,
   SET_SONG_DOWNLADING,
 } from '../constants/playlistConstants';
-import { PermissionsAndroid, Platform } from 'react-native';
 
 export const setCurentSong = (completeSong: FullSong) => {
   return {
@@ -102,7 +102,7 @@ export const downloadSong = (song: Song) => {
     );
     let savedImgPath: string = await downloadHelper(
       imgPath,
-      songItem.thumbnails[2].url,
+      songItem.thumbnails[3].url,
       songName + '.jpg',
     );
 
@@ -112,7 +112,7 @@ export const downloadSong = (song: Song) => {
       url: savedSongPath,
       thumbnails: [
         {
-          ...songItem.thumbnails[2],
+          ...songItem.thumbnails[3],
           url:
             Platform.OS === 'android' ? 'file://' + savedImgPath : savedImgPath,
         },

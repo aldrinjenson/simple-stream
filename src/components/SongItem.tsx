@@ -4,6 +4,7 @@ import { Menu } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { RenderItemParams } from 'react-native-draggable-flatlist';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { globalStyles } from '../global/globalStyles';
@@ -18,20 +19,21 @@ import {
 } from '../redux/actions/songActions';
 import PlaylistModal from './PlaylistModal';
 import useSongStatus from '../hooks/useSongStatus';
-
 interface Props {
   item: Song;
   handleClick: (item: Song) => void;
   extraMenuItems?: MenuItem[];
+  renderProps?: RenderItemParams<Song>;
+  canDrag: boolean;
 }
 
 const SongItem = (props: Props) => {
   const songQueue = useAppSelector(state => state.queueReducer.songQueue);
   const currentSong = useAppSelector(state => state.songReducer.currentSong);
-  const { item, handleClick, extraMenuItems } = props;
   const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false);
   const [playlistModalVisible, setPlaylistModalVisible] = useState(false);
   const dispatch = useDispatch();
+  const { item, handleClick, extraMenuItems, renderProps, canDrag } = props;
   const { isFavourite, isDownloaded, isDownloading } = useSongStatus(item);
 
   const isQueueActive = useMemo(() => songQueue.length, [songQueue.length]);
@@ -99,7 +101,17 @@ const SongItem = (props: Props) => {
         onDismiss={() => setPlaylistModalVisible(false)}
         song={item}
       />
-      <MaterialIcons name="reorder" size={15} style={{ paddingRight: 2 }} />
+      {canDrag && (
+        <MaterialIcons
+          name="reorder"
+          size={15}
+          style={{
+            paddingRight: 2,
+            paddingVertical: 10,
+          }}
+          onLongPress={renderProps?.drag}
+        />
+      )}
       <TouchableOpacity
         style={{
           flexDirection: 'row',

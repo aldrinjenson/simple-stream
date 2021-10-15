@@ -21,7 +21,10 @@ import AppNavigator from './AppNavigator';
 import rootReducer from './redux/reducers/rootReducer';
 import LoadingScreen from './components/LoadingScreen';
 
-LogBox.ignoreLogs(['react-native-ytdl is out of date!']);
+LogBox.ignoreLogs([
+  'react-native-ytdl is out of date!',
+  'ReactNativeFiberHostComponent: Calling getNode()',
+]);
 if (Platform.OS === 'android') {
   if (typeof (Intl as any).__disableRegExpRestore === 'function') {
     (Intl as any).__disableRegExpRestore();
