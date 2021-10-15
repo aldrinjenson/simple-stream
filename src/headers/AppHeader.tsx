@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/core';
 import { Appbar } from 'react-native-paper';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerActions } from '@react-navigation/native';
+import { SEARCH_SCREEN } from '../constants';
 
 type DrawerParams = {
   Home: {};
@@ -12,15 +13,12 @@ type DrawerParams = {
 };
 
 type HeaderNavigationProps = DrawerNavigationProp<DrawerParams, 'Home'>;
-interface Props {
-  // name: string;
-}
 
 const AppHeader = () => {
   const navigation = useNavigation<HeaderNavigationProps>();
 
   const handleSearch = () => {
-    navigation.navigate('SearchScreen');
+    navigation.navigate(SEARCH_SCREEN);
   };
 
   return (
