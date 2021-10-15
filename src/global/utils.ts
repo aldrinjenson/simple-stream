@@ -6,7 +6,7 @@ import YoutubeMusicApi from 'youtube-music-api';
 import { setSongQueue } from '../redux/actions/queueActions';
 import { API_URL } from '../../config';
 import { SONG_QUEUE_LOADING_START } from '../redux/constants/queueConstants';
-import { Song, FullSongProps } from '../types';
+import { Song, FullSongProps, thumbnail } from '../types';
 
 export const apiDispatch = (actionType: string = '', data: any = null) => {
   return {
@@ -27,7 +27,9 @@ export const formatSeconds = (seconds: number, isMilli = false) => {
   return `${mins}:${sec}`;
 };
 
-export const getUrlAndThumbs = (videoID: String) => {
+export const getUrlAndThumbs = (
+  videoID: String,
+): Promise<{ url: string; thumbnails: thumbnail[] }> => {
   return new Promise(resolve => {
     ytdl
       .getInfo(videoID)
@@ -60,7 +62,7 @@ export const getLyrics = async (item: Song) => {
   }
   const artist = item.artist.name || '';
   const title = item.name;
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     // const lyricUrl = `${LYRICS_API}${title} ${artist}`;
     const lyricUrl = `${API_URL}/lyrics/?artist=${artist}&title=${title}`;
     axios
@@ -126,7 +128,7 @@ export const getSongFromIds = async (songIds: string[]) => {
   return videoDetails;
 };
 
-const getNext = async (id: string) => {
+const getNext = async (id: string): Promise<string[]> => {
   return new Promise(async resolve => {
     const api = new YoutubeMusicApi();
     try {
