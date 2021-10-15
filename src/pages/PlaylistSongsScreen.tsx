@@ -5,7 +5,8 @@ import { useDispatch } from 'react-redux';
 import DisplaySongs from '../components/DisplaySongs';
 import { useAppSelector } from '../hooks/customReduxHooks';
 import { updatePlaylist } from '../redux/actions/playlistActions';
-import { playSong, setSongQueue } from '../redux/actions/songActions';
+import { setSongQueue } from '../redux/actions/queueActions';
+import { playSong } from '../redux/actions/songActions';
 import { MenuItem, Playlist, Song } from '../types';
 
 interface Props {}

@@ -2,14 +2,12 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 
-interface Props {}
-
-const LoadingScreen = (props: Props) => {
+const LoadingScreen = () => {
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: '#FFF',
+        backgroundColor: '#ccc',
         justifyContent: 'center',
         alignItems: 'center',
       }}>

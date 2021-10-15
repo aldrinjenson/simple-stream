@@ -5,15 +5,15 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import NowPlaying from './pages/NowPlaying';
-import SettingsPage from './pages/SettingsPage';
+import NowPlaying from './pages/NowPlayingScreen';
+import SettingsPage from './pages/SettingsScreen';
 import DonatePage from './pages/DonatePage';
 import AppHeader from './headers/AppHeader';
 import BottomBar from './components/Bottombar';
-import SearchPage from './pages/SearchPage';
-import SongQueue from './pages/SongQueue';
-import PlaylistsListPage from './pages/PlaylistsListPage';
-import PlaylistSongsPage from './pages/PlaylistSongsPage';
+import SearchScreen from './pages/SearchScreen';
+import SongQueue from './pages/SongQueueScreen';
+import PlaylistsListPage from './pages/PlaylistsListScreen';
+import PlaylistSongsPage from './pages/PlaylistSongsScreen';
 import {
   NOW_PLAYING_SCREEN,
   PLAYLISTS_SCREEN,
@@ -33,6 +33,7 @@ const HomeTabs = () => (
         name={PLAYLISTS_SCREEN}
         component={PlaylistsListPage}
         options={{
+          title: 'Playlists',
           tabBarIcon: ({ focused }) => (
             <MaterialIcons
               color={focused ? '#2f95dc' : '#000'}
@@ -44,7 +45,7 @@ const HomeTabs = () => (
       />
       <Tab.Screen
         name={SEARCH_SCREEN}
-        component={SearchPage}
+        component={SearchScreen}
         options={{
           title: 'Search songs',
           tabBarIcon: ({ focused }) => (

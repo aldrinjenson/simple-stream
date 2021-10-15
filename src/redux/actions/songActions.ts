@@ -139,13 +139,6 @@ export const setIsPlaying: ActionCreator<Action> = (isPlaying: boolean) => {
   };
 };
 
-export const setSongQueue: ActionCreator<Action> = (songQueue: Song[]) => {
-  return {
-    type: SET_SONG_QUEUE,
-    payload: songQueue,
-  };
-};
-
 export const toggleFavouriteSong: ActionCreator<Action> = (song: Song) => {
   Toast.show('Updating Favourites');
   return {

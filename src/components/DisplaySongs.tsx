@@ -1,12 +1,12 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { useDispatch } from 'react-redux';
 import { useRoute } from '@react-navigation/native';
-import { setSongQueue } from '../redux/actions/songActions';
 import { MenuItem, Playlist, Song } from '../types';
 import SongItem from './SongItem';
 import { PLAYLIST_SONGS_SCREEN, SONG_QUEUE_SCREEN } from '../constants';
+import { setSongQueue } from '../redux/actions/queueActions';
 import { updatePlaylist } from '../redux/actions/playlistActions';
 import { useAppSelector } from '../hooks/customReduxHooks';
 
@@ -47,20 +47,22 @@ const DisplaySongs = (props: Props) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <DraggableFlatList
-        data={songs}
-        keyExtractor={(item, index) => index.toString()}
-        onDragEnd={({ data }) => handleDragEnd(data)}
-        renderItem={renderProps => (
-          <SongItem
-            extraMenuItems={extraMenuItems}
-            item={renderProps.item}
-            handleClick={handleClick}
-            renderProps={renderProps}
-            canDrag={canDrag}
-          />
-        )}
-      />
+      {songs.length ? (
+        <DraggableFlatList
+          data={songs}
+          keyExtractor={(item, index) => index.toString()}
+          onDragEnd={({ data }) => handleDragEnd(data)}
+          renderItem={renderProps => (
+            <SongItem
+              extraMenuItems={extraMenuItems}
+              item={renderProps.item}
+              handleClick={handleClick}
+              renderProps={renderProps}
+              canDrag={canDrag}
+            />
+          )}
+        />
+      ) : null}
     </View>
   );
 };

@@ -1,11 +1,12 @@
 import axios from 'axios';
+import Toast from 'react-native-simple-toast';
 import ytdl from 'react-native-ytdl';
 import YoutubeMusicApi from 'youtube-music-api';
-import Toast from 'react-native-simple-toast';
+
+import { setSongQueue } from '../redux/actions/queueActions';
 import { API_URL } from '../../config';
 import { SONG_QUEUE_LOADING_START } from '../redux/constants/queueConstants';
 import { Song, FullSongProps } from '../types';
-import { setSongQueue } from '../redux/actions/songActions';
 
 export const apiDispatch = (actionType: string = '', data: any = null) => {
   return {

@@ -8,7 +8,7 @@ import { globalStyles } from '../global/globalStyles';
 import DisplaySongs from '../components/DisplaySongs';
 import { Song } from '../types';
 import { playSong } from '../redux/actions/songActions';
-import SongListActions from '../components/SongListActions';
+import SongListAppbar from '../components/SongListAppbar';
 
 const SongQueue = () => {
   const queueSongs = useAppSelector<Song[]>(
@@ -32,7 +32,7 @@ const SongQueue = () => {
         <ActivityIndicator animating={true} color="blue" size="large" />
       ) : (
         <>
-          <SongListActions />
+          <SongListAppbar />
           <DisplaySongs songs={queueSongs} handleClick={handleClick} />
         </>
       )}

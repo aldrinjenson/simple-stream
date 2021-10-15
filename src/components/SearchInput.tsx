@@ -7,16 +7,16 @@ interface Props {
 }
 
 const SearchInput = ({ handleSearch }: Props) => {
-  const [searchQuery, setSearchQuery] = React.useState('Coldplay');
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   const handleSubmit = () => {
-    handleSearch(searchQuery);
+    searchQuery.length && handleSearch(searchQuery);
   };
 
   return (
     <View style={{ marginVertical: 20 }}>
       <Searchbar
-        placeholder="Search"
+        placeholder="try 'Imagine Dragons'"
         onChangeText={query => setSearchQuery(query)}
         value={searchQuery}
         onIconPress={handleSubmit}

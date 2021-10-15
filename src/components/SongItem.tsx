@@ -14,9 +14,9 @@ import { useAppSelector } from '../hooks/customReduxHooks';
 import {
   downloadSong,
   playSong,
-  setSongQueue,
   toggleFavouriteSong,
 } from '../redux/actions/songActions';
+import { setSongQueue } from '../redux/actions/queueActions';
 import PlaylistModal from './PlaylistModal';
 import useSongStatus from '../hooks/useSongStatus';
 interface Props {

@@ -20,7 +20,7 @@ const AppHeader = () => {
   const navigation = useNavigation<HeaderNavigationProps>();
 
   const handleSearch = () => {
-    navigation.navigate('SearchPage');
+    navigation.navigate('SearchScreen');
   };
 
   return (
