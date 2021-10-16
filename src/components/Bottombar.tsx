@@ -8,6 +8,8 @@ import { sentenceCase } from '../global/utils';
 import { Song } from '../types';
 import useSongPlayActions from '../hooks/useSongPlayActions';
 import useHandlePause from '../hooks/useHandlePause';
+import { playNextSong } from '../redux/actions/queueActions';
+import { useDispatch } from 'react-redux';
 
 const BottomBar = () => {
   const navigation = useNavigation();
@@ -17,15 +19,14 @@ const BottomBar = () => {
   const isPlaying = useAppSelector<boolean>(
     state => state.songReducer.isPlaying,
   );
-  const { playNextSong } = useSongPlayActions();
   const { handlePause } = useHandlePause();
+  const dispatch = useDispatch();
 
   const isUrlLoading = false;
 
   if (!currentSong?.url) {
     return null;
   }
-
   return (
     <View style={styles.bottomBar}>
       <TouchableOpacity
@@ -61,7 +62,7 @@ const BottomBar = () => {
         />
 
         <MaterialIcons
-          onPress={() => playNextSong()}
+          onPress={() => dispatch(playNextSong())}
           name="skip-next"
           size={45}
           color="white"

@@ -1,14 +1,18 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Appbar } from 'react-native-paper';
-import useSongPlayActions from '../hooks/useSongPlayActions';
+import { useDispatch } from 'react-redux';
+import { shuffleQueue } from '../redux/actions/queueActions';
 
 const SongListAppbar = () => {
-  const { shuffleQueue } = useSongPlayActions();
+  const dispatch = useDispatch();
   return (
     <View style={{ marginBottom: 20 }}>
       <Appbar style={styles.bottom}>
-        <Appbar.Action icon="shuffle" onPress={shuffleQueue} />
+        <Appbar.Action
+          icon="shuffle"
+          onPress={() => dispatch(shuffleQueue())}
+        />
       </Appbar>
     </View>
   );

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,59 +11,59 @@ import { Song } from '../types';
 
 const MAX_LYRICS_HEIGHT = 500;
 
-interface TimeStampedLyricsProps {
-  lyrics: { seconds: number; lyrics: string }[] | null;
-  shouldScroll: boolean;
-  position: number;
-}
+// interface TimeStampedLyricsProps {
+//   lyrics: { seconds: number; lyrics: string }[] | null;
+//   shouldScroll: boolean;
+//   position: number;
+// }
 
-const TimeStampedLyrics = React.forwardRef(
-  (props: TimeStampedLyricsProps, forwardedRef) => {
-    const { lyrics, shouldScroll, position } = props;
-    const lineHeight = useMemo(() => MAX_LYRICS_HEIGHT / lyrics.length, []);
+// const TimeStampedLyrics = React.forwardRef(
+//   (props: TimeStampedLyricsProps, forwardedRef) => {
+//     const { lyrics, shouldScroll, position } = props;
+//     const lineHeight = useMemo(() => MAX_LYRICS_HEIGHT / lyrics.length, []);
 
-    return (
-      <View style={{ marginBottom: 20 }}>
-        {lyrics?.map(({ seconds, lyrics: lyric }, index) => {
-          let color = position > seconds ? 'grey' : 'black';
-          let fontSize = 16;
-          if (position >= seconds && position <= lyrics[index + 1]?.seconds) {
-            color = 'red';
-            // fontSize = 17;
-            shouldScroll &&
-              forwardedRef?.scrollTo({
-                x: 0,
-                y: index * lineHeight,
-                animated: true,
-              });
-          }
-          return (
-            <Text
-              style={{
-                color,
-                fontSize,
-              }}
-              key={index}>
-              {lyric}
-            </Text>
-          );
-        })}
-      </View>
-    );
-  },
-);
+//     return (
+//       <View style={{ marginBottom: 20 }}>
+//         {lyrics?.map(({ seconds, lyrics: lyric }, index) => {
+//           let color = position > seconds ? 'grey' : 'black';
+//           let fontSize = 16;
+//           if (position >= seconds && position <= lyrics[index + 1]?.seconds) {
+//             color = 'red';
+//             // fontSize = 17;
+//             shouldScroll &&
+//               forwardedRef?.scrollTo({
+//                 x: 0,
+//                 y: index * lineHeight,
+//                 animated: true,
+//               });
+//           }
+//           return (
+//             <Text
+//               style={{
+//                 color,
+//                 fontSize,
+//               }}
+//               key={index}>
+//               {lyric}
+//             </Text>
+//           );
+//         })}
+//       </View>
+//     );
+//   },
+// );
 
-const RegularLyrics = ({ lyrics }: { lyrics: string[] }) => {
-  return (
-    <View>
-      {lyrics?.map((line, index) => (
-        <Text style={{ fontSize: 16 }} key={index}>
-          {line}
-        </Text>
-      ))}
-    </View>
-  );
-};
+// const RegularLyrics = ({ lyrics }: { lyrics: string[] }) => {
+//   return (
+//     <View>
+//       {lyrics?.map((line, index) => (
+//         <Text style={{ fontSize: 16 }} key={index}>
+//           {line}
+//         </Text>
+//       ))}
+//     </View>
+//   );
+// };
 interface LyricProps {
   song: Song;
   position: number;
@@ -72,7 +72,6 @@ interface LyricProps {
 const LyricsComponent = React.forwardRef((props: LyricProps, forwardedRef) => {
   const {
     song: { lyrics, timeStamped },
-    position,
   } = props;
   const lyricLineRef = useRef();
   const [shouldScroll, setShouldScroll] = useState(true);
@@ -106,16 +105,7 @@ const LyricsComponent = React.forwardRef((props: LyricProps, forwardedRef) => {
             )}
           </View>
           <ScrollView ref={lyricLineRef} nestedScrollEnabled={true}>
-            {timeStamped ? (
-              <TimeStampedLyrics
-                ref={lyricLineRef.current}
-                shouldScroll={shouldScroll}
-                lyrics={lyrics}
-                position={position}
-              />
-            ) : (
-              <RegularLyrics lyrics={lyrics} />
-            )}
+            <Text>{lyrics}</Text>
           </ScrollView>
         </>
       ) : (

@@ -4,7 +4,6 @@ import ytdl from 'react-native-ytdl';
 import YoutubeMusicApi from 'youtube-music-api';
 
 import { setSongQueue } from '../redux/actions/queueActions';
-import { API_URL } from '../../config';
 import { SONG_QUEUE_LOADING_START } from '../redux/constants/queueConstants';
 import { Song, FullSongProps, thumbnail } from '../types';
 
@@ -56,34 +55,20 @@ export const getUrlAndThumbs = (
 };
 
 export const getLyrics = async (item: Song) => {
-  if (item?.lyrics) {
-    // lyrics already saved in db
-    return item.lyrics;
-  }
   const artist = item.artist.name || '';
-  const title = item.name.split('(')[0];
-  return new Promise(resolve => {
-    // const lyricUrl = `${LYRICS_API}${title} ${artist}`;
-    const lyricUrl = `${API_URL}/lyrics/?artist=${artist}&title=${title}`;
-    axios
-      .get(lyricUrl)
-      .then(({ data }) => {
-        // resolve({ lyrics: data, timeStamped: true });
-        resolve({ lyrics: data, timeStamped: false });
-      })
-      .catch(async () => {
-        const url = `${API_URL}/lyrics/?artist=${artist}&title=${title}`;
-        axios
-          .get(url)
-          .then(({ data }) => {
-            resolve({ lyrics: data, timeStamped: false });
-          })
-          .catch(err => {
-            console.log('all hopes lost in getting lyrics: ' + err);
-            resolve({ lyrics: [], timeStamped: false });
-          });
-      });
-  });
+  const title = item.name;
+  try {
+    const { lyrics }: { lyrics: string } = (
+      await axios.get(`https://api.lyrics.ovh/v1/${artist}/${title}`)
+    ).data;
+    return {
+      lyrics: lyrics.replace('Paroles de la chanson ', ''),
+      timeStamped: false,
+    };
+  } catch (err) {
+    console.log('Error in getting lyrics: ' + err);
+    return { lyrics: '', timeStamped: false };
+  }
 };
 
 export const getRestOfSongProps = (item: Song) => {

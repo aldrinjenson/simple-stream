@@ -4,10 +4,10 @@ import SoundPlayer from 'react-native-sound-player';
 import { useDispatch } from 'react-redux';
 import MusicControl, { Command } from 'react-native-music-control';
 import { useAppSelector } from '../hooks/customReduxHooks';
-import useSongPlayActions from '../hooks/useSongPlayActions';
 import { setIsPlaying, setSeekPosition } from '../redux/actions/songActions';
 import { Song } from '../types';
 import useHandlePause from '../hooks/useHandlePause';
+import { playNextSong, playPreviousSong } from '../redux/actions/queueActions';
 
 const SongPlayer = () => {
   const currentSong = useAppSelector<Song>(
@@ -15,7 +15,6 @@ const SongPlayer = () => {
   );
   const { handlePause } = useHandlePause();
   const dispatch = useDispatch();
-  const { playNextSong, playPreviousSong } = useSongPlayActions();
 
   useEffect(() => {
     let songPositionPoller: NodeJS.Timeout | null = null;
@@ -46,8 +45,8 @@ const SongPlayer = () => {
             isInfoCbReceivedMutex = true;
             const { currentTime, duration } = info;
             dispatch(setSeekPosition(info.currentTime));
-            if (currentTime && duration - currentTime <= 1) {
-              playNextSong();
+            if (currentTime && duration - currentTime <= 2) {
+              dispatch(playNextSong());
             }
             isInfoCbReceivedMutex = true; // unlock mutex
           });
@@ -93,9 +92,9 @@ const SongPlayer = () => {
     MusicControl.on(Command.pause, handlePause);
     MusicControl.on(Command.seek, SoundPlayer.seek);
 
-    MusicControl.on(Command.nextTrack, playNextSong);
-    MusicControl.on(Command.previousTrack, playPreviousSong);
-  }, [handlePause, playNextSong, playPreviousSong]);
+    MusicControl.on(Command.nextTrack, () => dispatch(playNextSong()));
+    MusicControl.on(Command.previousTrack, () => dispatch(playPreviousSong()));
+  }, [dispatch, handlePause]);
 
   return <View />;
 };

@@ -20,6 +20,7 @@ import useSongPlayActions from '../hooks/useSongPlayActions';
 import { useDispatch } from 'react-redux';
 import { toggleFavouriteSong } from '../redux/actions/songActions';
 import useSongStatus from '../hooks/useSongStatus';
+import { playNextSong, playPreviousSong } from '../redux/actions/queueActions';
 
 // try webscraping from this one to get timestamped lyrics
 // https://www.megalobiz.com/search/all?qry=hello+adele
@@ -40,14 +41,14 @@ const NowPlaying = ({ navigation }) => {
   const duration = useMemo(() => currentSong?.duration / 1000, [currentSong]);
   const { handlePause } = useHandlePause();
   const { isFavourite } = useSongStatus(currentSong);
-  const { playNextSong, playPreviousSong, handleSeek } = useSongPlayActions();
+  const { handleSeek } = useSongPlayActions();
   const scrollRef = useRef(null);
   const dispatch = useDispatch();
   const imageIndex =
     currentSong.thumbnails?.length > 1 ? currentSong.thumbnails.length - 1 : 0;
 
   if (!currentSong.url) {
-    return null;
+    navigation.goBack();
   }
 
   return (
@@ -111,7 +112,7 @@ const NowPlaying = ({ navigation }) => {
           <View style={{ flexDirection: 'row' }}>
             <MaterialIcons
               name="skip-previous"
-              onPress={playPreviousSong}
+              onPress={() => dispatch(playPreviousSong())}
               size={70}
               color={isUrlLoading ? 'grey' : 'black'}
             />
@@ -123,7 +124,7 @@ const NowPlaying = ({ navigation }) => {
             />
 
             <MaterialIcons
-              onPress={() => playNextSong()}
+              onPress={() => dispatch(playNextSong())}
               name="skip-next"
               size={70}
               color={isUrlLoading ? 'grey' : 'black'}
