@@ -61,8 +61,10 @@ export const getLyrics = async (item: Song) => {
     const { lyrics }: { lyrics: string } = (
       await axios.get(`https://api.lyrics.ovh/v1/${artist}/${title}`)
     ).data;
+    let convertedLyrics = lyrics.replace(/.*par.*\r\n/, '');
+
     return {
-      lyrics: lyrics.replace('Paroles de la chanson ', ''),
+      lyrics: convertedLyrics,
       timeStamped: false,
     };
   } catch (err) {

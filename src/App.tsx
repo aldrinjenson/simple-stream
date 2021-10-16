@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import {
-  ActivityIndicator,
-  DefaultTheme,
-  Provider as PaperProvider,
-} from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { createStore, applyMiddleware } from 'redux';
 import { LogBox } from 'react-native';
 import { Provider } from 'react-redux';

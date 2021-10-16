@@ -76,7 +76,7 @@ const SongPlayer = () => {
         SoundPlayer.play();
         dispatch(setIsPlaying(true));
         MusicControl.updatePlayback({
-          state: MusicControl.STATE_PLAYING, // (STATE_ERROR, STATE_STOPPED, STATE_PLAYING, STATE_PAUSED, STATE_BUFFERING)
+          state: MusicControl.STATE_PLAYING,
           elapsedTime: 0,
         });
       },

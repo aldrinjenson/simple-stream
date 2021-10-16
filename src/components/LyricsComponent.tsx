@@ -105,7 +105,7 @@ const LyricsComponent = React.forwardRef((props: LyricProps, forwardedRef) => {
             )}
           </View>
           <ScrollView ref={lyricLineRef} nestedScrollEnabled={true}>
-            <Text>{lyrics}</Text>
+            <Text style={{ fontSize: 16 }}>{lyrics}</Text>
           </ScrollView>
         </>
       ) : (
