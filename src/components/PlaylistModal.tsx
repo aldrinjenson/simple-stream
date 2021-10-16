@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { Button, Dialog, Portal, Subheading, Title } from 'react-native-paper';
+import { Button, Dialog, Portal, Subheading } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../hooks/customReduxHooks';
@@ -19,7 +19,7 @@ const PlaylistModal = (props: Props) => {
   const { visible, onDismiss, song } = props;
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
-  const allPlaylists = useAppSelector<Playlist[]>(
+  const [, , ...allPlaylists] = useAppSelector<Playlist[]>(
     state => state.playlistReducer.playlists,
   );
 

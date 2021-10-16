@@ -34,10 +34,11 @@ const SongItem = (props: Props) => {
   const [playlistModalVisible, setPlaylistModalVisible] = useState(false);
   const dispatch = useDispatch();
   const { item, handleClick, extraMenuItems, renderProps, canDrag } = props;
-  const { isFavourite, isDownloaded, isDownloading } = useSongStatus(item);
+  const { isFavourite, isDownloaded, isDownloading, isInQueue } = useSongStatus(
+    item,
+  );
 
   const isQueueActive = useMemo(() => songQueue.length, [songQueue.length]);
-  const isInQueue = useMemo(() => songQueue.includes(item), [item, songQueue]);
   const isCurrentSong = currentSong?.videoId === item.videoId;
 
   const handleAddorRemoveToQueue = () => {

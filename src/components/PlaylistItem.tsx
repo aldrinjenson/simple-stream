@@ -4,6 +4,8 @@ import { Title, Paragraph, Menu } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch } from 'react-redux';
 import { deletePlaylist } from '../redux/actions/playlistActions';
+import { setSongQueue } from '../redux/actions/queueActions';
+import { playSong } from '../redux/actions/songActions';
 import { Playlist } from '../types';
 
 interface Props {
@@ -19,6 +21,11 @@ const PlaylistItem = ({ playlist, shouldHideMenu, onPress }: Props) => {
 
   const handlePlaylistDelete = () => {
     dispatch(deletePlaylist(playlistId));
+  };
+
+  const handlePlaylistPlay = () => {
+    dispatch(playSong(songs[0]));
+    dispatch(setSongQueue(songs));
   };
 
   return (
@@ -48,7 +55,9 @@ const PlaylistItem = ({ playlist, shouldHideMenu, onPress }: Props) => {
         />
         <View style={{ marginLeft: 20 }}>
           <Title>{title}</Title>
-          <Paragraph>{songs.length} songs</Paragraph>
+          <Paragraph>
+            {songs.length} song{songs.length > 1 && 's'}
+          </Paragraph>
         </View>
       </TouchableOpacity>
       {!shouldHideMenu && (
@@ -63,6 +72,7 @@ const PlaylistItem = ({ playlist, shouldHideMenu, onPress }: Props) => {
               style={{ padding: 10 }}
             />
           }>
+          <Menu.Item onPress={handlePlaylistPlay} title="Play Songs" />
           {canBeDeleted ? (
             <Menu.Item onPress={handlePlaylistDelete} title="Delete Playlist" />
           ) : null}

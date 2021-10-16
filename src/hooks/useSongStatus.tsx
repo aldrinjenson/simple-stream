@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { FAVOURITE_ID } from '../redux/constants/playlistConstants';
 import { Song, Playlist, DownloadPath } from '../types';
 import { useAppSelector } from './customReduxHooks';
@@ -7,6 +7,7 @@ const useSongStatus = (songItem: Song) => {
   const [isFavourite, setIsFavourite] = useState(false);
   const [isDownloaded, setIsDownloaded] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isInQueue, setIsInQueue] = useState(false);
 
   const allPlaylists = useAppSelector<Playlist[]>(
     state => state.playlistReducer.playlists,
@@ -16,6 +17,9 @@ const useSongStatus = (songItem: Song) => {
   );
   const downloadingSongs = useAppSelector<string[]>(
     state => state.playlistReducer.downloadingSongs,
+  );
+  const songQueue = useAppSelector<Song[]>(
+    state => state.queueReducer.songQueue,
   );
 
   useEffect(() => {
@@ -44,7 +48,15 @@ const useSongStatus = (songItem: Song) => {
     setIsDownloading(downloadingSongs.includes(songItem.videoId));
   }, [downloadingSongs, songItem]);
 
-  return { isFavourite, isDownloaded, isDownloading };
+  const queueSongIds = useMemo(() => songQueue.map(s => s.videoId), [
+    songQueue,
+  ]);
+
+  useEffect(() => {
+    setIsInQueue(queueSongIds.includes(songItem.videoId));
+  }, [queueSongIds, songItem]);
+
+  return { isFavourite, isDownloaded, isDownloading, isInQueue };
 };
 
 export default useSongStatus;

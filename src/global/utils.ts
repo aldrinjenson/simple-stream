@@ -61,7 +61,7 @@ export const getLyrics = async (item: Song) => {
     return item.lyrics;
   }
   const artist = item.artist.name || '';
-  const title = item.name;
+  const title = item.name.split('(')[0];
   return new Promise(resolve => {
     // const lyricUrl = `${LYRICS_API}${title} ${artist}`;
     const lyricUrl = `${API_URL}/lyrics/?artist=${artist}&title=${title}`;

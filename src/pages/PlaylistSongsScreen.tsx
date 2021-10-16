@@ -1,15 +1,14 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Headline, Subheading } from 'react-native-paper';
+import { Appbar, Headline, Subheading } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
+
 import DisplaySongs from '../components/DisplaySongs';
 import { useAppSelector } from '../hooks/customReduxHooks';
 import { updatePlaylist } from '../redux/actions/playlistActions';
 import { setSongQueue } from '../redux/actions/queueActions';
 import { playSong } from '../redux/actions/songActions';
 import { MenuItem, Playlist, Song } from '../types';
-
-interface Props {}
 
 const PlaylistSongsPage = ({ route }) => {
   const playlistId: number = route.params.playlistId;
@@ -32,6 +31,11 @@ const PlaylistSongsPage = ({ route }) => {
     dispatch(updatePlaylist({ ...playlist, songs: updatedPlaylistSongs }));
   };
 
+  const handlePlaylistPlay = () => {
+    dispatch(playSong(songs[0]));
+    dispatch(setSongQueue(songs));
+  };
+
   const menuItems: MenuItem[] = [
     { text: 'Remove from playlist', func: removeFromPlaylist },
   ];
@@ -39,7 +43,12 @@ const PlaylistSongsPage = ({ route }) => {
   return (
     <View style={{ flex: 1, padding: 10 }}>
       <Headline>{title}</Headline>
-      <Subheading>{songs.length} songs</Subheading>
+      <Subheading>
+        {songs.length} song{songs.length > 1 && 's'}
+      </Subheading>
+      <Appbar style={{ justifyContent: 'flex-end', marginVertical: 15 }}>
+        <Appbar.Action icon="play" onPress={handlePlaylistPlay} />
+      </Appbar>
       <DisplaySongs
         extraMenuItems={menuItems}
         songs={songs}
