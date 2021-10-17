@@ -37,9 +37,11 @@ const SongItem = (props: Props) => {
   const { isFavourite, isDownloaded, isDownloading, isInQueue } = useSongStatus(
     item,
   );
-
   const isQueueActive = useMemo(() => songQueue.length, [songQueue.length]);
-  const isCurrentSong = currentSong?.videoId === item.videoId;
+  const isCurrentSong = useMemo(() => currentSong?.videoId === item.videoId, [
+    currentSong?.videoId,
+    item.videoId,
+  ]);
 
   const handleAddorRemoveToQueue = () => {
     setIsMenuVisible(false);

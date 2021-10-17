@@ -118,7 +118,7 @@ export const downloadSong = (song: Song) => {
       ],
     };
 
-    Toast.show('Song downloaded to: ' + savedSongPath);
+    Toast.show('Song downloaded to: ' + savedSongPath, Toast.LONG);
     dispatch(addSongToDownloads(fullSong));
     dispatch(addSongToPlaylist(DOWNLOAD_ID, song));
   };

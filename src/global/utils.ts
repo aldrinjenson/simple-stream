@@ -5,7 +5,7 @@ import YoutubeMusicApi from 'youtube-music-api';
 
 import { setSongQueue } from '../redux/actions/queueActions';
 import { SONG_QUEUE_LOADING_START } from '../redux/constants/queueConstants';
-import { Song, FullSongProps, thumbnail } from '../types';
+import { Song, FullSongProps, thumbnail, FullSong } from '../types';
 
 export const apiDispatch = (actionType: string = '', data: any = null) => {
   return {
@@ -46,7 +46,7 @@ export const getUrlAndThumbs = (
         });
       })
       .catch((err: Error) => {
-        console.log('error in getting url!!', err);
+        console.log('error in getting url: ' + err);
         Toast.show(
           'There seems to be some issues with the network. Please try after some time',
         );
@@ -68,19 +68,17 @@ export const getLyrics = async (item: Song) => {
       timeStamped: false,
     };
   } catch (err) {
-    console.log('Error in getting lyrics: ' + err);
+    console.log(`Error in getting lyrics for ${title}: ` + err);
     return { lyrics: '', timeStamped: false };
   }
 };
 
-export const getRestOfSongProps = (item: Song) => {
+export const getRestOfSongProps = (item: Song): Promise<FullSong> => {
   return new Promise(async resolve => {
     try {
-      const { lyrics, timeStamped } = await getLyrics(item);
-      getUrlAndThumbs(item.videoId).then(({ url, thumbnails }) => {
-        const obj = { ...item, lyrics, timeStamped, url, thumbnails };
-        resolve(obj);
-      });
+      Promise.all([await getUrlAndThumbs(item.videoId), await getLyrics(item)])
+        .then(([f, s]) => resolve({ ...item, ...f, ...s }))
+        .catch(err => console.log(err));
     } catch (error) {
       Toast.show(
         'There seems to be some issues with the network. Please try after some time',

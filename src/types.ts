@@ -14,7 +14,7 @@ export type Action = {
   payload: any;
 };
 
-export type Lyric = string[] | { seconds: number; lyrics: string }[];
+export type Lyric = string[] | { seconds: number; lyrics: string }[] | string;
 
 export type thumbnail = { url: string; width: number; height: number };
 export interface Song {

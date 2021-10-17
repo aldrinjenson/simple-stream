@@ -88,12 +88,12 @@ const AppNavigator = () => {
       <Stack.Screen
         name={SONG_QUEUE_SCREEN}
         component={SongQueue}
-        options={{ headerShown: true }}
+        options={{ headerShown: true, title: 'Song Queue' }}
       />
       <Stack.Screen
         name={PLAYLIST_SONGS_SCREEN}
         component={PlaylistSongsPage}
-        options={{ headerShown: true }}
+        options={{ headerShown: true, title: 'Playlist songs' }}
       />
     </Stack.Navigator>
   );

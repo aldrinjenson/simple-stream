@@ -47,7 +47,7 @@ const DisplaySongs = (props: Props) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, marginBottom: 5 }}>
       {songs.length ? (
         <DraggableFlatList
           data={songs}
