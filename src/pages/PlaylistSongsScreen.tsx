@@ -5,9 +5,13 @@ import { useDispatch } from 'react-redux';
 
 import DisplaySongs from '../components/DisplaySongs';
 import { useAppSelector } from '../hooks/customReduxHooks';
-import { updatePlaylist } from '../redux/actions/playlistActions';
+import {
+  removeSongFromDownloads,
+  updatePlaylist,
+} from '../redux/actions/playlistActions';
 import { setSongQueue } from '../redux/actions/queueActions';
 import { playSong } from '../redux/actions/songActions';
+import { DOWNLOAD_ID } from '../redux/constants/playlistConstants';
 import { MenuItem, Playlist, Song } from '../types';
 
 const PlaylistSongsPage = ({ route }) => {
@@ -29,6 +33,9 @@ const PlaylistSongsPage = ({ route }) => {
       song => song.videoId !== item.videoId,
     );
     dispatch(updatePlaylist({ ...playlist, songs: updatedPlaylistSongs }));
+    if (playlist.id === DOWNLOAD_ID) {
+      dispatch(removeSongFromDownloads(item.videoId));
+    }
   };
 
   const handlePlaylistPlay = () => {

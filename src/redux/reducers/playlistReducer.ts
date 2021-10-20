@@ -7,10 +7,10 @@ import {
   DELETE_PLAYLIST,
   DOWNLOAD_ID,
   FAVOURITE_ID,
+  REMOVE_SONG_FROM_DOWNLOADS,
   SET_SONG_DOWNLADING,
   UPDATE_PLAYLIST,
 } from '../constants/playlistConstants';
-import songData from '../../data';
 import { TOGGLE_SONG_FAVOURITE } from '../constants/songConstants';
 import { addNewSongInPlaylist, toggleSongFavouriteInList } from '../reduxUtils';
 
@@ -66,6 +66,14 @@ const playlistReducer = (state = initialState, action: Action) => {
         ...state,
         downloadPaths: { ...state.downloadPaths, [videoId]: payload },
         downloadingSongs: state.downloadingSongs.filter(vId => vId !== videoId),
+      };
+
+    case REMOVE_SONG_FROM_DOWNLOADS:
+      const updatededDownloads = { ...state.downloadPaths };
+      delete updatededDownloads[payload];
+      return {
+        ...state,
+        downloadPaths: updatededDownloads,
       };
 
     case UPDATE_PLAYLIST:

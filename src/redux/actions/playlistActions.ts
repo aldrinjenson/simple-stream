@@ -4,6 +4,7 @@ import {
   ADD_SONG_TO_DOWNLOADS,
   ADD_TO_PLAYLIST,
   DELETE_PLAYLIST,
+  REMOVE_SONG_FROM_DOWNLOADS,
   UPDATE_PLAYLIST,
 } from '../constants/playlistConstants';
 
@@ -39,5 +40,12 @@ export const addSongToDownloads = (songObj: FullSong) => {
   return {
     type: ADD_SONG_TO_DOWNLOADS,
     payload: songObj,
+  };
+};
+
+export const removeSongFromDownloads = (songId: string) => {
+  return {
+    type: REMOVE_SONG_FROM_DOWNLOADS,
+    payload: songId,
   };
 };

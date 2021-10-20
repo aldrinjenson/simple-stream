@@ -56,7 +56,7 @@ export const getUrlAndThumbs = (
 
 export const getLyrics = async (item: Song) => {
   const artist = item.artist.name || '';
-  const title = item.name;
+  const title = item.name.split('(')[0];
   try {
     const { lyrics }: { lyrics: string } = (
       await axios.get(`https://api.lyrics.ovh/v1/${artist}/${title}`)
