@@ -20,7 +20,9 @@ import LoadingScreen from './components/LoadingScreen';
 LogBox.ignoreLogs([
   'react-native-ytdl is out of date!',
   'ReactNativeFiberHostComponent: Calling getNode()',
+  'Require cycle: node_modules/rn-fetch-blob/index.js -> node_modules/rn-fetch-blob',
 ]);
+
 if (Platform.OS === 'android') {
   if (typeof (Intl as any).__disableRegExpRestore === 'function') {
     (Intl as any).__disableRegExpRestore();

@@ -7,7 +7,8 @@ interface Props {
 }
 
 const SearchInput = ({ handleSearch }: Props) => {
-  const [searchQuery, setSearchQuery] = React.useState('');
+  // const [searchQuery, setSearchQuery] = React.useState('');
+  const [searchQuery, setSearchQuery] = React.useState('Coldplay');
   const inputRef = useRef(null);
   useEffect(() => {
     inputRef.current?.focus();
