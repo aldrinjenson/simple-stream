@@ -113,29 +113,22 @@ export const getSongFromIds = async (songIds: string[]) => {
   return videoDetails;
 };
 
+const api = new YoutubeMusicApi();
 const getNext = async (id: string): Promise<string[]> => {
-  return new Promise(async resolve => {
-    const api = new YoutubeMusicApi();
-    try {
-      api
-        .initalize()
-        .then(async () => {
-          const suggestions = await api.getNext(id);
-          const videoIds = suggestions.content.map(
-            (suggestion: { videoId: string }) => suggestion.videoId,
-          );
-          resolve(videoIds);
-        })
-        .catch((err: Error) => {
-          console.log('Error in initializing api: ' + err);
-        });
-    } catch (error) {
-      Toast.show(
-        'There seems to be some issues with the network. Please try after some time',
-      );
-      console.log('error in getting suggestions ' + error);
-    }
-  });
+  try {
+    await api.initalize();
+    const { content } = await api.getNext(id);
+    const videoIds = content.map(
+      (suggestion: { videoId: string }) => suggestion.videoId,
+    );
+    return videoIds;
+  } catch (error) {
+    Toast.show(
+      'There seems to be some issues with the network. Please try after some time',
+    );
+    console.log('error in getting suggestions ' + error);
+    return [];
+  }
 };
 
 export const getSuggestedSongsList = (id: string) => {
