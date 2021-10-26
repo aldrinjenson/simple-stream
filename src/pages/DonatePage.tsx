@@ -1,6 +1,6 @@
 import React from 'react';
-import { Linking, StyleSheet, Text, View } from 'react-native';
-import { Button, Headline } from 'react-native-paper';
+import { Linking, StyleSheet, View } from 'react-native';
+import { Button, Headline, Text } from 'react-native-paper';
 
 const DonatePage = () => {
   return (

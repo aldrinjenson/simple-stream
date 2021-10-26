@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import YoutubeMusicApi from 'youtube-music-api';
 import { useDispatch } from 'react-redux';
+import { Text } from 'react-native-paper';
 
 import { globalStyles } from '../global/globalStyles';
 import DisplaySongs from '../components/DisplaySongs';
@@ -47,7 +48,7 @@ const SearchScreen = () => {
   };
 
   return (
-    <View style={{ backgroundColor: '#ccc', ...globalStyles.pageContainer }}>
+    <View style={{ ...globalStyles.pageContainer }}>
       <Text style={globalStyles.pageTitle}>Browse Songs</Text>
       <SearchInput handleSearch={handleSearch} />
       {isLoading ? (

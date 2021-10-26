@@ -1,13 +1,16 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { Text } from 'react-native-paper';
 import { ActivityIndicator } from 'react-native-paper';
+import { useAppSelector } from '../hooks/customReduxHooks';
 
 const LoadingScreen = () => {
+  const theme = useAppSelector(state => state.settingsReducer.theme);
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: '#ccc',
+        backgroundColor: theme.background,
         justifyContent: 'center',
         alignItems: 'center',
       }}>

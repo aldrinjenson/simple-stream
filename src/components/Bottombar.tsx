@@ -1,15 +1,15 @@
 import React from 'react';
 import TextTicker from 'react-native-text-ticker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { useAppSelector } from '../hooks/customReduxHooks';
 import { sentenceCase } from '../global/utils';
 import { Song } from '../types';
-import useSongPlayActions from '../hooks/useSongPlayActions';
 import useHandlePause from '../hooks/useHandlePause';
 import { playNextSong } from '../redux/actions/queueActions';
 import { useDispatch } from 'react-redux';
+import { Text, useTheme } from 'react-native-paper';
 
 const BottomBar = () => {
   const navigation = useNavigation();
@@ -20,6 +20,7 @@ const BottomBar = () => {
     state => state.songReducer.isPlaying,
   );
   const { handlePause } = useHandlePause();
+  const { colors } = useTheme();
   const dispatch = useDispatch();
 
   const isUrlLoading = false;
@@ -56,7 +57,7 @@ const BottomBar = () => {
       <View style={{ flexDirection: 'row' }}>
         <MaterialIcons
           name={isPlaying ? 'pause-circle-filled' : 'play-circle-fill'}
-          color={isUrlLoading ? 'grey' : 'green'}
+          color={isUrlLoading ? 'grey' : colors.primary}
           size={45}
           onPress={handlePause}
         />

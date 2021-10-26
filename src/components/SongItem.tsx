@@ -1,13 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { Menu } from 'react-native-paper';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { Menu, Text, Subheading, useTheme } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { RenderItemParams } from 'react-native-draggable-flatlist';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { globalStyles } from '../global/globalStyles';
 import { formatSeconds } from '../global/utils';
 import { MenuItem, Song } from '../types';
 import { useAppSelector } from '../hooks/customReduxHooks';
@@ -33,6 +32,7 @@ const SongItem = (props: Props) => {
   const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false);
   const [playlistModalVisible, setPlaylistModalVisible] = useState(false);
   const dispatch = useDispatch();
+  const { colors } = useTheme();
   const { item, handleClick, extraMenuItems, renderProps, canDrag } = props;
   const { isFavourite, isDownloaded, isDownloading, isInQueue } = useSongStatus(
     item,
@@ -98,6 +98,7 @@ const SongItem = (props: Props) => {
       style={{
         ...styles.horizonatalCard,
         backgroundColor: isCurrentSong ? 'grey' : 'transparent',
+        borderColor: renderProps?.isActive ? colors.primary : 'grey',
       }}>
       <PlaylistModal
         visible={playlistModalVisible}
@@ -107,10 +108,11 @@ const SongItem = (props: Props) => {
       {canDrag && (
         <MaterialIcons
           name="reorder"
-          size={15}
+          size={20}
           style={{
-            paddingRight: 2,
+            paddingHorizontal: 2,
             paddingVertical: 10,
+            color: 'green',
           }}
           onLongPress={renderProps?.drag}
         />
@@ -127,9 +129,10 @@ const SongItem = (props: Props) => {
           source={{ uri: item.thumbnails[0].url }}
         />
         <View style={{ marginLeft: 10, maxWidth: '70%' }}>
-          <Text style={{ ...globalStyles.title, flexWrap: 'wrap' }}>
+          {/* <Text style={{ ...globalStyles.title, flexWrap: 'wrap' }}>
             {item.name}
-          </Text>
+          </Text> */}
+          <Subheading style={{}}>{item.name}</Subheading>
           <Text>{item.artist.name}</Text>
           <Text>{formatSeconds(item.duration, true)}</Text>
         </View>
@@ -149,6 +152,7 @@ const SongItem = (props: Props) => {
               onPress={() => setIsMenuVisible(true)}
               name="more-vert"
               size={30}
+              color={'grey'}
             />
           }>
           {isQueueActive ? (
@@ -193,7 +197,7 @@ const SongItem = (props: Props) => {
           <MaterialCommunityIcons
             name={isFavourite ? 'heart' : 'heart-outline'}
             size={20}
-            color={'green'}
+            color={colors.primary}
             style={{ paddingHorizontal: 5, paddingTop: 7 }}
             onPress={() => dispatch(toggleFavouriteSong(item))}
           />
@@ -207,9 +211,8 @@ export default SongItem;
 
 const styles = StyleSheet.create({
   horizonatalCard: {
-    borderWidth: 1,
+    borderWidth: 2,
     flexDirection: 'row',
-    borderColor: '#aaa',
     alignItems: 'center',
     padding: 3,
     marginBottom: 10,

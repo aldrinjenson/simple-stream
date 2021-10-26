@@ -1,13 +1,13 @@
 import React, { useMemo, useRef } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   Image,
   Dimensions,
   ImageBackground,
   ScrollView,
 } from 'react-native';
+import { Text, useTheme } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider';
@@ -42,6 +42,7 @@ const NowPlaying = ({ navigation }) => {
   const { handlePause } = useHandlePause();
   const { isFavourite } = useSongStatus(currentSong);
   const { handleSeek } = useSongPlayActions();
+  const { colors } = useTheme();
   const scrollRef = useRef(null);
   const dispatch = useDispatch();
   const imageIndex =
@@ -55,7 +56,7 @@ const NowPlaying = ({ navigation }) => {
     <ScrollView ref={scrollRef} style={{ flex: 1 }} nestedScrollEnabled={true}>
       <ImageBackground
         source={{ uri: currentSong?.thumbnails[0].url }}
-        blurRadius={50}
+        blurRadius={70}
         style={{
           flex: 1,
           padding: 30,
@@ -119,7 +120,7 @@ const NowPlaying = ({ navigation }) => {
             <MaterialIcons
               name={isPlaying ? 'pause-circle-filled' : 'play-circle-fill'}
               size={70}
-              color={isUrlLoading ? 'grey' : 'green'}
+              color={isUrlLoading ? 'grey' : colors.primary}
               onPress={handlePause}
             />
 
