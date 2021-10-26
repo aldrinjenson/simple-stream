@@ -25,7 +25,7 @@ export const downloadHelper = (
         title: fileName,
         useDownloadManager: true,
         notification: true,
-        description: `${appName} - Song download`,
+        description: appName,
         path,
       },
     })

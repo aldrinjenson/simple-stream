@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import SoundPlayer from 'react-native-sound-player';
 import { useDispatch } from 'react-redux';
 import MusicControl, { Command } from 'react-native-music-control';
+import BackgroundTimer from 'react-native-background-timer';
 import { useAppSelector } from '../hooks/customReduxHooks';
 import { setIsPlaying, setSeekPosition } from '../redux/actions/songActions';
 import { Song } from '../types';
@@ -36,7 +37,7 @@ const SongPlayer = () => {
 
       if (!songPositionPoller) {
         let isInfoCbReceivedMutex = true;
-        songPositionPoller = setInterval(() => {
+        songPositionPoller = BackgroundTimer.setInterval(() => {
           if (!isInfoCbReceivedMutex) {
             return;
           }
@@ -54,10 +55,10 @@ const SongPlayer = () => {
       }
     }
     if (!currentSong?.url && songPositionPoller) {
-      clearInterval(songPositionPoller);
+      BackgroundTimer.clearInterval(songPositionPoller);
     }
     return () => {
-      songPositionPoller && clearInterval(songPositionPoller);
+      songPositionPoller && BackgroundTimer.clearInterval(songPositionPoller);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSong?.url, dispatch]);
