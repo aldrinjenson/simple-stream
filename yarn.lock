@@ -5121,7 +5121,7 @@ react-native-vector-icons@^8.1.0:
     prop-types "^15.7.2"
     yargs "^16.1.1"
 
-react-native-ytdl@^4.2.1:
+react-native-ytdl@^4.8.3:
   version "4.8.3"
   resolved "https://registry.yarnpkg.com/react-native-ytdl/-/react-native-ytdl-4.8.3.tgz#e871c0423468997d10ffa0ba1f2b8fd577a94be7"
   dependencies:
