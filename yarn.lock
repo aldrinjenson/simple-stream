@@ -1415,15 +1415,9 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
-"@types/react-native@*":
+"@types/react-native@*", "@types/react-native@^0.66.1":
   version "0.66.1"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.66.1.tgz#093b4a2a9fce2335548d35be3c8900bf3ebb9373"
-  dependencies:
-    "@types/react" "*"
-
-"@types/react-native@^0.64.0":
-  version "0.64.4"
-  resolved "https://registry.npmjs.org/@types/react-native/-/react-native-0.64.4.tgz"
   dependencies:
     "@types/react" "*"
 
