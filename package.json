@@ -17,7 +17,7 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/slider": "^3.0.3",
     "@react-navigation/bottom-tabs": "^5.11.10",
-    "@react-navigation/drawer": "^5.12.5",
+    "@react-navigation/drawer": "^5.12.9",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.9",
     "axios": "^0.21.2",
@@ -60,7 +60,7 @@
     "eslint": "^8.1.0",
     "jest": "^27.3.1",
     "metro-react-native-babel-preset": "^0.64.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.4.1",
     "react-test-renderer": "17.0.1",
     "typescript": "^3.8.3"
   },
