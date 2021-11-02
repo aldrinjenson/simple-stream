@@ -23,8 +23,8 @@
     "axios": "^0.24.0",
     "buffer": "^6.0.3",
     "intl": "^1.2.5",
-    "react": "17.0.1",
-    "react-native": "0.64.2",
+    "react": "17.0.2",
+    "react-native": "0.66.1",
     "react-native-background-timer": "^2.4.1",
     "react-native-draggable-flatlist": "^2.6.2",
     "react-native-dropdown-picker": "^5.1.20",
@@ -61,7 +61,7 @@
     "jest": "^27.3.1",
     "metro-react-native-babel-preset": "^0.64.0",
     "prettier": "^2.4.1",
-    "react-test-renderer": "17.0.1",
+    "react-test-renderer": "17.0.2",
     "typescript": "^3.8.3"
   },
   "resolutions": {
