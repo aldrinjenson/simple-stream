@@ -5608,7 +5608,7 @@ react-native-sound-player@^0.11.1:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/react-native-sound-player/-/react-native-sound-player-0.11.1.tgz#5df2b017c1574fe77f164c1248b24ebe1920f2ad"
 
-react-native-tab-view@^3.0.1:
+react-native-tab-view@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.1.1.tgz#1f8d7a835ab4f5b1b1407ec8dddc1053b53fa3c6"
 
