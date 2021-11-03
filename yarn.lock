@@ -5573,7 +5573,7 @@ react-native-music-control@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/react-native-music-control/-/react-native-music-control-1.4.0.tgz#8c1793e3899a327b6f74fada4f8d04b9f2b3d0c7"
 
-react-native-paper@^4.8.1:
+react-native-paper@^4.9.2:
   version "4.9.2"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.9.2.tgz#6ecdd81acf2cf4d6d5f0247d4c1812dea93eade0"
   dependencies:
