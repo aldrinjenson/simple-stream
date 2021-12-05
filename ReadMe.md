@@ -11,8 +11,8 @@ A simple Free and Open Source music streaming App that allows you to stream, dow
 ## Credits
 - https://github.com/emresenyuva/youtube-music-api
 - https://github.com/ytdl-js/react-native-ytdl/
-- https://github.com/fent/node-ytdl
 - https://github.com/joltup/rn-fetch-blob
+
 ## Minor bugs I've got to fix
 
 - Change audio library to prevent the occasional lag while loading a song for streaming
