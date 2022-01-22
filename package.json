@@ -31,7 +31,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-music-control": "^1.4.0",
     "react-native-paper": "^4.10.0",
-    "react-native-reanimated": "^2.1.0",
+    "react-native-reanimated": "^2.3.1",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.1.1",
     "react-native-simple-toast": "^1.1.3",
