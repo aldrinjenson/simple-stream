@@ -13,7 +13,7 @@ A simple Free and Open Source music streaming App that allows you to stream, dow
 - https://github.com/ytdl-js/react-native-ytdl/
 - https://github.com/joltup/rn-fetch-blob
 
-## Minor bugs I've got to fix
+## Nice to have extra features:
 
 - Change audio library to prevent the occasional lag while loading a song for streaming
 - Add SqlLite lib and save the song contents to create a view for filtering by artists for downloaded songs.
