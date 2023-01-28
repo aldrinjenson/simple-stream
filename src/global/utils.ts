@@ -98,7 +98,7 @@ export const convertSongFormat = (songs: FullSongProps[]): Song[] => {
     name: song.title,
     thumbnails: song.thumbnails,
     artist: { name: song.author?.name.slice(0, -7) || '' },
-    duration: +song.lengthSeconds * 1000,
+    duration: Number(song.lengthSeconds) * 1000,
     videoId: song.videoId,
   }));
 
