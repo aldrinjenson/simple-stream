@@ -7,7 +7,7 @@ import { setSongQueue } from '../redux/actions/queueActions';
 import { SONG_QUEUE_LOADING_START } from '../redux/constants/queueConstants';
 import { Song, FullSongProps, thumbnail, FullSong } from '../types';
 
-export const apiDispatch = (actionType: string = '', data: any = null) => {
+export const apiDispatch = (actionType = '', data: any = null) => {
   return {
     type: actionType,
     payload: data,

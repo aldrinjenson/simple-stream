@@ -9,7 +9,7 @@ export const toggleSongFavouriteInList = (
 ): Playlist[] => {
   const favourites = playlists.find(playlist => playlist.id === FAVOURITE_ID);
   const songsList = favourites?.songs || [];
-  let isFavourite: boolean = false;
+  let isFavourite = false;
   let updatedSongsList = [];
   for (const s of songsList) {
     if (s.videoId === song.videoId) isFavourite = true;
